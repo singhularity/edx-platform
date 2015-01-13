@@ -45,6 +45,7 @@ class TestInstructorDashboard(ModuleStoreTestCase, LoginEnrollmentTestCase):
         # Create instructor account
         self.instructor = AdminFactory.create()
         self.client.login(username=self.instructor.username, password="test")
+        self.grant_sudo_access(unicode(self.course.id), 'test')
 
         # URL for instructor dash
         self.url = reverse('instructor_dashboard', kwargs={'course_id': self.course.id.to_deprecated_string()})
@@ -204,6 +205,7 @@ class TestInstructorDashboard(ModuleStoreTestCase, LoginEnrollmentTestCase):
         student_cart.purchase()
 
         self.client.login(username=self.instructor.username, password="test")
+        self.grant_sudo_access(unicode(self.course.id), 'test')
         CourseFinanceAdminRole(self.course.id).add_users(self.instructor)
         single_purchase_total = PaidCourseRegistration.get_total_amount_of_purchased_item(self.course.id)
         bulk_purchase_total = CourseRegCodeItem.get_total_amount_of_purchased_item(self.course.id)
@@ -243,3 +245,13 @@ class TestInstructorDashboard(ModuleStoreTestCase, LoginEnrollmentTestCase):
         """
         response = self.client.get(self.url)
         self.assertIn('D: 0.5, C: 0.57, B: 0.63, A: 0.75', response.content)
+
+    def test_sudo_required_on_dashboard(self):
+        """
+        Test that sudo_required redirect user to password page.
+        """
+        # Logout to remove sudo access.
+        self.client.logout()
+        self.client.login(username=self.instructor.username, password="test")
+        response = self.client.get(self.url, content_type='html', HTTP_ACCEPT='html')
+        self.assertEqual(response.status_code, 302)
