@@ -130,7 +130,7 @@ def course_image_url(course):
             url += '/' + course.course_image
         else:
             url += '/images/course_image.jpg'
-    elif course.course_image == '':
+    elif course.course_image == '' or course.course_image is None:
         # if course_image is empty the url will be blank as location
         # of the course_image does not exist
         url = ''
