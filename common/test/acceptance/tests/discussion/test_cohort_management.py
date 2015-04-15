@@ -17,7 +17,7 @@ from ...pages.lms.auto_auth import AutoAuthPage
 from ...pages.lms.instructor_dashboard import InstructorDashboardPage, DataDownloadPage
 from ...pages.studio.settings_advanced import AdvancedSettingsPage
 from ...pages.studio.settings_group_configurations import GroupConfigurationsPage
-
+from flaky import flaky
 import uuid
 
 
@@ -523,6 +523,7 @@ class CohortContentGroupAssociationTest(UniqueCourseTest, CohortTestMixin):
         self.assertIsNone(self.cohort_management_page.get_cohort_related_content_group_message())
         self.assertEquals(["Apples", "Bananas"], self.cohort_management_page.get_all_content_groups())
 
+    @flaky
     def test_link_to_content_group(self):
         """
         Scenario: In a course with content groups, cohorts can be linked to content groups

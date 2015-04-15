@@ -7,6 +7,7 @@ from ..helpers import UniqueCourseTest
 from ...pages.lms.auto_auth import AutoAuthPage
 from ...pages.lms.instructor_dashboard import InstructorDashboardPage
 from ...fixtures.course import CourseFixture
+from flaky import flaky
 
 
 class AutoEnrollmentWithCSVTest(UniqueCourseTest):
@@ -47,6 +48,7 @@ class AutoEnrollmentWithCSVTest(UniqueCourseTest):
         self.assertTrue(self.auto_enroll_section.is_notification_displayed(section_type=self.auto_enroll_section.NOTIFICATION_ERROR))
         self.assertEqual(self.auto_enroll_section.first_notification_message(section_type=self.auto_enroll_section.NOTIFICATION_ERROR), "File is not attached.")
 
+    @flaky
     def test_uploading_correct_csv_file_results_in_success(self):
         """
         Scenario: Uploading a CSV with correct data results in Success.
@@ -57,6 +59,7 @@ class AutoEnrollmentWithCSVTest(UniqueCourseTest):
         self.auto_enroll_section.upload_correct_csv_file()
         self.assertTrue(self.auto_enroll_section.is_notification_displayed(section_type=self.auto_enroll_section.NOTIFICATION_SUCCESS))
 
+    @flaky
     def test_uploading_csv_file_with_bad_data_results_in_errors_and_warnings(self):
         """
         Scenario: Uploading a CSV with incorrect data results in error and warnings.
