@@ -3,7 +3,6 @@ Acceptance tests for Studio related to the container page.
 The container page is used both for displaying units, and
 for displaying containers within units.
 """
-from nose.plugins.attrib import attr
 from unittest import skip
 
 from ...fixtures.course import XBlockFixtureDesc
@@ -18,6 +17,7 @@ import datetime
 from bok_choy.promise import Promise, EmptyPromise
 from base_studio_test import ContainerBase
 from xmodule.partitions.partitions import Group
+from nose.plugins.attrib import attr
 
 
 class NestedVerticalTest(ContainerBase):
@@ -71,7 +71,7 @@ class NestedVerticalTest(ContainerBase):
 
 
 @skip("Flaky: 01/16/2015")
-@attr('shard_1')
+@attr('shard_4')
 class DragAndDropTest(NestedVerticalTest):
     """
     Tests of reordering within the container page.
@@ -151,7 +151,7 @@ class DragAndDropTest(NestedVerticalTest):
         self.do_action_and_verify(add_new_components_and_rearrange, expected_ordering)
 
 
-@attr('shard_1')
+@attr('shard_4')
 class AddComponentTest(NestedVerticalTest):
     """
     Tests of adding a component to the container page.
@@ -191,7 +191,7 @@ class AddComponentTest(NestedVerticalTest):
         self.add_and_verify(container_menu, expected_ordering)
 
 
-@attr('shard_1')
+@attr('shard_4')
 class DuplicateComponentTest(NestedVerticalTest):
     """
     Tests of duplicating a component on the container page.
@@ -237,7 +237,7 @@ class DuplicateComponentTest(NestedVerticalTest):
         self.do_action_and_verify(duplicate_twice, expected_ordering)
 
 
-@attr('shard_1')
+@attr('shard_4')
 class DeleteComponentTest(NestedVerticalTest):
     """
     Tests of deleting a component from the container page.
@@ -260,7 +260,7 @@ class DeleteComponentTest(NestedVerticalTest):
         self.delete_and_verify(group_a_item_1_delete_index, expected_ordering)
 
 
-@attr('shard_1')
+@attr('shard_4')
 class EditContainerTest(NestedVerticalTest):
     """
     Tests of editing a container.
@@ -293,6 +293,7 @@ class EditContainerTest(NestedVerticalTest):
         self.modify_display_name_and_verify(container)
 
 
+@attr('shard_4')
 class EditVisibilityModalTest(ContainerBase):
     """
     Tests of the visibility settings modal for components on the unit
@@ -552,7 +553,7 @@ class EditVisibilityModalTest(ContainerBase):
         self.verify_visibility_set(self.html_component, True)
 
 
-@attr('shard_1')
+@attr('shard_4')
 class UnitPublishingTest(ContainerBase):
     """
     Tests of the publishing control and related widgets on the Unit page.

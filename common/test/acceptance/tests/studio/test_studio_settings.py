@@ -2,15 +2,12 @@
 Acceptance tests for Studio's Setting pages
 """
 
-from nose.plugins.attrib import attr
-
 from base_studio_test import StudioCourseTest
 
 from ...pages.studio.settings_advanced import AdvancedSettingsPage
 from ...pages.studio.settings_group_configurations import GroupConfigurationsPage
 
 
-@attr('shard_1')
 class ContentGroupConfigurationTest(StudioCourseTest):
     """
     Tests for content groups in the Group Configurations Page.
@@ -130,7 +127,6 @@ class ContentGroupConfigurationTest(StudioCourseTest):
         self.assertEqual(0, len(self.group_configurations_page.content_groups))
 
 
-@attr('shard_1')
 class AdvancedSettingsValidationTest(StudioCourseTest):
     """
     Tests for validation feature in Studio's advanced settings tab

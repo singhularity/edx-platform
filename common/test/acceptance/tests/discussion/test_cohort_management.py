@@ -2,6 +2,7 @@
 """
 End-to-end tests related to the cohort management on the LMS Instructor Dashboard
 """
+from nose.plugins.attrib import attr
 
 from datetime import datetime
 
@@ -21,6 +22,7 @@ from ...pages.studio.settings_group_configurations import GroupConfigurationsPag
 import uuid
 
 
+@attr('shard_1')
 class CohortConfigurationTest(UniqueCourseTest, CohortTestMixin):
     """
     Tests for cohort management on the LMS Instructor Dashboard
@@ -464,6 +466,7 @@ class CohortConfigurationTest(UniqueCourseTest, CohortTestMixin):
         self.assertEquals(expected_message, messages[0])
 
 
+@attr('shard_1')
 class CohortContentGroupAssociationTest(UniqueCourseTest, CohortTestMixin):
     """
     Tests for linking between content groups and cohort in the instructor dashboard.

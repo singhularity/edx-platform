@@ -4,6 +4,7 @@ End-to-end tests for LibraryContent block in LMS
 """
 import ddt
 import textwrap
+from nose.plugins.attrib import attr
 
 from ..helpers import UniqueCourseTest
 from ...pages.studio.auto_auth import AutoAuthPage
@@ -140,6 +141,7 @@ class LibraryContentTestBase(UniqueCourseTest):
 
 
 @ddt.ddt
+@attr('shard_3')
 class LibraryContentTest(LibraryContentTestBase):
     """
     Test courseware.
@@ -191,6 +193,7 @@ class LibraryContentTest(LibraryContentTestBase):
 
 
 @ddt.ddt
+@attr('shard_3')
 class StudioLibraryContainerCapaFilterTest(LibraryContentTestBase):
     """
     Test Library Content block in LMS

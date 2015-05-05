@@ -37,6 +37,7 @@ from ...pages.studio.settings import SettingsPage
 from ...fixtures.course import CourseFixture, XBlockFixtureDesc, CourseUpdateDesc
 
 
+@attr('shard_5')
 class RegistrationTest(UniqueCourseTest):
     """
     Test the registration process.
@@ -79,7 +80,7 @@ class RegistrationTest(UniqueCourseTest):
         self.assertIn(self.course_info['display_name'], course_names)
 
 
-@attr('shard_1')
+@attr('shard_5')
 class LoginFromCombinedPageTest(UniqueCourseTest):
     """Test that we can log in using the combined login/registration page.
 
@@ -174,7 +175,7 @@ class LoginFromCombinedPageTest(UniqueCourseTest):
         return (email, password)
 
 
-@attr('shard_1')
+@attr('shard_5')
 class RegisterFromCombinedPageTest(UniqueCourseTest):
     """Test that we can register a new user from the combined login/registration page. """
 
@@ -243,7 +244,7 @@ class RegisterFromCombinedPageTest(UniqueCourseTest):
 
 
 @skip('ECOM-956: Failing intermittently due to 500 errors when trying to hit the mode creation endpoint.')
-@attr('shard_1')
+@attr('shard_5')
 class PayAndVerifyTest(UniqueCourseTest):
     """Test that we can proceed through the payment and verification flow."""
     def setUp(self):
@@ -365,6 +366,7 @@ class PayAndVerifyTest(UniqueCourseTest):
         self.assertEqual(enrollment_mode, 'verified')
 
 
+@attr('shard_5')
 class LanguageTest(WebAppTest):
     """
     Tests that the change language functionality on the dashboard works
@@ -420,6 +422,7 @@ class LanguageTest(WebAppTest):
         self.assertIn(self.current_courses_text, changed_text)
 
 
+@attr('shard_5')
 class HighLevelTabTest(UniqueCourseTest):
     """
     Tests that verify each of the high-level tabs available within a course.
@@ -581,6 +584,7 @@ class PDFTextBooksTabTest(UniqueCourseTest):
             self.tab_nav.go_to_tab("PDF Book {}".format(i))
 
 
+@attr('shard_5')
 class VideoTest(UniqueCourseTest):
     """
     Navigate to a video in the courseware and play it.
@@ -651,6 +655,7 @@ class VideoTest(UniqueCourseTest):
         self.assertGreaterEqual(self.video.duration, self.video.elapsed_time)
 
 
+@attr('shard_5')
 class VisibleToStaffOnlyTest(UniqueCourseTest):
     """
     Tests that content with visible_to_staff_only set to True cannot be viewed by students.
@@ -735,6 +740,7 @@ class VisibleToStaffOnlyTest(UniqueCourseTest):
         self.assertEqual(["Html Child in visible unit"], self.course_nav.sequence_items)
 
 
+@attr('shard_5')
 class TooltipTest(UniqueCourseTest):
     """
     Tests that tooltips are displayed
@@ -779,6 +785,7 @@ class TooltipTest(UniqueCourseTest):
         self.assertTrue(self.courseware_page.tooltips_displayed())
 
 
+@attr('shard_5')
 class PreRequisiteCourseTest(UniqueCourseTest):
     """
     Tests that pre-requisite course messages are displayed
@@ -863,6 +870,7 @@ class PreRequisiteCourseTest(UniqueCourseTest):
         self.settings_page.save_changes()
 
 
+@attr('shard_5')
 class ProblemExecutionTest(UniqueCourseTest):
     """
     Tests of problems.
@@ -941,6 +949,7 @@ class ProblemExecutionTest(UniqueCourseTest):
         self.assertFalse(problem_page.is_correct())
 
 
+@attr('shard_5')
 class EntranceExamTest(UniqueCourseTest):
     """
     Tests that course has an entrance exam.
