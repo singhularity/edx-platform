@@ -19,7 +19,7 @@ UNIT_NAME = 'Test Unit'
 
 
 @ddt.ddt
-@attr('shard_4')
+@attr('shard_5')
 class StudioLibraryContainerTest(StudioLibraryTest, UniqueCourseTest):
     """
     Test Library Content block in LMS
