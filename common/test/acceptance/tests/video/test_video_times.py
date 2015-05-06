@@ -7,7 +7,7 @@ from unittest import skip
 from nose.plugins.attrib import attr
 
 
-@attr('shard_2')
+@attr('shard_4')
 class VideoTimesTest(VideoBaseTest):
     """ Test Video Player Times """
 
