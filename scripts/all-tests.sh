@@ -73,6 +73,7 @@ mongo --quiet --eval 'db.getMongo().getDBNames().forEach(function(i){db.getSibli
 # depending on how the GitHub plugin refspec is configured, this may
 # not already be fetched.
 git fetch origin master:refs/remotes/origin/master
+git checkout $GIT_BRANCH
 
 # Reset the jenkins worker's ruby environment back to
 # the state it was in when the instance was spun up.
