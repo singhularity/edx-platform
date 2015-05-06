@@ -35,6 +35,7 @@ from ...pages.lms.track_selection import TrackSelectionPage
 from ...pages.lms.pay_and_verify import PaymentAndVerificationFlow, FakePaymentPage
 from ...pages.studio.settings import SettingsPage
 from ...fixtures.course import CourseFixture, XBlockFixtureDesc, CourseUpdateDesc
+from flaky import flaky
 
 
 @attr('shard_5')
@@ -832,6 +833,7 @@ class PreRequisiteCourseTest(UniqueCourseTest):
         # Auto-auth register for the course
         AutoAuthPage(self.browser, course_id=self.course_id).visit()
 
+    @flaky
     def test_dashboard_message(self):
         """
          Scenario: Any course where there is a Pre-Requisite course Student dashboard should have

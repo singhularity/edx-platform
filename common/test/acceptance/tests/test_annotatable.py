@@ -11,6 +11,7 @@ from ..pages.lms.annotation_component import AnnotationComponentPage
 from ..fixtures.course import CourseFixture, XBlockFixtureDesc
 from ..fixtures.xqueue import XQueueResponseFixture
 from textwrap import dedent
+from flaky import flaky
 
 
 def _correctness(choice, target):
@@ -120,6 +121,7 @@ class AnnotatableProblemTest(UniqueCourseTest):
         )
         return annotation_component_page
 
+    @flaky
     def test_annotation_component(self):
         """
         Test annotation components links to annotation problems.

@@ -527,6 +527,7 @@ class CohortContentGroupAssociationTest(UniqueCourseTest, CohortTestMixin):
         self.assertIsNone(self.cohort_management_page.get_cohort_related_content_group_message())
         self.assertEquals(["Apples", "Bananas"], self.cohort_management_page.get_all_content_groups())
 
+    @flaky
     def test_link_to_content_group(self):
         """
         Scenario: In a course with content groups, cohorts can be linked to content groups
@@ -583,6 +584,7 @@ class CohortContentGroupAssociationTest(UniqueCourseTest, CohortTestMixin):
         self.cohort_management_page.select_cohort(new_cohort)
         self.assertEqual("Apples", self.cohort_management_page.get_cohort_associated_content_group())
 
+    @flaky
     def test_missing_content_group(self):
         """
         Scenario: In a course with content groups, if a cohort is associated with a content group that no longer
