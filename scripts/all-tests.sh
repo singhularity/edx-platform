@@ -130,13 +130,13 @@ END
     "unit")
         case "$SHARD" in
             "lms")
-                paver test_system -s lms --extra_args="--with-flaky" || { EXIT=1; }
+                paver test_system -s lms 
                 paver coverage
                 ;;
             "cms-js-commonlib")
-                paver test_system -s cms --extra_args="--with-flaky" || { EXIT=1; }
-                paver test_js --coverage --skip_clean || { EXIT=1; }
-                paver test_lib --skip_clean --extra_args="--with-flaky" || { EXIT=1; }
+                paver test_system -s cms 
+                paver test_js --coverage --skip_clean 
+                paver test_lib --skip_clean 
                 paver coverage
                 ;;
             *)
