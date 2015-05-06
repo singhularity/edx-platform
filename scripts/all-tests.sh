@@ -188,7 +188,7 @@ END
                 ;;
 
             "2")
-                paver test_bokchoy --extra_args="-a 'shard_2 --with-flaky"
+                paver test_bokchoy --extra_args="-a shard_2 --with-flaky"
                 paver bokchoy_coverage
                 ;;
 
