@@ -564,7 +564,7 @@ class CohortContentGroupAssociationTest(UniqueCourseTest, CohortTestMixin):
         self._verify_settings_saved_and_reload(self.cohort_name)
         self.assertEqual(None, self.cohort_management_page.get_cohort_associated_content_group())
 
-    @flaky
+    @flaky(max_runs=7)
     def test_create_new_cohort_linked_to_content_group(self):
         """
         Scenario: In a course with content groups, a new cohort can be linked to a content group

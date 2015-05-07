@@ -43,7 +43,7 @@ class AssetIndexTest(StudioCourseTest):
         self.asset_page.visit()
         assert self.asset_page.type_filter_on_page() is True
 
-    @flaky(max_runs=7)
+    @flaky(max_runs=10)
     def test_filter_results(self):
         """
         Make sure type filter actually filters the results.
