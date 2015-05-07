@@ -121,7 +121,7 @@ class AnnotatableProblemTest(UniqueCourseTest):
         )
         return annotation_component_page
 
-    @flaky
+    @flaky(max_runs=5, min_passes=1)
     def test_annotation_component(self):
         """
         Test annotation components links to annotation problems.
