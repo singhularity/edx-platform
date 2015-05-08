@@ -140,7 +140,7 @@ END
                 paver test_lib # --skip_clean 
                 paver coverage
                 ;;
-            *)
+            "all")
                 paver test --extra_args="--with-flaky"
                 paver coverage
                 ;;
