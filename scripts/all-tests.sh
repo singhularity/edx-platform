@@ -136,8 +136,8 @@ END
                 ;;
             "cms-js-commonlib")
                 paver test_system -s cms 
-                paver test_js --coverage --skip_clean 
-                paver test_lib --skip_clean 
+                paver test_js --coverage  # --skip_clean
+                paver test_lib # --skip_clean 
                 paver coverage
                 ;;
             *)
