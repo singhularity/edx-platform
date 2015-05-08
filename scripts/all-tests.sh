@@ -185,32 +185,32 @@ END
 
             "1")
                 paver test_bokchoy --extra_args="-a shard_1 --with-flaky"
-                paver bokchoy_coverage
+                # paver bokchoy_coverage
                 ;;
 
             "2")
                 paver test_bokchoy --extra_args="-a shard_2 --with-flaky"
-                paver bokchoy_coverage
+                # paver bokchoy_coverage
                 ;;
 
             "3")
                 paver test_bokchoy --extra_args="-a shard_3 --with-flaky"
-                paver bokchoy_coverage
+                # paver bokchoy_coverage
                 ;;
 
             "4")
                 paver test_bokchoy --extra_args="-a shard_4 --with-flaky"
-                paver bokchoy_coverage
+                # paver bokchoy_coverage
                 ;;
 
             "5")
                 paver test_bokchoy --extra_args="-a shard_5 --with-flaky"
-                paver bokchoy_coverage
+                # paver bokchoy_coverage
                 ;;
 
             "6")
                 paver test_bokchoy --extra_args="-a shard_1=False,shard_2=False,shard_3=False,shard_4=False,shard_5=False --with-flaky"
-                paver bokchoy_coverage
+                # paver bokchoy_coverage
                 ;;                                
             # Default case because if we later define another bok-choy shard on Jenkins
             # (e.g. Shard 4) in the multi-config project and expand this file
