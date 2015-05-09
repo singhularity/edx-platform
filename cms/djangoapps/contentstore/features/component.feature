@@ -13,20 +13,20 @@ Feature: CMS.Component Adding
            | Discussion   |
            | Video        |
 
-    Scenario: I can add HTML components
-       Given I am in Studio editing a new unit
-       When I add this type of HTML component:
-           | Component               |
-           | Text                    |
-           | Announcement            |
-           | Zooming Image           |
-           | Raw HTML                |
-       Then I see HTML components in this order:
-           | Component               |
-           | Text                    |
-           | Announcement            |
-           | Zooming Image           |
-           | Raw HTML                |
+#    Scenario: I can add HTML components
+#       Given I am in Studio editing a new unit
+#       When I add this type of HTML component:
+#           | Component               |
+#           | Text                    |
+#           | Announcement            |
+#           | Zooming Image           |
+#           | Raw HTML                |
+#       Then I see HTML components in this order:
+#           | Component               |
+#           | Text                    |
+#           | Announcement            |
+#           | Zooming Image           |
+#           | Raw HTML                |
 
     Scenario: I can add Latex HTML components
        Given I am in Studio editing a new unit
