@@ -21,14 +21,14 @@ Feature: CMS.Course Team
         Then he cannot delete users
         And he cannot add users
 
-    Scenario: Admins can delete other users
-        Given I have opened a new course in Studio
-        And the user "carol" exists
-        And I am viewing the course team settings
-        When I add "carol" to the course team
-        And I delete "carol" from the course team
-        And "carol" logs in
-        Then she does not see the course on her page
+#    Scenario: Admins can delete other users
+#        Given I have opened a new course in Studio
+#        And the user "carol" exists
+#        And I am viewing the course team settings
+#        When I add "carol" to the course team
+#        And I delete "carol" from the course team
+#        And "carol" logs in
+#        Then she does not see the course on her page
 
     Scenario: Admins cannot add users that do not exist
         Given I have opened a new course in Studio
