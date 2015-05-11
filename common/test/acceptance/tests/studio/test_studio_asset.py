@@ -43,7 +43,6 @@ class AssetIndexTest(StudioCourseTest):
         self.asset_page.visit()
         assert self.asset_page.type_filter_on_page() is True
 
-
     @skip("US35504:Skipping since failing")
     def test_filter_results(self):
         """
