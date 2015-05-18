@@ -21,14 +21,14 @@ Feature: CMS.Course Team
         Then he cannot delete users
         And he cannot add users
 
-    Scenario: Admins can delete other users
-        Given I have opened a new course in Studio
-        And the user "carol" exists
-        And I am viewing the course team settings
-        When I add "carol" to the course team
-        And I delete "carol" from the course team
-        And "carol" logs in
-        Then she does not see the course on her page
+#    Scenario: Admins can delete other users
+#        Given I have opened a new course in Studio
+#        And the user "carol" exists
+#        And I am viewing the course team settings
+#        When I add "carol" to the course team
+#        And I delete "carol" from the course team
+#        And "carol" logs in
+#        Then she does not see the course on her page
 
     Scenario: Admins cannot add users that do not exist
         Given I have opened a new course in Studio
@@ -61,19 +61,19 @@ Feature: CMS.Course Team
         And he cannot add users
         And he cannot delete users
 
-    Scenario: Admins should be able to give course ownership to someone else
-        Given I have opened a new course in Studio
-        And the user "gina" exists
-        And I am viewing the course team settings
-        When I add "gina" to the course team
-        And I make "gina" a course team admin
-        And I remove admin rights from myself
-        And "gina" logs in
-        And she selects the new course
-        And she views the course team settings
-        And she deletes me from the course team
-        And I am logged into studio
-        Then I do not see the course on my page
+    #Scenario: Admins should be able to give course ownership to someone else
+    #    Given I have opened a new course in Studio
+    #    And the user "gina" exists
+    #    And I am viewing the course team settings
+    #    When I add "gina" to the course team
+    #    And I make "gina" a course team admin
+    #    And I remove admin rights from myself
+    #    And "gina" logs in
+    #    And she selects the new course
+    #    And she views the course team settings
+    #    And she deletes me from the course team
+    #    And I am logged into studio
+    #    Then I do not see the course on my page
 
     Scenario: Admins should be able to remove their own admin rights
         Given I have opened a new course in Studio

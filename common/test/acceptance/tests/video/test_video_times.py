@@ -4,8 +4,10 @@ Acceptance tests for Video Times(Start, End and Finish) functionality.
 
 from .test_video_module import VideoBaseTest
 from unittest import skip
+from nose.plugins.attrib import attr
 
 
+@attr('shard_4')
 class VideoTimesTest(VideoBaseTest):
     """ Test Video Player Times """
 

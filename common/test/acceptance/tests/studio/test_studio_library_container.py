@@ -4,6 +4,7 @@ Acceptance tests for Library Content in LMS
 import textwrap
 import ddt
 from unittest import skip
+from nose.plugins.attrib import attr
 
 from .base_studio_test import StudioLibraryTest
 from ...fixtures.course import CourseFixture
@@ -18,6 +19,7 @@ UNIT_NAME = 'Test Unit'
 
 
 @ddt.ddt
+@attr('shard_5')
 class StudioLibraryContainerTest(StudioLibraryTest, UniqueCourseTest):
     """
     Test Library Content block in LMS

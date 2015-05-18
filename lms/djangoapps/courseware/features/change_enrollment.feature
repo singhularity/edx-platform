@@ -3,14 +3,14 @@ As a registered user
 I want to change my enrollment mode
 
 
-Scenario: I can change my enrollment
-Given The course "6.002x" exists
-And the course "6.002x" has all enrollment modes
-And I am logged in
-And I visit the courses page
-When I register to audit the course
-And a "edx.course.enrollment.activated" server event is emitted
-And a "edx.course.enrollment.mode_changed" server events is emitted
+#Scenario: I can change my enrollment
+#Given The course "6.002x" exists
+#And the course "6.002x" has all enrollment modes
+#And I am logged in
+#And I visit the courses page
+#When I register to audit the course
+#And a "edx.course.enrollment.activated" server event is emitted
+#And a "edx.course.enrollment.mode_changed" server events is emitted
 
 And I visit the dashboard
 And I click on Challenge Yourself

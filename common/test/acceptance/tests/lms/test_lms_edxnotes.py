@@ -9,6 +9,7 @@ from ...pages.lms.course_nav import CourseNavPage
 from ...pages.lms.courseware import CoursewarePage
 from ...pages.lms.edxnotes import EdxNotesUnitPage, EdxNotesPage
 from ...fixtures.edxnotes import EdxNotesFixture, Note, Range
+from nose.plugins.attrib import attr
 
 
 @skipUnless(os.environ.get("FEATURE_EDXNOTES"), "Requires Student Notes feature to be enabled")
@@ -119,6 +120,7 @@ class EdxNotesTestMixin(UniqueCourseTest):
         self.edxnotes_fixture.install()
 
 
+@attr('shard_3')
 class EdxNotesDefaultInteractionsTest(EdxNotesTestMixin):
     """
     Tests for creation, editing, deleting annotations inside annotatable components in LMS.
@@ -256,6 +258,7 @@ class EdxNotesDefaultInteractionsTest(EdxNotesTestMixin):
         self.assert_notes_are_removed(components)
 
 
+@attr('shard_3')
 class EdxNotesPageTest(EdxNotesTestMixin):
     """
     Tests for Notes page.
@@ -645,6 +648,7 @@ class EdxNotesPageTest(EdxNotesTestMixin):
         self.assertFalse(note.is_visible)
 
 
+@attr('shard_3')
 class EdxNotesToggleSingleNoteTest(EdxNotesTestMixin):
     """
     Tests for toggling single annotation.
@@ -718,6 +722,7 @@ class EdxNotesToggleSingleNoteTest(EdxNotesTestMixin):
         self.assertTrue(note_2.is_visible)
 
 
+@attr('shard_3')
 class EdxNotesToggleNotesTest(EdxNotesTestMixin):
     """
     Tests for toggling visibility of all notes.

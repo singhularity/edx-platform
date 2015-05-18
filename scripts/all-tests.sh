@@ -73,6 +73,7 @@ mongo --quiet --eval 'db.getMongo().getDBNames().forEach(function(i){db.getSibli
 # depending on how the GitHub plugin refspec is configured, this may
 # not already be fetched.
 git fetch origin master:refs/remotes/origin/master
+git checkout $GIT_BRANCH
 
 # Reset the jenkins worker's ruby environment back to
 # the state it was in when the instance was spun up.
@@ -96,6 +97,8 @@ fi
 
 # Activate the Python virtualenv
 source $HOME/edx-venv/bin/activate
+
+export DISPLAY=:99
 
 # If the environment variable 'SHARD' is not set, default to 'all'.
 # This could happen if you are trying to use this script from
@@ -126,8 +129,24 @@ END
         ;;
 
     "unit")
-        paver test
-        paver coverage
+        case "$SHARD" in
+            "lms")
+                paver test_system -s lms 
+                paver coverage
+                ;;
+            "cms-js-commonlib")
+                paver test_system -s cms 
+                paver test_js --coverage  # --skip_clean
+                paver test_lib # --skip_clean 
+                paver coverage
+                ;;
+            "all")
+                paver test --extra_args="--with-flaky"
+                paver coverage
+                ;;
+        esac
+
+        exit $EXIT
         ;;
 
     "lms-acceptance")
@@ -165,20 +184,34 @@ END
                 ;;
 
             "1")
-                paver test_bokchoy --extra_args="-a shard_1"
-                paver bokchoy_coverage
+                paver test_bokchoy --extra_args="-a shard_1 --with-flaky"
+                # paver bokchoy_coverage
                 ;;
 
             "2")
-                paver test_bokchoy --extra_args="-a 'shard_2'"
-                paver bokchoy_coverage
+                paver test_bokchoy --extra_args="-a shard_2 --with-flaky"
+                # paver bokchoy_coverage
                 ;;
 
             "3")
-                paver test_bokchoy --extra_args="-a shard_1=False,shard_2=False"
-                paver bokchoy_coverage
+                paver test_bokchoy --extra_args="-a shard_3 --with-flaky"
+                # paver bokchoy_coverage
                 ;;
 
+            "4")
+                paver test_bokchoy --extra_args="-a shard_4 --with-flaky"
+                # paver bokchoy_coverage
+                ;;
+
+            "5")
+                paver test_bokchoy --extra_args="-a shard_5 --with-flaky"
+                # paver bokchoy_coverage
+                ;;
+
+            "6")
+                paver test_bokchoy --extra_args="-a shard_1=False,shard_2=False,shard_3=False,shard_4=False,shard_5=False --with-flaky"
+                # paver bokchoy_coverage
+                ;;                                
             # Default case because if we later define another bok-choy shard on Jenkins
             # (e.g. Shard 4) in the multi-config project and expand this file
             # with an additional case condition, old branches without that commit

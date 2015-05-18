@@ -4,8 +4,10 @@
 Acceptance tests for CMS Video Handout.
 """
 from .test_studio_video_module import CMSVideoBaseTest
+from nose.plugins.attrib import attr
 
 
+@attr('shard_5')
 class VideoHandoutTest(CMSVideoBaseTest):
     """
     CMS Video Handout Test Class

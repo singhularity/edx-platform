@@ -55,6 +55,7 @@ def start_servers(default_store):
             )
         )
         start_server(cmd, info['log'], cwd=Env.BOK_CHOY_STUB_DIR)
+        time.sleep(10)
 
 
 def wait_for_server(server, port):
@@ -71,7 +72,7 @@ def wait_for_server(server, port):
     attempts = 0
     server_ok = False
 
-    while attempts < 20:
+    while attempts < 50:
         try:
             connection = httplib.HTTPConnection(server, port, timeout=10)
             connection.request('GET', '/')

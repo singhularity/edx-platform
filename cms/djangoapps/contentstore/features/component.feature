@@ -13,20 +13,20 @@ Feature: CMS.Component Adding
            | Discussion   |
            | Video        |
 
-    Scenario: I can add HTML components
-       Given I am in Studio editing a new unit
-       When I add this type of HTML component:
-           | Component               |
-           | Text                    |
-           | Announcement            |
-           | Zooming Image           |
-           | Raw HTML                |
-       Then I see HTML components in this order:
-           | Component               |
-           | Text                    |
-           | Announcement            |
-           | Zooming Image           |
-           | Raw HTML                |
+#    Scenario: I can add HTML components
+#       Given I am in Studio editing a new unit
+#       When I add this type of HTML component:
+#           | Component               |
+#           | Text                    |
+#           | Announcement            |
+#           | Zooming Image           |
+#           | Raw HTML                |
+#       Then I see HTML components in this order:
+#           | Component               |
+#           | Text                    |
+#           | Announcement            |
+#           | Zooming Image           |
+#           | Raw HTML                |
 
     Scenario: I can add Latex HTML components
        Given I am in Studio editing a new unit
@@ -57,22 +57,22 @@ Feature: CMS.Component Adding
            | Numerical Input      |
            | Text Input           |
 
-    Scenario Outline: I can add Advanced Problem components
-       Given I am in Studio editing a new unit
-       When I add a "<Component>" "Advanced Problem" component
-       Then I see a "<Component>" Problem component
+#    Scenario Outline: I can add Advanced Problem components
+#       Given I am in Studio editing a new unit
+#       When I add a "<Component>" "Advanced Problem" component
+#       Then I see a "<Component>" Problem component
        # Flush out the database before the next example executes
-       And I reset the database
+#       And I reset the database
 
-    Examples:
-           | Component                     |
-           | Blank Advanced Problem        |
-           | Circuit Schematic Builder     |
-           | Custom Python-Evaluated Input |
-           | Drag and Drop                 |
-           | Image Mapped Input            |
-           | Math Expression Input         |
-           | Problem with Adaptive Hint    |
+#    Examples:
+#           | Component                     |
+#           | Blank Advanced Problem        |
+#           | Circuit Schematic Builder     |
+#           | Custom Python-Evaluated Input |
+#           | Drag and Drop                 |
+#           | Image Mapped Input            |
+#           | Math Expression Input         |
+#           | Problem with Adaptive Hint    |
 
 
 # Disabled 1/21/14 due to flakiness seen in master

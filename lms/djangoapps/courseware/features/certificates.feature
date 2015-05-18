@@ -56,10 +56,10 @@ Feature: LMS.Verified certificates
 #        When I edit my name
 #        Then I see the new name on the confirmation page.
 
-    Scenario: I can return to the verify flow
-        Given I have submitted photos to verify my identity
-        When I leave the flow and return
-        Then I am at the verified page
+#    Scenario: I can return to the verify flow
+#        Given I have submitted photos to verify my identity
+#        When I leave the flow and return
+#        Then I am at the verified page
 
     # TODO: automate
 #    Scenario: I can pay from the return flow
