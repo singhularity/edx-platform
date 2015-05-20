@@ -4,7 +4,7 @@ Loaded by Django's settings mechanism. Consequently, this module must not
 invoke the Django armature.
 """
 
-from social.backends import google, linkedin, facebook, amplify
+from social.backends import google, linkedin, facebook
 from lib import amplify
 
 _DEFAULT_ICON_CLASS = 'fa-signin'
