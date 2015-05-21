@@ -1418,6 +1418,11 @@ class CapaMixin(CapaFields):
 
         self.lcp.student_answers = answers
 
+        # Reset the correctness property to default(None) state
+        answer_keys = [key for key in answers]
+        for answer_key in answer_keys:
+            self.lcp.correct_map.set_property(answer_key, 'correctness', None)
+
         self.set_state_from_lcp()
 
         self.track_function_unmask('save_problem_success', event_info)
