@@ -10,10 +10,10 @@ from urllib import urlencode
 
 class AmplifyOAuth2(BaseOAuth2):
     """Amplify OAuth authentication backend"""
-    name = 'amplify-oauth2'
+    name = 'amplify'
     REDIRECT_STATE = False
-    AUTHORIZATION_URL = 'http://tmc241.mc.wgenhq.net/mobilelogin/oauth2/auth'
-    ACCESS_TOKEN_URL = 'http://tmc241.mc.wgenhq.net/mobilelogin/oauth2/token'
+    AUTHORIZATION_URL = 'https://mclasshome.com/mobilelogin/oauth2/auth'
+    ACCESS_TOKEN_URL = 'https://mclasshome.com/mobilelogin/oauth2/token'
     ACCESS_TOKEN_METHOD = 'POST'
     EXTRA_DATA = [
         ('refresh_token', 'refresh_token', True),
@@ -22,7 +22,7 @@ class AmplifyOAuth2(BaseOAuth2):
     ]
 
     def get_user_details(self, response):
-        """XXX, Return user details from Amplify account"""
+        """Return user details from Amplify account"""
         return {'username': response.get('user_uid', ''),
                 'email': response.get('email', ''),
                 'fullname': response.get('name', '')}
@@ -31,7 +31,7 @@ class AmplifyOAuth2(BaseOAuth2):
         """Loads user data from service"""
         opener = urllib2.build_opener()
         opener.addheaders.append(('Cookie', 'sso.auth_token='+access_token))
-        url = opener.open("http://tmc241.mc.wgenhq.net/mobilelogin/gatekeeper")
+        url = opener.open("https://mclasshome.com/mobilelogin/gatekeeper")
         try:
             return json.load(url)
         except ValueError:
