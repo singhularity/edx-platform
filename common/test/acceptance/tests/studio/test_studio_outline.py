@@ -745,7 +745,7 @@ class StaffLockTest(CourseOutlineTest):
         StaffPage(self.browser, self.course_id).set_staff_view_mode('Student')
         self.assertEqual(courseware.num_subsections, 1)
 
-    @skip('US35504: skipping failing test')
+    @skip("US35504:Skipping since failing")
     def test_toggling_staff_lock_on_section_does_not_publish_draft_units(self):
         """
         Scenario: Locking and unlocking a section will not publish its draft units
