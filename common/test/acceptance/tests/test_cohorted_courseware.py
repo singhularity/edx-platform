@@ -201,6 +201,7 @@ class EndToEndCohortedCoursewareTest(ContainerBase):
             [self.visible_to_all_problem]
         )
 
+    @skip('US35504')
     def test_cohorted_courseware(self):
         """
         Scenario: Can create content that is only visible to students in particular cohorts

@@ -491,6 +491,7 @@ class YouTubeVideoTest(VideoBaseTest):
         self.video.select_language('en')
         self._verify_caption_text('Hi, welcome to Edx.')
 
+    @skip('US35504')
     def test_multiple_videos_in_sequentials_load_and_work(self):
         """
         Scenario: Multiple videos in sequentials all load and work, switching between sequentials

@@ -10,11 +10,11 @@ Feature: CMS.Problem Editor
 
   # Safari is having trouble saving the values on sauce
   @skip_safari
-  Scenario: User can modify String values
-    Given I have created a Blank Common Problem
-    When I edit and select Settings
-    Then I can modify the display name
-    And my display name change is persisted on save
+  #Scenario: User can modify String values
+  #   Given I have created a Blank Common Problem
+  #   When I edit and select Settings
+  #   Then I can modify the display name
+  #   And my display name change is persisted on save
 
   # Safari is having trouble saving the values on sauce
   @skip_safari

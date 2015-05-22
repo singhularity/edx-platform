@@ -4,12 +4,12 @@ Feature: CMS.Course updates
 
     # Internet explorer can't select all so the update appears weirdly
     @skip_internetexplorer
-    Scenario: Users can add updates
-        Given I have opened a new course in Studio
-        And I go to the course updates page
-        When I add a new update with the text "Hello"
-        Then I should see the update "Hello"
-        And I see a "saving" notification
+#    Scenario: Users can add updates
+#        Given I have opened a new course in Studio
+#        And I go to the course updates page
+#        When I add a new update with the text "Hello"
+#        Then I should see the update "Hello"
+#        And I see a "saving" notification
 
     # Internet explorer can't select all so the update appears weirdly
     @skip_internetexplorer
