@@ -5,7 +5,6 @@ Amplify OAuth2 Sign-in backends
 from social.backends.oauth import BaseOAuth2
 import json
 import urllib2
-from urllib import urlencode
 
 
 class AmplifyOAuth2(BaseOAuth2):
