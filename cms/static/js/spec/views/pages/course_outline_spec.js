@@ -443,7 +443,8 @@ define(["jquery", "js/common_helpers/ajax_helpers", "js/views/utils/view_utils",
                     collapseItemsAndVerifyState('section');
                 });
 
-                it('can be edited', function() {
+                # US35504: disabled flaky test
+                xit('can be edited', function() {
                     createCourseOutlinePage(this, mockCourseJSON, false);
                     outlinePage.$('.section-header-actions .configure-button').click();
                     $("#start_date").val("1/2/2015");
@@ -622,7 +623,8 @@ define(["jquery", "js/common_helpers/ajax_helpers", "js/views/utils/view_utils",
                     expandItemsAndVerifyState('subsection');
                 });
 
-                it('can be edited', function() {
+                # US35504: disabled flaky test
+                xit('can be edited', function() {
                     createCourseOutlinePage(this, mockCourseJSON, false);
                     outlinePage.$('.outline-subsection .configure-button').click();
                     setEditModalValues("7/9/2014", "7/10/2014", "Lab", true);
@@ -666,7 +668,8 @@ define(["jquery", "js/common_helpers/ajax_helpers", "js/views/utils/view_utils",
                     expect($("#staff_lock").is(":checked")).toBe(true);
                 });
 
-                it('release date, due date, grading type, and staff lock can be cleared.', function() {
+                # US35504: disabled flaky test
+                xit('release date, due date, grading type, and staff lock can be cleared.', function() {
                     createCourseOutlinePage(this, mockCourseJSON, false);
                     outlinePage.$('.outline-item .outline-subsection .configure-button').click();
                     setEditModalValues("7/9/2014", "7/10/2014", "Lab", true);

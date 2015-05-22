@@ -296,7 +296,8 @@ define ["jquery", "js/views/feedback", "js/views/feedback_notification", "js/vie
             @clock.tick(1000)
             expect(view.$('.wrapper')).toBeHiding()
 
-        it "a view can have both maxShown and minShown", ->
+        # US35504: disabled flaky test
+        xit "a view can have both maxShown and minShown", ->
             view = new NotificationView.Confirmation({minShown: 1000, maxShown: 2000})
             view.show()
 
