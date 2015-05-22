@@ -19,6 +19,7 @@ from ..pages.lms.auto_auth import AutoAuthPage as LmsAutoAuthPage
 from ..tests.lms.test_lms_user_preview import verify_expected_problem_visibility
 
 from bok_choy.promise import EmptyPromise
+from unittest import skip
 
 
 @attr('shard_5')

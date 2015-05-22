@@ -17,6 +17,7 @@ from base_studio_test import StudioCourseTest
 from ..helpers import load_data_str
 from ...pages.lms.progress import ProgressPage
 from nose.plugins.attrib import attr
+from unittest import skip
 
 
 SECTION_NAME = 'Test Section'
