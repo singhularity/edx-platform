@@ -834,7 +834,8 @@ class PreRequisiteCourseTest(UniqueCourseTest):
         # Auto-auth register for the course
         AutoAuthPage(self.browser, course_id=self.course_id).visit()
 
-    @flaky
+    #@flaky
+    @skip("US35504")
     def test_dashboard_message(self):
         """
          Scenario: Any course where there is a Pre-Requisite course Student dashboard should have
