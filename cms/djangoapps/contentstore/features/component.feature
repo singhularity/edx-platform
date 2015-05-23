@@ -28,15 +28,15 @@ Feature: CMS.Component Adding
 #           | Zooming Image           |
 #           | Raw HTML                |
 
-    Scenario: I can add Latex HTML components
-       Given I am in Studio editing a new unit
-       Given I have enabled latex compiler
-       When I add this type of HTML component:
-           | Component               |
-           | E-text Written in LaTeX |
-       Then I see HTML components in this order:
-           | Component               |
-           | E-text Written in LaTeX |
+#    Scenario: I can add Latex HTML components
+#       Given I am in Studio editing a new unit
+#       Given I have enabled latex compiler
+#       When I add this type of HTML component:
+#           | Component               |
+#           | E-text Written in LaTeX |
+#       Then I see HTML components in this order:
+#           | Component               |
+#           | E-text Written in LaTeX |
 
     Scenario: I can add Common Problem components
        Given I am in Studio editing a new unit
