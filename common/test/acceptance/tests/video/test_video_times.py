@@ -148,6 +148,7 @@ class VideoTimesTest(VideoBaseTest):
 
         self.assertIn(self.video.position, ['1:54', '1:55'])
 
+    @skip("US35504")
     def test_video_end_time_with_seek(self):
         """
         Scenario: End Time works for Youtube Video if starts playing before Start Time.
