@@ -54,10 +54,10 @@ Feature: CMS.Problem Editor
     And my change to weight is persisted
     And I can revert to the default value of unset for weight
 
-  Scenario: User cannot type letters in float number field
-    Given I have created a Blank Common Problem
-    When I edit and select Settings
-    Then if I set the weight to "abc", it remains unset
+  #Scenario: User cannot type letters in float number field
+  #  Given I have created a Blank Common Problem
+  #  When I edit and select Settings
+  #  Then if I set the weight to "abc", it remains unset
 
   # Safari will input it as 234.
   @skip_safari
