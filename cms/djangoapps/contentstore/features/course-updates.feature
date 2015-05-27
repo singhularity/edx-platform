@@ -3,7 +3,7 @@ Feature: CMS.Course updates
     As a course author, I want to be able to provide updates to my students
 
     # Internet explorer can't select all so the update appears weirdly
-    @skip_internetexplorer
+#    @skip_internetexplorer
 #    Scenario: Users can add updates
 #        Given I have opened a new course in Studio
 #        And I go to the course updates page
@@ -12,14 +12,14 @@ Feature: CMS.Course updates
 #        And I see a "saving" notification
 
     # Internet explorer can't select all so the update appears weirdly
-    @skip_internetexplorer
-    Scenario: Users can edit updates
-        Given I have opened a new course in Studio
-        And I go to the course updates page
-        When I add a new update with the text "Hello"
-        And I modify the text to "Goodbye"
-        Then I should see the update "Goodbye"
-        And I see a "saving" notification
+#    @skip_internetexplorer
+#    Scenario: Users can edit updates
+#        Given I have opened a new course in Studio
+#        And I go to the course updates page
+#        When I add a new update with the text "Hello"
+#        And I modify the text to "Goodbye"
+#        Then I should see the update "Goodbye"
+#        And I see a "saving" notification
 
     Scenario: Users can delete updates
         Given I have opened a new course in Studio
