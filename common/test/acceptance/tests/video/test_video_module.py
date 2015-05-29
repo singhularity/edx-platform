@@ -619,6 +619,7 @@ class YouTubeVideoTest(VideoBaseTest):
 
         self.assertTrue(self.video.duration, '1.56')
 
+    @skip("US35504")
     def test_video_position_stored_correctly_wo_seek(self):
         """
         Scenario: Video component stores position correctly when page is reloaded
