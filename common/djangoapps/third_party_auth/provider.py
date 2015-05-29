@@ -4,7 +4,9 @@ Loaded by Django's settings mechanism. Consequently, this module must not
 invoke the Django armature.
 """
 
-from social.backends import google, linkedin, facebook
+from social.backends import google, linkedin, facebook  # ,amplify
+
+from lib import amplify
 
 _DEFAULT_ICON_CLASS = 'fa-signin'
 
@@ -108,6 +110,26 @@ class BaseProvider(object):
         """Merge class-level settings onto a django settings module."""
         for key, value in cls.SETTINGS.iteritems():
             setattr(settings, key, value)
+
+
+class AmplifyOauth2(BaseProvider):
+    """Provider for Amplify's Oauth2 auth system."""
+
+    BACKEND_CLASS = amplify.AmplifyOAuth2
+    ICON_CLASS = 'fa-adn'
+    NAME = 'Amplify'
+    SETTINGS = {
+        'SOCIAL_AUTH_AMPLIFY_OAUTH2_KEY': None,
+        'SOCIAL_AUTH_AMPLIFY_OAUTH2_SECRET': None,
+    }
+
+    @classmethod
+    def get_email(cls, provider_details):
+        return provider_details.get('email')
+
+    @classmethod
+    def get_name(cls, provider_details):
+        return provider_details.get('fullname')
 
 
 class GoogleOauth2(BaseProvider):
