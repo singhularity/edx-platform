@@ -1,3 +1,13 @@
+########################
+#  to setup devstack locally, please follow these steps:
+#  1. assume your working dir is $WORKDIR
+#  2. cd $WORKDIR; 
+#  3. clone edx-platform, configuration, edxamplifytheme  from git.amplify.com; use amplify-master branch
+#  4. mv edx-platform/Vagrantfile ./   
+#  5. run 'vagrant up'
+########################
+
+
 Vagrant.require_version ">= 1.5.3"
 unless Vagrant.has_plugin?("vagrant-vbguest")
   raise "Please install the vagrant-vbguest plugin by running `vagrant plugin install vagrant-vbguest`"
@@ -58,11 +68,11 @@ if ENV['VAGRANT_MOUNT_BASE']
 
 else
 
-  edx_platform_mount_dir = "../" + edx_platform_mount_dir
-  themes_mount_dir = "../" + themes_mount_dir
-  forum_mount_dir = "../" + forum_mount_dir
-  ora_mount_dir = "../" + ora_mount_dir
-  config_mount_dir = "../" + config_mount_dir
+  edx_platform_mount_dir = edx_platform_mount_dir
+  themes_mount_dir = themes_mount_dir
+  forum_mount_dir = forum_mount_dir
+  ora_mount_dir = ora_mount_dir
+  config_mount_dir = config_mount_dir
 
 end
 
