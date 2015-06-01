@@ -47,12 +47,12 @@ Feature: CMS.Problem Editor
 
   # Safari will input it as 35.
   @skip_safari
-  Scenario: User can modify float input values
-    Given I have created a Blank Common Problem
-    When I edit and select Settings
-    Then I can set the weight to "3.5"
-    And my change to weight is persisted
-    And I can revert to the default value of unset for weight
+  #Scenario: User can modify float input values
+  #  Given I have created a Blank Common Problem
+  #  When I edit and select Settings
+  #  Then I can set the weight to "3.5"
+  #  And my change to weight is persisted
+  #  And I can revert to the default value of unset for weight
 
   #Scenario: User cannot type letters in float number field
   #  Given I have created a Blank Common Problem
