@@ -46,7 +46,7 @@ Feature: CMS.Problem Editor
     And I can revert to the default value for randomization
 
   # Safari will input it as 35.
-  @skip_safari
+  #@skip_safari
   #Scenario: User can modify float input values
   #  Given I have created a Blank Common Problem
   #  When I edit and select Settings
