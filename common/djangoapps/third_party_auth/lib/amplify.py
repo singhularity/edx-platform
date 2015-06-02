@@ -8,7 +8,7 @@ import requests
 
 class AmplifyOAuth2(BaseOAuth2):
     """Amplify OAuth authentication backend"""
-    name = 'amplify-oauth2'
+    name = 'amplify'
     REDIRECT_STATE = False
     AUTHORIZATION_URL = 'https://mclasshome.com/mobilelogin/oauth2/auth'
     ACCESS_TOKEN_URL = 'https://mclasshome.com/mobilelogin/oauth2/token'
