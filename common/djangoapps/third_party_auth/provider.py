@@ -5,7 +5,7 @@ invoke the Django armature.
 """
 
 from social.backends import google, linkedin, facebook
-from lib import amplify
+from third_party_auth.lib import amplify
 
 _DEFAULT_ICON_CLASS = 'fa-signin'
 
