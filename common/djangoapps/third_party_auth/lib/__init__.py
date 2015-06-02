@@ -1,1 +1,1 @@
-__author__ = 'tli'
+"""Custom third party authentication provider. """
