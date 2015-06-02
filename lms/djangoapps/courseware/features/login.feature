@@ -10,4 +10,3 @@ Feature: LMS.Login in as a registered user
     And I click the link with the text "Sign out"
     Then I should see a link with the text "Sign in"
     And I should see that the path is "/"
-      
