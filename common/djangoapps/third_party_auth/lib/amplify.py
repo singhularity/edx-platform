@@ -8,10 +8,10 @@ import requests
 
 class AmplifyOAuth2(BaseOAuth2):
     """Amplify OAuth authentication backend"""
-    name = 'amplify-oauth2'
+    name = 'amplify'
     REDIRECT_STATE = False
-    AUTHORIZATION_URL = 'http://tmc241.mc.wgenhq.net/mobilelogin/oauth2/auth'
-    ACCESS_TOKEN_URL = 'http://tmc241.mc.wgenhq.net/mobilelogin/oauth2/token'
+    AUTHORIZATION_URL = 'https://mclasshome.com/mobilelogin/oauth2/auth'
+    ACCESS_TOKEN_URL = 'https://mclasshome.com/mobilelogin/oauth2/token'
     ACCESS_TOKEN_METHOD = 'POST'
     EXTRA_DATA = [
         ('refresh_token', 'refresh_token', True),
