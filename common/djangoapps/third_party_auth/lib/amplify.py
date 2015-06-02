@@ -3,8 +3,7 @@ Amplify OAuth2 Sign-in backends
 """
 
 from social.backends.oauth import BaseOAuth2
-import json
-import urllib2
+import requests
 
 
 class AmplifyOAuth2(BaseOAuth2):
@@ -25,7 +24,7 @@ class AmplifyOAuth2(BaseOAuth2):
         return response['user_uid']
 
     def auth_params(self, state=None):
-        client_id, client_secret = self.get_key_and_secret()
+        client_id, _ = self.get_key_and_secret()
         params = {
             'client_id': client_id
         }
@@ -43,10 +42,15 @@ class AmplifyOAuth2(BaseOAuth2):
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
-        opener = urllib2.build_opener()
-        opener.addheaders.append(('Cookie', 'sso.auth_token='+access_token))
-        url = opener.open('https://mclasshome.com/mobilelogin/gatekeeper')
+        headers = {'Cookie': 'sso.auth_token=' + access_token}
+        response = requests.get("http://tmc241.mc.wgenhq.net/mobilelogin/gatekeeper", headers=headers)
         try:
-            return json.load(url)
+            return response.json()
         except ValueError:
             return None
+
+    def auth_html(self):
+        """Return login HTML content returned by provider
+            It is not being used, just override the abstract class to pass the quality tests
+        """
+        pass
