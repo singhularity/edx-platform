@@ -35,7 +35,6 @@ from ...pages.lms.track_selection import TrackSelectionPage
 from ...pages.lms.pay_and_verify import PaymentAndVerificationFlow, FakePaymentPage
 from ...pages.studio.settings import SettingsPage
 from ...fixtures.course import CourseFixture, XBlockFixtureDesc, CourseUpdateDesc
-from flaky import flaky
 
 
 @attr('shard_5')

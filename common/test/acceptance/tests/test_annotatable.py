@@ -11,7 +11,6 @@ from ..pages.lms.annotation_component import AnnotationComponentPage
 from ..fixtures.course import CourseFixture, XBlockFixtureDesc
 from ..fixtures.xqueue import XQueueResponseFixture
 from textwrap import dedent
-from flaky import flaky
 from unittest import skip
 
 
