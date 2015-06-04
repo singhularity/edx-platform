@@ -60,11 +60,11 @@ Feature: CMS.Problem Editor
   #  Then if I set the weight to "abc", it remains unset
 
   # Safari will input it as 234.
-  @skip_safari
-  Scenario: User cannot type decimal values integer number field
-    Given I have created a Blank Common Problem
-    When I edit and select Settings
-    Then if I set the max attempts to "2.34", it will persist as a valid integer
+  #@skip_safari
+  #Scenario: User cannot type decimal values integer number field
+  #  Given I have created a Blank Common Problem
+  #  When I edit and select Settings
+  #  Then if I set the max attempts to "2.34", it will persist as a valid integer
 
   # Safari will input it incorrectly
   @skip_safari
