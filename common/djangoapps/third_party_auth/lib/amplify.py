@@ -23,6 +23,14 @@ class AmplifyOAuth2(BaseOAuth2):
         """Use user uid as unique id"""
         return response['user_uid']
 
+    def get_redirect_uri(self, state=None):
+        """Build redirect with redirect_state parameter."""
+        uri = self.redirect_uri
+        uri = uri.replace('http', 'https')
+        if self.REDIRECT_STATE and state:
+            uri = url_add_parameters(uri, {'redirect_state': state})
+        return uri
+
     def auth_params(self, state=None):
         client_id, _ = self.get_key_and_secret()
         params = {
