@@ -178,8 +178,8 @@ class AmplifyOauth2(BaseProvider):
     ICON_CLASS = 'fa-adn'
     NAME = 'Amplify'
     SETTINGS = {
-        'SOCIAL_AUTH_AMPLIFY_KEY': None,
-        'SOCIAL_AUTH_AMPLIFY_SECRET': None,
+        'SOCIAL_AUTH_AMPLIFY_OAUTH2_KEY': None,
+        'SOCIAL_AUTH_AMPLIFY_OAUTH2_SECRET': None,
     }
 
     @classmethod

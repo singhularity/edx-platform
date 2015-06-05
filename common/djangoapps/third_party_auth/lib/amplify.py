@@ -8,10 +8,10 @@ import requests
 
 class AmplifyOAuth2(BaseOAuth2):
     """Amplify OAuth authentication backend"""
-    name = 'amplify'
+    name = 'amplify-oauth2'
     REDIRECT_STATE = False
-    AUTHORIZATION_URL = 'https://mclasshome.com/mobilelogin/oauth2/auth'
-    ACCESS_TOKEN_URL = 'https://mclasshome.com/mobilelogin/oauth2/token'
+    AUTHORIZATION_URL = 'http://tmc241.mc.wgenhq.net/mobilelogin/oauth2/auth'
+    ACCESS_TOKEN_URL = 'http://tmc241.mc.wgenhq.net/mobilelogin/oauth2/token'
     ACCESS_TOKEN_METHOD = 'POST'
     EXTRA_DATA = [
         ('refresh_token', 'refresh_token', True),
@@ -43,7 +43,7 @@ class AmplifyOAuth2(BaseOAuth2):
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
         headers = {'Cookie': 'sso.auth_token=' + access_token}
-        response = requests.get("https://mclasshome.com/mobilelogin/gatekeeper", headers=headers)
+        response = requests.get("http://tmc241.mc.wgenhq.net/mobilelogin/gatekeeper", headers=headers)
         try:
             return response.json()
         except ValueError:
