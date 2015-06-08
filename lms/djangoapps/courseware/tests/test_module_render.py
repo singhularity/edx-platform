@@ -499,7 +499,7 @@ class TestTOC(ModuleStoreTestCase):
                 self.assertIn(toc_section, actual)
 
 
-@override_settings(MODULESTORE=TEST_DATA_MOCK_MODULESTORE)
+@ddt.ddt
 class TestHtmlModifiers(ModuleStoreTestCase):
     """
     Tests to verify that standard modifications to the output of XModule/XBlock
@@ -608,6 +608,28 @@ class TestHtmlModifiers(ModuleStoreTestCase):
         url = course_image_url(self.course)
         self.assertTrue(url.startswith('/static/toy_course_dir/'))
         self.course.static_asset_path = ""
+
+    @ddt.data(ModuleStoreEnum.Type.mongo, ModuleStoreEnum.Type.split)
+    def test_course_image_for_split_course(self, store):
+        """
+        for split courses if course_image is empty then course_image_url will be blank
+        """
+        self.course = CourseFactory.create(default_store=store)
+        self.course.course_image = ''
+
+        url = course_image_url(self.course)
+        self.assertEqual('', url)
+
+    @ddt.data(ModuleStoreEnum.Type.mongo, ModuleStoreEnum.Type.mongo)
+    def test_course_image_for_draft_course(self, store):
+        """
+        for draft courses if course_image is null then course_image_url will be blank
+        """
+        self.course = CourseFactory.create(default_store=store)
+        self.course.course_image = None
+
+        url = course_image_url(self.course)
+        self.assertEqual('', url)
 
     def test_get_course_info_section(self):
         self.course.static_asset_path = "toy_course_dir"
