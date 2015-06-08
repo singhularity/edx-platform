@@ -14,9 +14,7 @@ class AmplifyOAuth2(BaseOAuth2):
     ACCESS_TOKEN_URL = 'http://tmc241.mc.wgenhq.net/mobilelogin/oauth2/token'
     ACCESS_TOKEN_METHOD = 'POST'
     EXTRA_DATA = [
-        ('refresh_token', 'refresh_token', True),
-        ('expires_in', 'expires'),
-        ('token_type', 'token_type', True)
+        ('expires_in', 'expires')
     ]
 
     def get_user_id(self, details, response):
