@@ -177,18 +177,13 @@ class AmplifyOauth2(BaseProvider):
     BACKEND_CLASS = amplify.AmplifyOAuth2
     ICON_CLASS = 'fa-adn'
     NAME = 'Amplify'
+    #: The variable names in settings should be consistent with
+    # the variable names in the configuration file. The format of
+    # the variable name is SOCIAL_AUTH_<backend_name>_KEY/SECRET
     SETTINGS = {
         'SOCIAL_AUTH_AMPLIFY_KEY': None,
         'SOCIAL_AUTH_AMPLIFY_SECRET': None,
     }
-
-    @classmethod
-    def get_email(cls, provider_details):
-        return provider_details.get('email')
-
-    @classmethod
-    def get_name(cls, provider_details):
-        return provider_details.get('fullname')
 
 
 class Registry(object):
