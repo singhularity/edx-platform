@@ -34,9 +34,7 @@ class AmplifyOAuth2(BaseOAuth2):
 
     def get_user_details(self, response):
         """Return user details from Amplify account"""
-        return {'username': response.get('user_uid', ''),
-                'email': response.get('email', ''),
-                'fullname': response.get('name', '')}
+        return {'username': response.get('user_uid', '')}
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
