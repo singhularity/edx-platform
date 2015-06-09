@@ -177,9 +177,12 @@ class AmplifyOauth2(BaseProvider):
     BACKEND_CLASS = amplify.AmplifyOAuth2
     ICON_CLASS = 'fa-adn'
     NAME = 'Amplify'
+    #: The variable names in settings should be consistent with
+    # the variable names in the configuration file. The format of
+    # the variable name is SOCIAL_AUTH_<backend_name>_KEY/SECRET
     SETTINGS = {
-        'SOCIAL_AUTH_AMPLIFY_OAUTH2_KEY': None,
-        'SOCIAL_AUTH_AMPLIFY_OAUTH2_SECRET': None,
+        'SOCIAL_AUTH_AMPLIFY_KEY': None,
+        'SOCIAL_AUTH_AMPLIFY_SECRET': None,
     }
 
 
