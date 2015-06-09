@@ -3,9 +3,20 @@ Amplify OAuth2 Sign-in backends
 Refer to this documentation: http://psa.matiasaguirre.net/docs/backends/implementation.html#oauth
 """
 
-from social.backends.oauth import BaseOAuth2
+from social.backends.oauth import BaseOAuth2, BaseAuth, OAuthAuth
+from social.utils import url_add_parameters
 import requests
 
+def overrides(interface_class):
+    """overrides decorator"""
+    def overrider(method):
+        """
+        This will check that the class given as a parameter has the
+        same method (or something) name as the method being decorated.
+        """
+        assert(method.__name__ in dir(interface_class))
+        return method
+    return overrider
 
 class AmplifyOAuth2(BaseOAuth2):
     """Amplify OAuth authentication backend"""
@@ -36,10 +47,24 @@ class AmplifyOAuth2(BaseOAuth2):
         ('expires_in', 'expires')
     ]
 
+    @overrides(BaseAuth)
     def get_user_id(self, details, response):
         """Use user uid as unique id"""
         return response['user_uid']
 
+    @overrides(BaseOAuth2)
+    def get_redirect_uri(self, state=None):
+        """Build redirect with redirect_state parameter."""
+        uri = self.redirect_uri
+        #: This is a hack to change http to https, we need to
+        # figure out a better way of doing it.
+        if 'amplifyedx.developer.com' in uri:
+            uri = uri.replace('http', 'https')
+        if self.REDIRECT_STATE and state:
+            uri = url_add_parameters(uri, {'redirect_state': state})
+        return uri
+
+    @overrides(BaseOAuth2)
     def auth_params(self, state=None):
         client_id, _ = self.get_key_and_secret()
         params = {
@@ -51,10 +76,12 @@ class AmplifyOAuth2(BaseOAuth2):
             params['response_type'] = self.RESPONSE_TYPE
         return params
 
+    @overrides(BaseAuth)
     def get_user_details(self, response):
         """Return user details from Amplify account"""
         return {'username': response.get('user_uid', '')}
 
+    @overrides(OAuthAuth)
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
         headers = {'Cookie': 'sso.auth_token=' + access_token}
@@ -64,6 +91,7 @@ class AmplifyOAuth2(BaseOAuth2):
         except ValueError:
             return None
 
+    @overrides(BaseAuth)
     def auth_html(self):
         """Return login HTML content returned by provider
             It is not being used, just override the abstract class to pass the quality tests
