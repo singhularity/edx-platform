@@ -18,7 +18,7 @@ class AmplifyOAuth2(BaseOAuth2):
     REDIRECT_STATE = False
 
     #: This is the entry point for the authorization mechanism.
-    # We need to change it to "http://mclasshome.com/mobilelogin/oauth2/auth"
+    # We need to change it to "https://mclasshome.com/mobilelogin/oauth2/auth"
     AUTHORIZATION_URL = 'http://tmc241.mc.wgenhq.net/mobilelogin/oauth2/auth'
 
     #: This must point to the API endpoint that provides an access_token
