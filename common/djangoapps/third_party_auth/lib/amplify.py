@@ -2,6 +2,7 @@
 Amplify OAuth2 Sign-in backends
 Refer to this documentation: http://psa.matiasaguirre.net/docs/backends/implementation.html#oauth
 """
+import random
 
 from social.backends.oauth import BaseOAuth2, BaseAuth, OAuthAuth
 from social.utils import url_add_parameters
@@ -79,7 +80,12 @@ class AmplifyOAuth2(BaseOAuth2):
     @overrides(BaseAuth)
     def get_user_details(self, response):
         """Return user details from Amplify account"""
-        return {'username': response.get('user_uid', '')}
+        username = response.get('user_uid', '')
+        return {'username': username,
+                'email': "{}{}@test.com".format(username, random.randint(1, 1000)) ,
+                'name': username,
+                'honor_code': u'true',
+                'terms_of_service': u'true'}
 
     @overrides(OAuthAuth)
     def user_data(self, access_token, *args, **kwargs):

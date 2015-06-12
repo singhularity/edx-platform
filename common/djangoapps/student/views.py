@@ -1609,7 +1609,9 @@ def create_account(request, post_override=None):  # pylint: disable-msg=too-many
         return JsonResponse({'success': False, 'value': exc.message, 'field': exc.field}, status=400)
 
     (user, profile, registration) = ret
-
+    if third_party_auth.is_enabled() and settings.FEATURES.get("AUTO_LINK_THIRD_PARTY_ACCOUNT"):
+        registration.activate()
+        registration.save()
     dog_stats_api.increment("common.student.account_created")
 
     email = post_vars['email']
@@ -1661,7 +1663,8 @@ def create_account(request, post_override=None):  # pylint: disable-msg=too-many
     # or external auth with bypass activated
     send_email = (
         not settings.FEATURES.get('AUTOMATIC_AUTH_FOR_TESTING') and
-        not (do_external_auth and settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_EXTAUTH'))
+        not (do_external_auth and settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_EXTAUTH')) and
+        not (third_party_auth.is_enabled() and settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_THIRD_PARTY'))
     )
     if send_email:
         from_address = microsite.get_value(
@@ -1703,11 +1706,12 @@ def create_account(request, post_override=None):  # pylint: disable-msg=too-many
         AUDIT_LOG.info("User registered with external_auth %s", post_vars['username'])
         AUDIT_LOG.info('Updated ExternalAuthMap for %s to be %s', post_vars['username'], eamap)
 
-        if settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_EXTAUTH'):
-            log.info('bypassing activation email')
-            new_user.is_active = True
-            new_user.save()
-            AUDIT_LOG.info(u"Login activated on extauth account - {0} ({1})".format(new_user.username, new_user.email))
+    if (do_external_auth and settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_EXTAUTH')) or\
+            (third_party_auth.is_enabled() and settings.FEATURES.get('BYPASS_ACTIVATION_EMAIL_FOR_THIRD_PARTY')):
+        log.info('bypassing activation email')
+        new_user.is_active = True
+        new_user.save()
+        AUDIT_LOG.info(u"Login activated on extauth account - {0} ({1})".format(new_user.username, new_user.email))
 
     dog_stats_api.increment("common.student.account_created")
     redirect_url = try_change_enrollment(request)
