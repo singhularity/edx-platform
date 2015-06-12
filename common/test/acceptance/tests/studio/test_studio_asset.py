@@ -3,7 +3,6 @@ Acceptance tests for Studio related to the asset index page.
 """
 
 from ...pages.studio.asset_index import AssetIndexPage
-from flaky import flaky
 from acceptance.tests.studio.base_studio_test import StudioCourseTest
 from acceptance.fixtures.base import StudioApiLoginError
 from unittest import skip
