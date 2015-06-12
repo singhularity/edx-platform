@@ -24,7 +24,8 @@ from unittest import skip
 
 @attr('shard_5')
 class EndToEndCohortedCoursewareTest(ContainerBase):
-    """ End to end cohorted courseware test
+    """
+    End to end cohorted courseware test
     """
 
     def setUp(self, is_staff=True):
