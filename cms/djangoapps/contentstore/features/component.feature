@@ -38,24 +38,24 @@ Feature: CMS.Component Adding
 #           | Component               |
 #           | E-text Written in LaTeX |
 
-    Scenario: I can add Common Problem components
-       Given I am in Studio editing a new unit
-       When I add this type of Problem component:
-           | Component            |
-           | Blank Common Problem |
-           | Checkboxes           |
-           | Dropdown             |
-           | Multiple Choice      |
-           | Numerical Input      |
-           | Text Input           |
-       Then I see Problem components in this order:
-           | Component            |
-           | Blank Common Problem |
-           | Checkboxes           |
-           | Dropdown             |
-           | Multiple Choice      |
-           | Numerical Input      |
-           | Text Input           |
+#    Scenario: I can add Common Problem components
+#       Given I am in Studio editing a new unit
+#       When I add this type of Problem component:
+#           | Component            |
+#           | Blank Common Problem |
+#           | Checkboxes           |
+#           | Dropdown             |
+#           | Multiple Choice      |
+#           | Numerical Input      |
+#           | Text Input           |
+#       Then I see Problem components in this order:
+#           | Component            |
+#           | Blank Common Problem |
+#           | Checkboxes           |
+#           | Dropdown             |
+#           | Multiple Choice      |
+#           | Numerical Input      |
+#           | Text Input           |
 
 #    Scenario Outline: I can add Advanced Problem components
 #       Given I am in Studio editing a new unit

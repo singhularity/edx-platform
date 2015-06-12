@@ -46,13 +46,13 @@ Feature: CMS.Problem Editor
     And I can revert to the default value for randomization
 
   # Safari will input it as 35.
-  @skip_safari
-  Scenario: User can modify float input values
-    Given I have created a Blank Common Problem
-    When I edit and select Settings
-    Then I can set the weight to "3.5"
-    And my change to weight is persisted
-    And I can revert to the default value of unset for weight
+  #@skip_safari
+  #Scenario: User can modify float input values
+  #  Given I have created a Blank Common Problem
+  #  When I edit and select Settings
+  #  Then I can set the weight to "3.5"
+  #  And my change to weight is persisted
+  #  And I can revert to the default value of unset for weight
 
   #Scenario: User cannot type letters in float number field
   #  Given I have created a Blank Common Problem
@@ -60,11 +60,11 @@ Feature: CMS.Problem Editor
   #  Then if I set the weight to "abc", it remains unset
 
   # Safari will input it as 234.
-  @skip_safari
-  Scenario: User cannot type decimal values integer number field
-    Given I have created a Blank Common Problem
-    When I edit and select Settings
-    Then if I set the max attempts to "2.34", it will persist as a valid integer
+  #@skip_safari
+  #Scenario: User cannot type decimal values integer number field
+  #  Given I have created a Blank Common Problem
+  #  When I edit and select Settings
+  #  Then if I set the max attempts to "2.34", it will persist as a valid integer
 
   # Safari will input it incorrectly
   @skip_safari
