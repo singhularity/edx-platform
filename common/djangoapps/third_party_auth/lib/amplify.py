@@ -7,7 +7,7 @@ import random
 from social.backends.oauth import BaseOAuth2, BaseAuth, OAuthAuth
 from social.utils import url_add_parameters
 import requests
-
+from django.conf import settings
 
 def overrides(interface_class):
     """overrides decorator"""
@@ -25,19 +25,19 @@ class AmplifyOAuth2(BaseOAuth2):
     """Amplify OAuth authentication backend"""
     #: The name defines the backend name and identifies it during the auth process.
     # The name is used in the redirect_uri auth/complete/<backend name> .
-    name = 'amplify'
+    name = settings.FEATURES.get('AMPLIFY_AUTH_NAME')
 
     #: For those providers that do not recognise the state parameter,
     # the app can add a redirect_state argument to the redirect_uri to mimic it.
-    REDIRECT_STATE = False
+    REDIRECT_STATE = settings.FEATURES.get('AMPLIFY_REDIRECT_STATE')
 
     #: This is the entry point for the authorization mechanism.
     # We need to change it to "https://mclasshome.com/mobilelogin/oauth2/auth"
-    AUTHORIZATION_URL = 'http://tmc241.mc.wgenhq.net/mobilelogin/oauth2/auth'
+    AUTHORIZATION_URL = settings.FEATURES.get('AMPLIFY_AUTHORIZATION_URL')
 
     #: This must point to the API endpoint that provides an access_token
     # needed to authenticate in users behalf on future API calls.
-    ACCESS_TOKEN_URL = 'http://tmc241.mc.wgenhq.net/mobilelogin/oauth2/token'
+    ACCESS_TOKEN_URL = settings.FEATURES.get('AMPLIFY_ACCESS_TOKEN_URL')
     ACCESS_TOKEN_METHOD = 'POST'
 
     #: During the auth process some basic user data is returned by the provider or retrieved
@@ -92,8 +92,9 @@ class AmplifyOAuth2(BaseOAuth2):
     @overrides(OAuthAuth)
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
+        response_url = settings.FEATURES.get('AMPLIFY_RESPONSE_URL')
         headers = {'Cookie': 'sso.auth_token=' + access_token}
-        response = requests.get("http://tmc241.mc.wgenhq.net/mobilelogin/gatekeeper", headers=headers)
+        response = requests.get(response_url, headers=headers)
         try:
             return response.json()
         except ValueError:
