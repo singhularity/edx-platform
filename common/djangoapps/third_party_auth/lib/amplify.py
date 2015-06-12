@@ -8,6 +8,7 @@ from social.backends.oauth import BaseOAuth2, BaseAuth, OAuthAuth
 from social.utils import url_add_parameters
 import requests
 
+
 def overrides(interface_class):
     """overrides decorator"""
     def overrider(method):
@@ -15,9 +16,10 @@ def overrides(interface_class):
         This will check that the class given as a parameter has the
         same method (or something) name as the method being decorated.
         """
-        assert(method.__name__ in dir(interface_class))
+        assert method.__name__ in dir(interface_class)
         return method
     return overrider
+
 
 class AmplifyOAuth2(BaseOAuth2):
     """Amplify OAuth authentication backend"""
