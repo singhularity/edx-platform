@@ -60,7 +60,7 @@ class AmplifyOAuth2(BaseOAuth2):
         uri = self.redirect_uri
         #: This is a hack to change http to https, we need to
         # figure out a better way of doing it.
-        if 'amplifyedx.developer.com' in uri:
+        if 'http://amplifyedx.developer.com' in uri:
             uri = uri.replace('http', 'https')
         if self.REDIRECT_STATE and state:
             uri = url_add_parameters(uri, {'redirect_state': state})
