@@ -100,8 +100,11 @@ class AmplifyOAuth2(BaseOAuth2):
         headers = {'Cookie': 'sso.auth_token=' + access_token}
         response = requests.get(response_url, headers=headers)
         response_json = response.json()
-        apps = self.call_webapps(access_token, response_json.get('staff_uid'))[0][0]
-        response_json['name'] = apps.get('first_name') + "_" + apps.get('last_name')
+        try:
+            user_details = self.call_webapps(access_token, response_json.get('staff_uid'))[0][0]
+            response_json['name'] = user_details.get('first_name') + "_" + user_details.get('last_name')
+        except Exception as e:
+            response_json['name'] = "default{}".format(random.randint(1, 100000))
         try:
             return response_json
         except ValueError:
