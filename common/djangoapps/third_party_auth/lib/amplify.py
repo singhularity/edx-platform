@@ -99,13 +99,13 @@ class AmplifyOAuth2(BaseOAuth2):
         response_url = settings.FEATURES.get('AMPLIFY_RESPONSE_URL')
         headers = {'Cookie': 'sso.auth_token=' + access_token}
         response = requests.get(response_url, headers=headers)
-        response_json = response.json()
         try:
-            user_details = self.call_webapps(access_token, response_json.get('staff_uid'))[0][0]
-            response_json['name'] = user_details.get('first_name') + "_" + user_details.get('last_name')
-        except Exception as e:
-            response_json['name'] = "default{}".format(random.randint(1, 100000))
-        try:
+            response_json = response.json()
+            try:
+                user_details = self.call_webapps(access_token, response_json.get('staff_uid'))[0][0]
+                response_json['name'] = user_details.get('first_name') + "_" + user_details.get('last_name')
+            except Exception as e:
+                response_json['name'] = "default{}".format(random.randint(1, 100000))
             return response_json
         except ValueError:
             return None
