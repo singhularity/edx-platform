@@ -1,3 +1,4 @@
+@skip
 @shard_2
 Feature: CMS.Sign in
   In order to use the edX content

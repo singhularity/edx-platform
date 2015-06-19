@@ -1,3 +1,4 @@
+@skip
 @shard_1
 Feature: LMS.Register for a course
   As a registered user
