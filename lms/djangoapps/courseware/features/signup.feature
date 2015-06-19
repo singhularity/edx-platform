@@ -1,4 +1,6 @@
-@skip
+@skip_firefox
+@skip_safari
+@skip_internetexplorer
 @shard_2
 Feature: LMS.Sign in
   In order to use the edX content
