@@ -154,3 +154,8 @@ git+https://github.com/mfogel/django-settings-context-processor.git
 edx-submissions==0.0.8
 
 flaky
+futures==2.1.4
+requirements/amplifylibraries/wgen.metrics-2.0.0.tar.gz
+requirements/amplifylibraries/wgen.logger-2.3.1.tar.gz
+requirements/amplifylibraries/wgen.httpconn-13.3.0.tar.gz
+requirements/amplifylibraries/napiclient-1.3.0.tar.gz

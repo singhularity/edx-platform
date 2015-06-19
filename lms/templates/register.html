@@ -168,14 +168,14 @@
         % if has_extauth_info is UNDEFINED:
 
         <ol class="list-input">
-          <li class="field required text" id="field-email">
+          <li hidden="true" class="field required text" id="field-email">
             <label for="email">${_('E-mail')}</label>
-            <input class="" id="email" type="email" name="email" value="${email}" placeholder="${_('example: username@domain.com')}" required aria-required="true" />
+            <input  class="" id="email" type="email" name="email" value="${email}" placeholder="${_('example: username@domain.com')}" required aria-required="true" />
           </li>
 
-          <li class="field required text" id="field-name">
+          <li hidden="true" class="field required text" id="field-name">
             <label for="name">${_('Full Name')}</label>
-            <input id="name" type="text" name="name" value="${name}" placeholder="${_('example: Jane Doe')}" required aria-required="true" aria-describedby="name-tip" />
+            <input id="name" hidden="true"type="text" name="name" value="${name}" placeholder="${_('example: Jane Doe')}" required aria-required="true" aria-describedby="name-tip" />
             <span class="tip tip-input" id="name-tip">${_("Needed for any certificates you may earn")}</span>
           </li>
           <li class="field required text" id="field-username">
@@ -329,7 +329,7 @@
         <ol class="list-input">
           <li class="field-group">
 
-            % if has_extauth_info is UNDEFINED or ask_for_tos :
+            % if (has_extauth_info is UNDEFINED or ask_for_tos) and settings.FEATURES['THIRD_PARTY_TOS'] != "hidden":
             <div class="field required checkbox" id="field-tos">
               <input id="tos-yes" type="checkbox" name="terms_of_service" value="true" required aria-required="true" />
               <label for="tos-yes">${_('I agree to the {link_start}Terms of Service{link_end}').format(

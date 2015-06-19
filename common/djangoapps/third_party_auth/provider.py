@@ -185,6 +185,14 @@ class AmplifyOauth2(BaseProvider):
         'SOCIAL_AUTH_AMPLIFY_SECRET': None,
     }
 
+    @classmethod
+    def get_email(cls, provider_details):
+        return provider_details.get('email')
+
+    @classmethod
+    def get_name(cls, provider_details):
+        return provider_details.get('name')
+
 
 class Registry(object):
     """Singleton registry of third-party auth providers.

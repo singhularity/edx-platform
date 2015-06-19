@@ -2,12 +2,14 @@
 Amplify OAuth2 Sign-in backends
 Refer to this documentation: http://psa.matiasaguirre.net/docs/backends/implementation.html#oauth
 """
+import random
 
 from social.backends.oauth import BaseOAuth2, BaseAuth, OAuthAuth
 from social.utils import url_add_parameters
 import requests
 from django.conf import settings
-
+from search_napi import napi_main
+from concurrent import futures
 
 def overrides(interface_class):
     """overrides decorator"""
@@ -82,7 +84,14 @@ class AmplifyOAuth2(BaseOAuth2):
     @overrides(BaseAuth)
     def get_user_details(self, response):
         """Return user details from Amplify account"""
-        return {'username': response.get('user_uid', '')}
+        username = response.get('user_uid', '')
+        name = response.get('name')
+        email = name + '@amplify.com'
+        return {'username': name,
+                'email': email ,
+                'name': name,
+                'honor_code': u'true',
+                'terms_of_service': u'true'}
 
     @overrides(OAuthAuth)
     def user_data(self, access_token, *args, **kwargs):
@@ -91,7 +100,13 @@ class AmplifyOAuth2(BaseOAuth2):
         headers = {'Cookie': 'sso.auth_token=' + access_token}
         response = requests.get(response_url, headers=headers)
         try:
-            return response.json()
+            response_json = response.json()
+            try:
+                user_details = self.call_webapps(access_token, response_json.get('staff_uid'))[0][0]
+                response_json['name'] = user_details.get('first_name') + "_" + user_details.get('last_name')
+            except Exception as e:
+                response_json['name'] = "default{}".format(random.randint(1, 100000))
+            return response_json
         except ValueError:
             return None
 
@@ -101,3 +116,12 @@ class AmplifyOAuth2(BaseOAuth2):
             It is not being used, just override the abstract class to pass the quality tests
         """
         pass
+
+    def call_webapps(self, access_token, staff_uid):
+        napi_settings =  settings.FEATURES.get('AMPLIFY_NAPI_SETTINGS')
+        with futures.ThreadPoolExecutor(max_workers=1) as executor:
+            webcall = [executor.submit(napi_main, access_token, napi_settings, None, staff_uid=staff_uid)]
+
+            futures.wait(webcall)
+            napi_details = webcall[0].result()
+            return napi_details

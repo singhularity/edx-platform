@@ -96,7 +96,7 @@
         <%include file='dashboard/_dashboard_info_language.html' />
         %endif
 
-        % if third_party_auth.is_enabled():
+        % if third_party_auth.is_enabled() and not settings.FEATURES.get('AUTO_LINK_THIRD_PARTY_ACCOUNT'):
         <li class="controls--account">
           <span class="title">
             ## Translators: this section lists all the third-party authentication providers (for example, Google and LinkedIn) the user can link with or unlink from their edX account.
@@ -155,7 +155,7 @@
         </li>
         % endif
 
-        % if external_auth_map is None or 'shib' not in external_auth_map.external_domain:
+        % if (external_auth_map is None or 'shib' not in external_auth_map.external_domain) and not settings.FEATURES.get('AUTO_LINK_THIRD_PARTY_ACCOUNT'):
         <li class="controls--account">
           <span class="title"><a href="#password_reset_complete" rel="leanModal" id="pwd_reset_button">${_("Reset Password")}</a></span>
           <form id="password_reset_form" method="post" data-remote="true" action="${reverse('password_reset')}">
