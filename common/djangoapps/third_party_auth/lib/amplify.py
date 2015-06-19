@@ -85,10 +85,10 @@ class AmplifyOAuth2(BaseOAuth2):
     @overrides(BaseAuth)
     def get_user_details(self, response):
         """Return user details from Amplify account"""
-        username = response.get('user_uid', '')
+        username = response.get('username')
         name = response.get('name')
-        email = name + '@amplify.com'
-        return {'username': name,
+        email = response.get('email')
+        return {'username': username,
                 'email': email,
                 'name': name,
                 'honor_code': u'true',
@@ -104,9 +104,14 @@ class AmplifyOAuth2(BaseOAuth2):
             response_json = response.json()
             try:
                 user_details = self.call_webapps(access_token, response_json.get('staff_uid'))[0][0]
-                response_json['name'] = user_details.get('first_name') + "_" + user_details.get('last_name')
+                response_json['name'] = user_details.get('first_name') + " " + user_details.get('last_name')
+                response_json['username'] = user_details.get('first_name') + "_" + user_details.get('last_name')
+                response_json['email'] = user_details.get('email_address')
             except Exception as e:
-                response_json['name'] = "default{}".format(random.randint(1, 100000))
+                name = "default{}".format(random.randint(1, 100000))
+                response_json['name'] = name
+                response_json['username'] = name
+                response_json['email'] = "{}@test.com".format(name)
             return response_json
         except ValueError:
             return None
