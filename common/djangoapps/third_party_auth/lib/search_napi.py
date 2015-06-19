@@ -20,6 +20,7 @@ def napiclient_from_auth_token(auth_token, settings):
     http_conn = factory.get_connection(auth_token)
     return NapiClient(http_conn)
 
+
 def napi_main(auth_token, settings, tracekey, staff_uid):
     with timed(metric_name='edx-platform.common.djangoapps.third_party_auth.lib.search_napi.napi_main',
                tracekey=tracekey):

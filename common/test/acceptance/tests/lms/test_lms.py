@@ -58,6 +58,7 @@ class RegistrationTest(UniqueCourseTest):
             self.course_info['run'], self.course_info['display_name']
         ).install()
 
+    @skip("US35130")
     def test_register(self):
 
         # Visit the main page with the list of courses
@@ -196,6 +197,7 @@ class RegisterFromCombinedPageTest(UniqueCourseTest):
             self.course_info['run'], self.course_info['display_name']
         ).install()
 
+    @skip("US35130")
     def test_register_success(self):
         # Navigate to the registration page
         self.register_page.visit()
@@ -216,6 +218,7 @@ class RegisterFromCombinedPageTest(UniqueCourseTest):
         course_names = self.dashboard_page.wait_for_page().available_courses
         self.assertIn(self.course_info["display_name"], course_names)
 
+    @skip("US35130")
     def test_register_failure(self):
         # Navigate to the registration page
         self.register_page.visit()

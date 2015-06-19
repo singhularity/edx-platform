@@ -1021,9 +1021,9 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
                 u'Login failed - user with username {username} has no social auth with backend_name {backend_name}'.format(
                     username=username, backend_name=backend_name))
             return JsonResponse({
-                    "success": False,
-                    "redirect": "/register",
-                })
+                "success": False,
+                "redirect": "/register",
+            })
 
     else:
 
@@ -1472,11 +1472,10 @@ def create_account(request, post_override=None):  # pylint: disable-msg=too-many
     # Can't have terms of service for certain SHIB users, like at Stanford
     tos_required = (
         (not settings.FEATURES.get("AUTH_USE_SHIB") or
-        not settings.FEATURES.get("SHIB_DISABLE_TOS") or
-        not do_external_auth or
-        not eamap.external_domain.startswith(
-            external_auth.views.SHIBBOLETH_DOMAIN_PREFIX
-        ))
+         not settings.FEATURES.get("SHIB_DISABLE_TOS") or
+         not do_external_auth or
+         not eamap.external_domain.startswith(external_auth.views.SHIBBOLETH_DOMAIN_PREFIX)
+         )
         and
         settings.FEATURES.get("THIRD_PARTY_TOS") != "hidden"
     )

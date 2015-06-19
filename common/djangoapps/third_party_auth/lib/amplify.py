@@ -11,6 +11,7 @@ from django.conf import settings
 from search_napi import napi_main
 from concurrent import futures
 
+
 def overrides(interface_class):
     """overrides decorator"""
     def overrider(method):
@@ -88,7 +89,7 @@ class AmplifyOAuth2(BaseOAuth2):
         name = response.get('name')
         email = name + '@amplify.com'
         return {'username': name,
-                'email': email ,
+                'email': email,
                 'name': name,
                 'honor_code': u'true',
                 'terms_of_service': u'true'}
@@ -118,7 +119,7 @@ class AmplifyOAuth2(BaseOAuth2):
         pass
 
     def call_webapps(self, access_token, staff_uid):
-        napi_settings =  settings.FEATURES.get('AMPLIFY_NAPI_SETTINGS')
+        napi_settings = settings.FEATURES.get('AMPLIFY_NAPI_SETTINGS')
         with futures.ThreadPoolExecutor(max_workers=1) as executor:
             webcall = [executor.submit(napi_main, access_token, napi_settings, None, staff_uid=staff_uid)]
 
