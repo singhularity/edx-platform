@@ -8,6 +8,9 @@ Feature: LMS.Homepage for web users
     Given I visit the homepage
     Then I should see a link called "Sign in"
 
+  @skip_firefox
+  @skip_safari
+  @skip_internetexplorer
   Scenario: User can see the "Register Now" button
     Given I visit the homepage
     Then I should see a link called "Register Now"
