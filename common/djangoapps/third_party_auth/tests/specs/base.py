@@ -620,6 +620,7 @@ class IntegrationTest(testutil.TestCase, test.TestCase):
         mako_middleware_process_request(strategy.request)
         self.assert_json_failure_response_is_inactive_account(student_views.login_user(strategy.request))
 
+    @unittest.skip("US35130")
     def test_signin_fails_if_no_account_associated(self):
         _, strategy = self.get_request_and_strategy(
             auth_entry=pipeline.AUTH_ENTRY_LOGIN, redirect_uri='social:complete')
