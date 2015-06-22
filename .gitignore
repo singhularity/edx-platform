@@ -19,6 +19,8 @@ cms/envs/private.py
 .redcar/
 codekit-config.json
 .pycharm_helpers/
+.pydevproject
+.project
 
 ### NFS artifacts
 .nfs*

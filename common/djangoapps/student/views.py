@@ -699,7 +699,7 @@ def dashboard(request):
         context['duplicate_provider'] = pipeline.get_duplicate_provider(messages.get_messages(request))
         context['provider_user_states'] = pipeline.get_provider_user_states(user)
 
-    return render_to_response('dashboard.html', context)
+    return render_to_response('theme-dashboard.html', context)
 
 
 def _create_recent_enrollment_message(course_enrollment_pairs, course_modes):

@@ -30,7 +30,11 @@
 @import 'elements/navigation'; // all archetypes of navigation
 
 // course - base
-@import 'course/layout/courseware_header';
+% if env["FEATURES"].get("USE_CUSTOM_THEME", False):
+	@import 'course_layout_courseware_header';
+% else:
+	@import 'course/layout/courseware_header';
+% endif
 @import 'course/layout/courseware_preview';
 @import 'course/layout/footer';
 @import 'course/base/mixins';
