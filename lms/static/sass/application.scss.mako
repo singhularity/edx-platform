@@ -52,12 +52,11 @@
 % if env["FEATURES"].get("USE_CUSTOM_THEME", False):
   	@import 'footer';
   	@import 'header';
-	@import 'shared_course_object';
 % else:
 	@import 'shared/footer';
 	@import 'shared/header';
-	@import 'shared/course_object';
 % endif
+@import 'shared/course_object';
 @import 'shared/course_filter';
 @import 'shared/modal';
 @import 'shared/activation_messages';
@@ -68,7 +67,7 @@
 
 	// shared - platform
 	@import 'multicourse_home';
-	@import 'multicourse_dashboard';
+	@import 'multicourse/dashboard';
 	@import 'multicourse/account';
 	@import 'multicourse_courses';
 	@import 'multicourse_course_about';
@@ -87,19 +86,19 @@
 	% endif
 	
 	// base - specific views
-	@import "views/account-settings";
-	@import "views/learner-profile";
+	// @import "views/account-settings";
+	// @import "views/learner-profile";
 	@import 'views/login-register';
 	@import 'views/verification';
 	@import 'views/decoupled-verification';
 	@import 'views/shoppingcart';
-	@import 'views/homepage';
-	@import 'course/auto-cert';
+	// @import 'views/homepage';
+	// @import 'course/auto-cert';
 	
 	// applications
 	@import "discussion/utilities/variables";
 	@import "discussion/mixins";
-	@import 'discussion/discussion'; // Process old file after definitions but before everything else
+	@import 'discussion/discussion'; 
 	@import "discussion/elements/actions";
 	@import "discussion/elements/editor";
 	@import "discussion/elements/labels";
