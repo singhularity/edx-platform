@@ -98,7 +98,7 @@
   <header>
     <h1 class="title">
       <span class="title-super">${_("Welcome!")}</span>
-      <span class="title-sub">${_("Register below to create your {platform_name} account").format(platform_name=platform_name)}</span>
+      <span class="title-sub">${_("Please select a username.")}</span>
     </h1>
   </header>
 </section>
@@ -147,8 +147,6 @@
 
         <p class="instructions">
           ## Translators: selected_provider is the name of an external, third-party user authentication service (like Google or LinkedIn).
-          ${_("You've successfully signed in with {selected_provider}.").format(selected_provider='<strong>%s</strong>' % selected_provider)}<br />
-          ${_("We just need a little more information before you start learning with {platform_name}.").format(platform_name=settings.PLATFORM_NAME)}
         </p>
 
         % endif
@@ -375,14 +373,7 @@
     </form>
   </section>
 
-  <aside role="complementary">
-
-<%
-  # allow for microsite overrides on the registration sidebars, otherwise default to pre-existing ones
-  sidebar_file = microsite.get_template_path('register-sidebar.html')
-%>
-
-    <%include file="${sidebar_file}" />
+  <aside role="complementary"
 
   </aside>
 </section>
