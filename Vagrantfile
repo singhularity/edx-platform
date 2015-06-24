@@ -27,6 +27,7 @@ OPENEDX_RELEASE=$1
 AMPLIFY_BRANCH=$2
 export PYTHONUNBUFFERED=1
 source /edx/app/edx_ansible/venvs/edx_ansible/bin/activate
+sudo pip install ansible --upgrade
 cd /edx/app/edx_ansible/edx_ansible/playbooks
 
 # Did we specify an openedx release?
