@@ -113,7 +113,7 @@ def courses(request):
     else:
         courses = sort_by_announcement(courses)
 
-    return render_to_response("courseware/courses.html", {'courses': courses})
+    return render_to_response("theme-courseware-courses.html", {'courses': courses})
 
 
 def render_accordion(request, course, chapter, section, field_data_cache):
