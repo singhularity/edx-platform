@@ -164,15 +164,17 @@ class CourseEmailTemplate(models.Model):
     plain_template = models.TextField(null=True, blank=True)
     name = models.CharField(null=True, max_length=255, unique=True, blank=True)
 
+
+    # The default value here is our amplifyDefaultTemplate, created in edx-platform/lms/djangoapps/bulk_email/models.py
     @staticmethod
-    def get_template(name=None):
+    def get_template(name='amplifyDefaultTemplate'):
         """
         Fetch the current template
 
         If one isn't stored, an exception is thrown.
         """
         try:
-            return CourseEmailTemplate.objects.get(name='amplifyDefaultTemplate')
+            return CourseEmailTemplate.objects.get(name=name)
         except CourseEmailTemplate.DoesNotExist:
             log.exception("Attempting to fetch a non-existent course email template")
             raise
