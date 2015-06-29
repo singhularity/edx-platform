@@ -17,6 +17,18 @@
         <img src="${static.url("images/logo-placeholder.png")}" alt="${settings.STUDIO_NAME}" />
       % endif
       </a></h1>
+      <script type="text/javascript">
+        function goToLms()
+        {
+            var hostname = document.location.hostname;
+            var isIp = /(^\d)/.test(hostname);
+            if (hostname == "localhost" || isIp)
+                location.replace('http://' + hostname + ":8000");
+            else
+                location.replace('https://' + hostname);
+        }
+      </script>
+      <a onclick="goToLms()">Go to LMS</a>
 
       % if context_course:
       <%
