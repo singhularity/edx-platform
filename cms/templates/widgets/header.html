@@ -9,8 +9,7 @@
         function goToLms()
         {
             var hostname = document.location.hostname;
-            var isIp = /(^\d)/.test(hostname);
-            if (hostname == "localhost" || isIp)
+            if (hostname == "localhost" || hostname == "127.0.0.1")
                 location.replace('http://' + hostname + ":8000");
             else
                 location.replace('https://' + hostname);
