@@ -20,7 +20,6 @@ from ...pages.studio.overview import CourseOutlinePage
 from ...pages.studio.settings import SettingsPage
 from ...pages.studio.settings_advanced import AdvancedSettingsPage
 from ...pages.studio.settings_graders import GradingPage
-from ...pages.studio.signup import SignupPage
 from ...pages.studio.textbooks import TextbooksPage
 from ...fixtures.course import XBlockFixtureDesc
 
@@ -34,7 +33,7 @@ class LoggedOutTest(WebAppTest):
 
     def setUp(self):
         super(LoggedOutTest, self).setUp()
-        self.pages = [LoginPage(self.browser), HowitworksPage(self.browser), SignupPage(self.browser)]
+        self.pages = [LoginPage(self.browser), HowitworksPage(self.browser)]
 
     def test_page_existence(self):
         """
