@@ -8,7 +8,7 @@ from social.backends.oauth import BaseOAuth2, BaseAuth, OAuthAuth
 from social.utils import url_add_parameters
 import requests
 from django.conf import settings
-from search_napi import napi_main
+from third_party_auth.lib.search_napi import napi_main
 from concurrent import futures
 
 
@@ -107,7 +107,8 @@ class AmplifyOAuth2(BaseOAuth2):
                 response_json['name'] = user_details.get('first_name') + " " + user_details.get('last_name')
                 response_json['username'] = user_details.get('first_name') + "_" + user_details.get('last_name')
                 response_json['email'] = user_details.get('email_address')
-            except Exception as e:
+            #pylint: disable=broad-except
+            except Exception:
                 name = "default{}".format(random.randint(1, 100000))
                 response_json['name'] = name
                 response_json['username'] = name
@@ -124,6 +125,7 @@ class AmplifyOAuth2(BaseOAuth2):
         pass
 
     def call_webapps(self, access_token, staff_uid):
+        """Return napi details by webapps call"""
         napi_settings = settings.FEATURES.get('AMPLIFY_NAPI_SETTINGS')
         with futures.ThreadPoolExecutor(max_workers=1) as executor:
             webcall = [executor.submit(napi_main, access_token, napi_settings, None, staff_uid=staff_uid)]
