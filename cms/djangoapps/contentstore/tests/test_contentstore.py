@@ -1736,9 +1736,6 @@ class EntryPageTestCase(TestCase):
     def test_how_it_works(self):
         self._test_page("/howitworks")
 
-    def test_signup(self):
-        self._test_page("/signup")
-
     def test_login(self):
         self._test_page("/signin")
 
