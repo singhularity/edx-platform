@@ -12,6 +12,3 @@ def initialize_template():
                                           name = "amplifyDefaultTemplate")
 
     defaultTemplate.save(force_insert=True)
-
-if CourseEmailTemplate.objects.filter(name='amplifyDefaultTemplate').count() == 0:
-    initialize_template()
