@@ -10,9 +10,9 @@
         {
             var hostname = document.location.hostname;
             if (hostname == "localhost" || hostname == "127.0.0.1")
-                location.replace('http://' + hostname + ":8000");
-            else
-                location.replace('https://' + hostname);
+                hostname += ":8000";
+            location.replace(location.protocol + "//" + hostname);
+
         }
       </script>
 <div class="wrapper-header wrapper" id="view-top">
