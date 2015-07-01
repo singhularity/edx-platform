@@ -13,23 +13,7 @@ from external_auth.views import (ssl_login_shortcut, ssl_get_cert_from_request,
                                  redirect_with_get)
 from microsite_configuration import microsite
 
-__all__ = ['signup', 'login_page', 'howitworks']
-
-
-@ensure_csrf_cookie
-def signup(request):
-    """
-    Display the signup form.
-    """
-    csrf_token = csrf(request)['csrf_token']
-    if request.user.is_authenticated():
-        return redirect('/course/')
-    if settings.FEATURES.get('AUTH_USE_CERTIFICATES_IMMEDIATE_SIGNUP'):
-        # Redirect to course to login to process their certificate if SSL is enabled
-        # and registration is disabled.
-        return redirect_with_get('login', request.GET, False)
-
-    return render_to_response('register.html', {'csrf': csrf_token})
+__all__ = ['login_page', 'howitworks']
 
 
 @ssl_login_shortcut
