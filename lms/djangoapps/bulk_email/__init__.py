@@ -12,3 +12,6 @@ def initialize_template():
                                           name = None)
 
     defaultTemplate.save(force_insert=True)
+
+if CourseEmailTemplate.objects.filter(name=None).count() == 0:
+    initialize_template()
