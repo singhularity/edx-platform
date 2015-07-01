@@ -9,6 +9,9 @@ def initialize_template():
 
     defaultTemplate = CourseEmailTemplate(html_template = "{{message_body}}",
                                           plain_template = "{{message_body}}",
-                                          name = "amplifyDefaultTemplate")
+                                          name = None)
 
     defaultTemplate.save(force_insert=True)
+
+if CourseEmailTemplate.objects.filter(name=None).count() == 0:
+    initialize_template()

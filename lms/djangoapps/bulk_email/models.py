@@ -174,7 +174,7 @@ class CourseEmailTemplate(models.Model):
         If one isn't stored, an exception is thrown.
         """
         try:
-            return CourseEmailTemplate.objects.get(name='amplifyDefaultTemplate')
+            return CourseEmailTemplate.objects.get(name=None)
         except CourseEmailTemplate.DoesNotExist:
             log.exception("Attempting to fetch a non-existent course email template")
             raise
