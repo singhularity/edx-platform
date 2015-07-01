@@ -11,10 +11,12 @@ NAPI_TIMEOUT = 7
 
 
 def napi_args(settings):
+    """Napi args"""
     return [settings[key] for key in ('napi.url', 'napi.port', 'napi.user', 'napi.password')]
 
 
 def napiclient_from_auth_token(auth_token, settings):
+    """Return napi client"""
     url, port, user, password = napi_args(settings)
     factory = HttpConnectionFactory(url, port, user, password)
     http_conn = factory.get_connection(auth_token)
@@ -22,6 +24,7 @@ def napiclient_from_auth_token(auth_token, settings):
 
 
 def napi_main(auth_token, settings, tracekey, staff_uid):
+    """Napi call"""
     with timed(metric_name='edx-platform.common.djangoapps.third_party_auth.lib.search_napi.napi_main',
                tracekey=tracekey):
         napiclient = napiclient_from_auth_token(auth_token, settings)

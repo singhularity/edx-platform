@@ -1471,11 +1471,12 @@ def create_account(request, post_override=None):  # pylint: disable-msg=too-many
 
     # Can't have terms of service for certain SHIB users, like at Stanford
     tos_required = (
-        (not settings.FEATURES.get("AUTH_USE_SHIB") or
-         not settings.FEATURES.get("SHIB_DISABLE_TOS") or
-         not do_external_auth or
-         not eamap.external_domain.startswith(external_auth.views.SHIBBOLETH_DOMAIN_PREFIX)
-         )
+        (
+            not settings.FEATURES.get("AUTH_USE_SHIB") or
+            not settings.FEATURES.get("SHIB_DISABLE_TOS") or
+            not do_external_auth or
+            not eamap.external_domain.startswith(external_auth.views.SHIBBOLETH_DOMAIN_PREFIX)
+        )
         and
         settings.FEATURES.get("THIRD_PARTY_TOS") != "hidden"
     )
@@ -1700,7 +1701,7 @@ def create_account(request, post_override=None):  # pylint: disable-msg=too-many
         log.info('bypassing activation email')
         new_user.is_active = True
         new_user.save()
-        AUDIT_LOG.info(u"Login activated on extauth account - {0} ({1})".format(new_user.username, new_user.email))
+        AUDIT_LOG.info(u"Login activated on extauth account - %s (%s)", new_user.username, new_user.email)
 
     dog_stats_api.increment("common.student.account_created")
     redirect_url = try_change_enrollment(request)

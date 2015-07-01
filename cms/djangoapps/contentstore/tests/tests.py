@@ -104,7 +104,6 @@ class AuthTestCase(ContentStoreTestCase):
         """Make sure pages that don't require login load without error."""
         pages = (
             reverse('login'),
-            reverse('signup'),
         )
         for page in pages:
             print("Checking '{0}'".format(page))
