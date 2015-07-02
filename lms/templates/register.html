@@ -93,14 +93,14 @@
     }
   </script>
 </%block>
-
-<section class="introduction">
-  <header>
-    <h1 class="title">
-      <span class="title-super">${_("Welcome!")}</span>
-    </h1>
-  </header>
-</section>
+<style>
+    .register .content{
+        float: none;
+        width: 50%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+</style>
 
 <section class="register container">
   <section role="main" class="content">
@@ -175,10 +175,10 @@
             <input id="name" hidden="true"type="text" name="name" value="${name}" placeholder="${_('example: Jane Doe')}" required aria-required="true" aria-describedby="name-tip" />
             <span class="tip tip-input" id="name-tip">${_("Needed for any certificates you may earn")}</span>
           </li>
-          <li class="field required text" id="field-username">
-            <label for="username">${_('Public Username')}</label>
+          <li class="field text" id="field-username">
+            <label for="username"><b>${_('Public Username')}</b></label>
             <input id="username" type="text" name="username" value="${username}" placeholder="${_('example: JaneDoe')}" required aria-required="true" aria-describedby="username-tip"/>
-            <span class="tip tip-input" id="username-tip">${_('Will be shown in any discussions or forums you participate in')} <strong>(${_('cannot be changed later')})</strong></span>
+            <span class="tip tip-input" id="username-tip">${_('* Will be shown in any discussions or forums you participate in')} <strong>(${_('cannot be changed later')})</strong></span>
           </li>
 
           % if third_party_auth.is_enabled() and running_pipeline:
