@@ -389,6 +389,19 @@ def signin_user(request):
     return render_to_response('login.html', context)
 
 
+def dummy_napi_service(request, extra_context=None):
+    import random
+    random_default_fname = "first{}".format(random.randint(1, 1000))
+    random_default_lname = "last{}".format(random.randint(1, 1000))
+    random_default_email = "email{}@amplify.com".format(random.randint(1, 100000))
+    response_json = {}
+    response_json['first_name'] = random_default_fname
+    response_json['last_name'] = random_default_lname
+    response_json['email_address'] = random_default_email
+    response_json['status_code'] = 200
+
+    return HttpResponse(json.dumps([response_json]), content_type="application/json")
+
 @ensure_csrf_cookie
 def register_user(request, extra_context=None):
     """

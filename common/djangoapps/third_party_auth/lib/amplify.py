@@ -109,10 +109,7 @@ class AmplifyOAuth2(BaseOAuth2):
                 response_json['email'] = user_details.get('email_address')
             #pylint: disable=broad-except
             except Exception:
-                name = "default{}".format(random.randint(1, 100000))
-                response_json['name'] = name
-                response_json['username'] = name
-                response_json['email'] = "{}@test.com".format(name)
+                return None
             return response_json
         except ValueError:
             return None
