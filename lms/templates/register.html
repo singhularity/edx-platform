@@ -21,7 +21,10 @@
 
 <%block name="js_extra">
   <script type="text/javascript">
-    $(function() {
+
+      $('#field-username').on('focus', function(){
+        $('#field-username').removeClass('is-focused');
+      });
 
       // adding js class for styling with accessibility in mind
       $('body').addClass('js');
@@ -180,7 +183,7 @@
           <li class="field text" id="field-username">
             <label for="username"><b>${_('Public User Name')}</b></label>
             <input id="username" type="text" name="username" value="${username}" placeholder="${_('example: JaneDoe')}" required aria-required="true" aria-describedby="username-tip"/>
-            <span class="tip tip-input" id="username-tip">${_('Will be shown in any discussions or forums you participate in')} (<b>${_('cannot be changed later')}</b>)</span>
+            <span class="tip tip-input" id="username-tip">${_('This is the name others will see on all your forum posts and discussions. Once saved, you cannot go back and change it.')}</span>
           </li>
 
           % if third_party_auth.is_enabled() and running_pipeline:
@@ -369,12 +372,12 @@
 % endif
 
       <div class="form-actions">
-        <button name="submit" type="submit" id="submit" class="action action-primary action-update register-button">${_('Register')} <span class="orn-plus">+</span> ${_('Create My Account')}</button>
+        <button name="submit" type="submit" id="submit" class="action action-primary action-update register-button">${_('Save and Proceed')}</button>
       </div>
     </form>
   </section>
 
-  <aside role="complementary"
+  <aside role="complementary">
 
   </aside>
 </section>

@@ -1381,7 +1381,7 @@ def _do_create_account(post_vars, extended_profile=None):
         # Figure out the cause of the integrity error
         if len(User.objects.filter(username=post_vars['username'])) > 0:
             raise AccountValidationError(
-                _("An account with the Public Username '{username}' already exists.").format(username=post_vars['username']),
+                _("An account with the Public User Name '{username}' already exists.").format(username=post_vars['username']),
                 field="username"
             )
         elif len(User.objects.filter(email=post_vars['email'])) > 0:
