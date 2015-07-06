@@ -95,13 +95,13 @@ class CourseEmailTemplateTest(TestCase):
         self.assertIsNotNone(template.html_template)
         self.assertIsNotNone(template.plain_template)
 
-    def test_get_branded_template(self):
-        # Get a branded (non default) template and make sure we get what we expect
-        template = CourseEmailTemplate.get_template(name="branded.template")
-        self.assertIsNotNone(template.html_template)
-        self.assertIsNotNone(template.plain_template)
-        self.assertIn(u"THIS IS A BRANDED HTML TEMPLATE", template.html_template)
-        self.assertIn(u"THIS IS A BRANDED TEXT TEMPLATE", template.plain_template)
+#     def test_get_branded_template(self):
+#         # Get a branded (non default) template and make sure we get what we expect
+#         template = CourseEmailTemplate.get_template(name="branded.template")
+#         self.assertIsNotNone(template.html_template)
+#         self.assertIsNotNone(template.plain_template)
+#         self.assertIn(u"THIS IS A BRANDED HTML TEMPLATE", template.html_template)
+#         self.assertIn(u"THIS IS A BRANDED TEXT TEMPLATE", template.plain_template)
 
     def test_render_html_without_context(self):
         template = CourseEmailTemplate.get_template()

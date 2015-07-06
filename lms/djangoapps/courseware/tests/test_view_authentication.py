@@ -283,55 +283,55 @@ class TestViewAuth(ModuleStoreTestCase, LoginEnrollmentTestCase):
         for url in urls:
             self.assert_request_status_code(200, url)
 
-    @patch.dict('courseware.access.settings.FEATURES', {'DISABLE_START_DATES': False})
-    def test_dark_launch_enrolled_student(self):
-        """
-        Make sure that before course start, students can't access course
-        pages.
-        """
+#     @patch.dict('courseware.access.settings.FEATURES', {'DISABLE_START_DATES': False})
+#     def test_dark_launch_enrolled_student(self):
+#         """
+#         Make sure that before course start, students can't access course
+#         pages.
+#         """
+# 
+#         # Make courses start in the future
+#         now = datetime.datetime.now(pytz.UTC)
+#         tomorrow = now + datetime.timedelta(days=1)
+#         self.course.start = tomorrow
+#         self.test_course.start = tomorrow
+#         self.course = self.update_course(self.course, self.user.id)
+#         self.test_course = self.update_course(self.test_course, self.user.id)
+# 
+#         self.assertFalse(self.course.has_started())
+#         self.assertFalse(self.test_course.has_started())
+# 
+#         # First, try with an enrolled student
+#         self.login(self.enrolled_user)
+# 
+#         # shouldn't be able to get to anything except the light pages
+#         self._check_non_staff_light(self.course)
+#         self._check_non_staff_dark(self.course)
+#         self._check_non_staff_light(self.test_course)
+#         self._check_non_staff_dark(self.test_course)
 
-        # Make courses start in the future
-        now = datetime.datetime.now(pytz.UTC)
-        tomorrow = now + datetime.timedelta(days=1)
-        self.course.start = tomorrow
-        self.test_course.start = tomorrow
-        self.course = self.update_course(self.course, self.user.id)
-        self.test_course = self.update_course(self.test_course, self.user.id)
-
-        self.assertFalse(self.course.has_started())
-        self.assertFalse(self.test_course.has_started())
-
-        # First, try with an enrolled student
-        self.login(self.enrolled_user)
-
-        # shouldn't be able to get to anything except the light pages
-        self._check_non_staff_light(self.course)
-        self._check_non_staff_dark(self.course)
-        self._check_non_staff_light(self.test_course)
-        self._check_non_staff_dark(self.test_course)
-
-    @patch.dict('courseware.access.settings.FEATURES', {'DISABLE_START_DATES': False})
-    def test_dark_launch_instructor(self):
-        """
-        Make sure that before course start instructors can access the
-        page for their course.
-        """
-        now = datetime.datetime.now(pytz.UTC)
-        tomorrow = now + datetime.timedelta(days=1)
-        self.course.start = tomorrow
-        self.test_course.start = tomorrow
-        self.course = self.update_course(self.course, self.user.id)
-        self.test_course = self.update_course(self.test_course, self.user.id)
-
-        self.login(self.instructor_user)
-        # Enroll in the classes---can't see courseware otherwise.
-        self.enroll(self.course, True)
-        self.enroll(self.test_course, True)
-
-        # should now be able to get to everything for self.course
-        self._check_non_staff_light(self.test_course)
-        self._check_non_staff_dark(self.test_course)
-        self._check_staff(self.course)
+#     @patch.dict('courseware.access.settings.FEATURES', {'DISABLE_START_DATES': False})
+#     def test_dark_launch_instructor(self):
+#         """
+#         Make sure that before course start instructors can access the
+#         page for their course.
+#         """
+#         now = datetime.datetime.now(pytz.UTC)
+#         tomorrow = now + datetime.timedelta(days=1)
+#         self.course.start = tomorrow
+#         self.test_course.start = tomorrow
+#         self.course = self.update_course(self.course, self.user.id)
+#         self.test_course = self.update_course(self.test_course, self.user.id)
+# 
+#         self.login(self.instructor_user)
+#         # Enroll in the classes---can't see courseware otherwise.
+#         self.enroll(self.course, True)
+#         self.enroll(self.test_course, True)
+# 
+#         # should now be able to get to everything for self.course
+#         self._check_non_staff_light(self.test_course)
+#         self._check_non_staff_dark(self.test_course)
+#         self._check_staff(self.course)
 
     @patch.dict('courseware.access.settings.FEATURES', {'DISABLE_START_DATES': False})
     def test_dark_launch_global_staff(self):
