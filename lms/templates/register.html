@@ -21,7 +21,7 @@
 
 <%block name="js_extra">
   <script type="text/javascript">
-
+    $(function() {
       $('#field-username').on('focus', function(){
         $('#field-username').removeClass('is-focused');
       });
@@ -183,7 +183,7 @@
           <li class="field text" id="field-username">
             <label for="username"><b>${_('Public User Name')}</b></label>
             <input id="username" type="text" name="username" value="${username}" placeholder="${_('example: JaneDoe')}" required aria-required="true" aria-describedby="username-tip"/>
-            <span class="tip tip-input" id="username-tip">${_('This is the name others will see on all your forum posts and discussions. Once saved, you cannot go back and change it.')}</span>
+            <span style="padding-top: 10px" class="tip tip-input" id="username-tip">${_('This is the name others will see on all your forum posts and discussions. Once saved, you cannot go back and change it.')}</span>
           </li>
 
           % if third_party_auth.is_enabled() and running_pipeline:
