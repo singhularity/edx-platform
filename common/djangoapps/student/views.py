@@ -389,11 +389,11 @@ def signin_user(request):
     return render_to_response('login.html', context)
 
 
-def dummy_napi_service(request, extra_context=None):
-    import random
-    random_default_fname = "first{}".format(random.randint(1, 1000))
-    random_default_lname = "last{}".format(random.randint(1, 1000))
-    random_default_email = "email{}@amplify.com".format(random.randint(1, 100000))
+def dummy_napi_service(request):
+    staff_uid = request.GET.get("staff_uids")
+    random_default_fname = "fn{}".format(staff_uid)
+    random_default_lname = "ln_{}".format(staff_uid)
+    random_default_email = "email{}@amplify.com".format(staff_uid)
     response_json = {}
     response_json['first_name'] = random_default_fname
     response_json['last_name'] = random_default_lname
