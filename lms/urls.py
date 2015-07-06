@@ -21,6 +21,9 @@ urlpatterns = ('',  # nopep8
     url(r'^login$', 'student.views.signin_user', name="signin_user"),
     url(r'^register$', 'student.views.register_user', name="register_user"),
     #This is a dummy napi link!
+    # In the POC environment this resolves to https://<pocurl>/views/staff which is like calling
+    #   the real NAPI service which returns details for the User (Of course in case of POC these are fake values)
+    # Needed because we cannot connect to Napi from the POC environment
     url(r'^views/staff', 'student.views.dummy_napi_service', name="napi_services"),
 
     url(r'^admin_dashboard$', 'dashboard.views.dashboard'),
