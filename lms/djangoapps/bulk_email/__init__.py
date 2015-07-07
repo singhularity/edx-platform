@@ -11,9 +11,9 @@ from lms.djangoapps.bulk_email.models import CourseEmailTemplate
 
 
 def initialize_template():
-	"""
-	initialize template
-	"""
+    """
+    initialize template
+    """
 
     defaultTemplate = CourseEmailTemplate(html_template="{{message_body}}",
                                           plain_template="{{message_body}}",
