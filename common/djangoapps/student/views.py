@@ -402,6 +402,7 @@ def dummy_napi_service(request):
 
     return HttpResponse(json.dumps([response_json]), content_type="application/json")
 
+
 @ensure_csrf_cookie
 def register_user(request, extra_context=None):
     """

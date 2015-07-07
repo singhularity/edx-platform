@@ -289,7 +289,7 @@ class TestViewAuth(ModuleStoreTestCase, LoginEnrollmentTestCase):
 #         Make sure that before course start, students can't access course
 #         pages.
 #         """
-# 
+#
 #         # Make courses start in the future
 #         now = datetime.datetime.now(pytz.UTC)
 #         tomorrow = now + datetime.timedelta(days=1)
@@ -297,13 +297,13 @@ class TestViewAuth(ModuleStoreTestCase, LoginEnrollmentTestCase):
 #         self.test_course.start = tomorrow
 #         self.course = self.update_course(self.course, self.user.id)
 #         self.test_course = self.update_course(self.test_course, self.user.id)
-# 
+#
 #         self.assertFalse(self.course.has_started())
 #         self.assertFalse(self.test_course.has_started())
-# 
+#
 #         # First, try with an enrolled student
 #         self.login(self.enrolled_user)
-# 
+#
 #         # shouldn't be able to get to anything except the light pages
 #         self._check_non_staff_light(self.course)
 #         self._check_non_staff_dark(self.course)
@@ -322,12 +322,12 @@ class TestViewAuth(ModuleStoreTestCase, LoginEnrollmentTestCase):
 #         self.test_course.start = tomorrow
 #         self.course = self.update_course(self.course, self.user.id)
 #         self.test_course = self.update_course(self.test_course, self.user.id)
-# 
+#
 #         self.login(self.instructor_user)
 #         # Enroll in the classes---can't see courseware otherwise.
 #         self.enroll(self.course, True)
 #         self.enroll(self.test_course, True)
-# 
+#
 #         # should now be able to get to everything for self.course
 #         self._check_non_staff_light(self.test_course)
 #         self._check_non_staff_dark(self.test_course)
