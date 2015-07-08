@@ -200,18 +200,18 @@ class IndexPageCourseCardsSortingTests(ModuleStoreTestCase):
 #         self.assertEqual(response.status_code, 200)
 #         ((template, context), _) = RENDER_MOCK.call_args
 #         self.assertEqual(template, 'index.html')
-# 
+#
 #         # Now the courses will be stored in their announcement dates.
 #         self.assertEqual(context['courses'][0].id, self.starting_later.id)
 #         self.assertEqual(context['courses'][1].id, self.starting_earlier.id)
 #         self.assertEqual(context['courses'][2].id, self.course_with_default_start_date.id)
-# 
+#
 #         # check the /courses view
 #         response = self.client.get(reverse('branding.views.courses'))
 #         self.assertEqual(response.status_code, 200)
 #         ((template, context), _) = RENDER_MOCK.call_args
 #         self.assertEqual(template, 'theme-courseware-courses.html')
-# 
+#
 #         # Now the courses will be stored in their announcement dates.
 #         self.assertEqual(context['courses'][0].id, self.starting_later.id)
 #         self.assertEqual(context['courses'][1].id, self.starting_earlier.id)
@@ -225,18 +225,18 @@ class IndexPageCourseCardsSortingTests(ModuleStoreTestCase):
 #         self.assertEqual(response.status_code, 200)
 #         ((template, context), _) = RENDER_MOCK.call_args
 #         self.assertEqual(template, 'index.html')
-# 
+#
 #         # now the courses will be sorted by their creation dates, earliest first.
 #         self.assertEqual(context['courses'][0].id, self.starting_earlier.id)
 #         self.assertEqual(context['courses'][1].id, self.starting_later.id)
 #         self.assertEqual(context['courses'][2].id, self.course_with_default_start_date.id)
-# 
+#
 #         # check the /courses view as well
 #         response = self.client.get(reverse('branding.views.courses'))
 #         self.assertEqual(response.status_code, 200)
 #         ((template, context), _) = RENDER_MOCK.call_args
 #         self.assertEqual(template, 'theme-courseware-courses.html')
-# 
+#
 #         # now the courses will be sorted by their creation dates, earliest first.
 #         self.assertEqual(context['courses'][0].id, self.starting_earlier.id)
 #         self.assertEqual(context['courses'][1].id, self.starting_later.id)
