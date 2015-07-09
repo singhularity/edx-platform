@@ -1411,7 +1411,9 @@ def enforce_single_login(sender, request, user, signal, **kwargs):    # pylint: 
             key = request.session.session_key
         else:
             key = None
-        user.profile.set_login_session(key)
+        # If the third party auth session has already timeout, the user id will be None.
+        if request.user.id is not None:
+            user.profile.set_login_session(key)
 
 
 class DashboardConfiguration(ConfigurationModel):
