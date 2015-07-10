@@ -10,6 +10,7 @@ import json
 
 from collections import OrderedDict
 from functools import partial
+from django_future.csrf import ensure_staff
 from static_replace import replace_static_urls
 from xmodule_modifiers import wrap_xblock, request_token
 
@@ -102,6 +103,7 @@ def _filter_entrance_exam_grader(graders):
 # pylint: disable=unused-argument
 @require_http_methods(("DELETE", "GET", "PUT", "POST", "PATCH"))
 @login_required
+@ensure_staff
 @expect_json
 def xblock_handler(request, usage_key_string):
     """
@@ -210,6 +212,7 @@ def xblock_handler(request, usage_key_string):
 # pylint: disable=unused-argument
 @require_http_methods(("GET"))
 @login_required
+@ensure_staff
 @expect_json
 def xblock_view_handler(request, usage_key_string, view_name):
     """
@@ -323,6 +326,7 @@ def xblock_view_handler(request, usage_key_string, view_name):
 # pylint: disable=unused-argument
 @require_http_methods(("GET"))
 @login_required
+@ensure_staff
 @expect_json
 def xblock_outline_handler(request, usage_key_string):
     """
@@ -350,6 +354,7 @@ def xblock_outline_handler(request, usage_key_string):
 
 @require_http_methods(("GET"))
 @login_required
+@ensure_staff
 @expect_json
 def xblock_container_handler(request, usage_key_string):
     """
@@ -524,6 +529,7 @@ def _save_xblock(user, xblock, data=None, children_strings=None, metadata=None, 
 
 
 @login_required
+@ensure_staff
 @expect_json
 def create_item(request):
     """
@@ -533,6 +539,7 @@ def create_item(request):
 
 
 @login_required
+@ensure_staff
 @expect_json
 def _create_item(request):
     """View for create items."""
@@ -698,6 +705,7 @@ def _duplicate_item(parent_usage_key, duplicate_source_usage_key, user, display_
 
 
 @login_required
+@ensure_staff
 @expect_json
 def delete_item(request, usage_key):
     """
@@ -728,6 +736,7 @@ def _delete_item(usage_key, user):
 
 # pylint: disable=unused-argument
 @login_required
+@ensure_staff
 @require_http_methods(("GET", "DELETE"))
 def orphan_handler(request, course_key_string):
     """
