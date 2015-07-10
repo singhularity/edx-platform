@@ -1,5 +1,5 @@
 """
-Bulk Email 
+Bulk Email
 ================
  This section of code creates a default CourseEmailTemplate in the django admin console
  Bulk email must have a template in order to be sent. Here we create a basic default template
