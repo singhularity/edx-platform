@@ -152,7 +152,7 @@
         </li>
         % endif
 
-        % if (external_auth_map is None or 'shib' not in external_auth_map.external_domain) and not settings.FEATURES.get('AUTO_LINK_THIRD_PARTY_ACCOUNT'):
+        % if (external_auth_map is None or 'shib' not in external_auth_map.external_domain) and is_cms_user:
         <li class="controls--account">
           <span class="title"><a href="#password_reset_complete" rel="leanModal" id="pwd_reset_button">${_("Reset Password")}</a></span>
           <form id="password_reset_form" method="post" data-remote="true" action="${reverse('password_reset')}">

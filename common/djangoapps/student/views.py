@@ -710,6 +710,7 @@ def dashboard(request):
         'provider_states': [],
         'order_history_list': order_history_list,
         'courses_requirements_not_met': courses_requirements_not_met,
+        'is_cms_user': user.is_staff,
     }
 
     if third_party_auth.is_enabled():
