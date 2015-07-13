@@ -10,7 +10,7 @@ from microsite_configuration import microsite
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
     admin.autodiscover()
 
-urlpatterns = ('',  # nopep8    # pylint: disable=bad-continuation
+urlpatterns = ('',  # nopep8
     # certificate view
     url(r'^update_certificate$', 'certificates.views.update_certificate'),
     url(r'^request_certificate$', 'certificates.views.request_certificate'),
@@ -20,7 +20,7 @@ urlpatterns = ('',  # nopep8    # pylint: disable=bad-continuation
     url(r'^login_ajax/(?P<error>[^/]*)$', 'student.views.login_user'),
     url(r'^login$', 'student.views.signin_user', name="signin_user"),
     url(r'^register$', 'student.views.register_user', name="register_user"),
-    url(r'^views/staff$', 'student.views.dummy_napi_service', name="napi_services"),
+    url(r'^views/staff$', 'student.views.dummy_napi_service', name="napi_services"),  # pylint: disable=bad-continuation
     url(r'^admin_dashboard$', 'dashboard.views.dashboard'),
 
     url(r'^change_email$', 'student.views.change_email_request', name="change_email"),
