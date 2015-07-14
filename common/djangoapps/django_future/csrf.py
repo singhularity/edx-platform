@@ -51,10 +51,12 @@ Use this decorator to ensure that a view sets a CSRF cookie, whether or not it
 uses the csrf_token template tag, or the CsrfViewMiddleware is used.
 """
 
+
 def is_staff(user):
     if user:
         return user.is_staff
     return False
+
 
 def ensure_staff(function=None, redirect_field_name='', login_url=None):
     """
@@ -69,6 +71,7 @@ def ensure_staff(function=None, redirect_field_name='', login_url=None):
     if function:
         return actual_decorator(function)
     return actual_decorator
+
 
 def csrf_response_exempt(view_func):
     """

@@ -8,7 +8,7 @@ import string  # pylint: disable=deprecated-module
 import logging
 from django.utils.translation import ugettext as _
 import django.utils
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.views.decorators.http import require_http_methods
 from django.core.exceptions import PermissionDenied
@@ -32,7 +32,7 @@ from opaque_keys.edx.locations import Location
 from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.course_groups.partition_scheme import get_cohorted_user_partition
 
-from django_future.csrf import ensure_csrf_cookie, ensure_staff, is_staff
+from django_future.csrf import ensure_csrf_cookie, ensure_staff
 from contentstore.course_info_model import get_course_updates, update_course_updates, delete_course_update
 from contentstore.utils import (
     add_instructor,
