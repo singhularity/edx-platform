@@ -843,10 +843,6 @@ ADVANCED_PROBLEM_TYPES = [
     {
         'component': 'openassessment',
         'boilerplate_name': None,
-    },
-    {
-        'component': 'mentoring',
-        'boilerplate_name': None,
     }
 ]
 
