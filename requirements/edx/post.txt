@@ -6,3 +6,6 @@
 
 # This must be installed after distribute has been updated.
 MySQL-python==1.2.4
+
+# Carousel xblock
+-e git+https://github.com/METIT-BU/xblock-carousel.git@16f9a0bc9cb46e418c68f3c519ec96fdf85f0165#egg=carousel
