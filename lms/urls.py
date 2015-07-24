@@ -21,6 +21,7 @@ urlpatterns = ('',  # nopep8
     url(r'^login$', 'student.views.signin_user', name="signin_user"),
     url(r'^register$', 'student.views.register_user', name="register_user"),
 
+    # pylint: disable=bad-continuation
     # This is a dummy napi link!
     # In the POC environment this resolves to https://<pocurl>/views/staff which is like calling the real NAPI
     # service which returns details for the User (Of course in case of POC these are fake values)
