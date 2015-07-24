@@ -30,6 +30,7 @@ from ...fixtures.discussion import (
 )
 
 from .helpers import BaseDiscussionMixin
+import unittest
 
 
 class DiscussionResponsePaginationTestMixin(BaseDiscussionMixin):
@@ -84,6 +85,7 @@ class DiscussionResponsePaginationTestMixin(BaseDiscussionMixin):
         self.thread_page.load_more_responses()
         self.assert_response_display_correct(50, 50)
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_pagination_exactly_two_response_pages(self):
         self.setup_thread(125)
         self.assert_response_display_correct(125, 25)
@@ -91,6 +93,7 @@ class DiscussionResponsePaginationTestMixin(BaseDiscussionMixin):
         self.thread_page.load_more_responses()
         self.assert_response_display_correct(125, 125)
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_pagination_three_response_pages(self):
         self.setup_thread(150)
         self.assert_response_display_correct(150, 25)
@@ -157,6 +160,7 @@ class DiscussionTabSingleThreadTest(UniqueCourseTest, DiscussionResponsePaginati
         self.thread_page = DiscussionTabSingleThreadPage(self.browser, self.course_id, thread_id)  # pylint: disable=attribute-defined-outside-init
         self.thread_page.visit()
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_marked_answer_comments(self):
         thread_id = "test_thread_{}".format(uuid4().hex)
         response_id = "test_response_{}".format(uuid4().hex)
@@ -214,6 +218,7 @@ class DiscussionOpenClosedThreadTest(UniqueCourseTest):
         page.close_open_thread()
         return page
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_originally_open_thread_vote_display(self):
         page = self.setup_openclosed_thread_page()
         self.assertFalse(page._is_element_visible('.forum-thread-main-wrapper .action-vote'))
@@ -221,6 +226,7 @@ class DiscussionOpenClosedThreadTest(UniqueCourseTest):
         self.assertFalse(page._is_element_visible('.response_response1 .action-vote'))
         self.assertTrue(page._is_element_visible('.response_response1 .display-vote'))
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_originally_closed_thread_vote_display(self):
         page = self.setup_openclosed_thread_page(True)
         self.assertTrue(page._is_element_visible('.forum-thread-main-wrapper .action-vote'))
@@ -252,6 +258,7 @@ class DiscussionCommentDeletionTest(UniqueCourseTest):
             [Comment(id="comment_other_author", user_id="other"), Comment(id="comment_self_author", user_id=self.user_id)])
         view.push()
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_comment_deletion_as_student(self):
         self.setup_user()
         self.setup_view()
@@ -262,6 +269,7 @@ class DiscussionCommentDeletionTest(UniqueCourseTest):
         self.assertFalse(page.is_comment_deletable("comment_other_author"))
         page.delete_comment("comment_self_author")
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_comment_deletion_as_moderator(self):
         self.setup_user(roles=['Moderator'])
         self.setup_view()
@@ -306,6 +314,7 @@ class DiscussionResponseEditTest(UniqueCourseTest):
         page.set_response_editor_value(response_id, new_response)
         page.submit_response_edit(response_id, new_response)
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_edit_response_as_student(self):
         """
         Scenario: Students should be able to edit the response they created not responses of other users
@@ -323,6 +332,7 @@ class DiscussionResponseEditTest(UniqueCourseTest):
         self.assertFalse(page.is_response_editable("response_other_author"))
         self.edit_response(page, "response_self_author")
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_edit_response_as_moderator(self):
         """
         Scenario: Moderator should be able to edit the response they created and responses of other users
@@ -339,6 +349,7 @@ class DiscussionResponseEditTest(UniqueCourseTest):
         self.edit_response(page, "response_self_author")
         self.edit_response(page, "response_other_author")
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_vote_report_endorse_after_edit(self):
         """
         Scenario: Moderator should be able to vote, report or endorse after editing the response.
@@ -403,6 +414,7 @@ class DiscussionCommentEditTest(UniqueCourseTest):
         page.set_comment_editor_value(comment_id, new_comment)
         page.submit_comment_edit(comment_id, new_comment)
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_edit_comment_as_student(self):
         self.setup_user()
         self.setup_view()
@@ -413,6 +425,7 @@ class DiscussionCommentEditTest(UniqueCourseTest):
         self.assertFalse(page.is_comment_editable("comment_other_author"))
         self.edit_comment(page, "comment_self_author")
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_edit_comment_as_moderator(self):
         self.setup_user(roles=["Moderator"])
         self.setup_view()
@@ -423,6 +436,7 @@ class DiscussionCommentEditTest(UniqueCourseTest):
         self.edit_comment(page, "comment_self_author")
         self.edit_comment(page, "comment_other_author")
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_cancel_comment_edit(self):
         self.setup_user()
         self.setup_view()
@@ -434,6 +448,7 @@ class DiscussionCommentEditTest(UniqueCourseTest):
         page.set_comment_editor_value("comment_self_author", "edited body")
         page.cancel_comment_edit("comment_self_author", original_body)
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_editor_visibility(self):
         """Only one editor should be visible at a time within a single response"""
         self.setup_user(roles=["Moderator"])
@@ -528,6 +543,7 @@ class InlineDiscussionTest(UniqueCourseTest, DiscussionResponsePaginationTestMix
     def test_anonymous_to_peers_threads_as_peer(self):
         self.check_anonymous_to_peers(False)
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_discussion_blackout_period(self):
         now = datetime.datetime.now(UTC)
         self.course_fix.add_advanced_settings(
@@ -735,6 +751,7 @@ class DiscussionSearchAlertTest(UniqueCourseTest):
         self.page.perform_search()
         self.check_search_alert_messages(["no threads"])
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_rewrite_dismiss(self):
         self.setup_corrected_text("foo")
         self.page.perform_search()
