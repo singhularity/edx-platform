@@ -78,6 +78,7 @@ class DiscussionResponsePaginationTestMixin(BaseDiscussionMixin):
         self.setup_thread(5)
         self.assert_response_display_correct(5, 5)
 
+    @unittest.skip("US37379: skip acceptance tests")
     def test_pagination_two_response_pages(self):
         self.setup_thread(50)
         self.assert_response_display_correct(50, 25)
