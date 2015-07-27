@@ -9,7 +9,6 @@ from django.views.decorators.http import require_GET
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from xmodule.modulestore.exceptions import ItemNotFoundError
-from django_future.csrf import ensure_staff
 from edxmako.shortcuts import render_to_response
 
 from xmodule.modulestore.django import modulestore
@@ -75,7 +74,6 @@ def _advanced_component_types():
 
 @require_GET
 @login_required
-@ensure_staff
 def subsection_handler(request, usage_key_string):
     """
     The restful handler for subsection-specific requests.
@@ -146,7 +144,6 @@ def _load_mixed_class(category):
 # pylint: disable=unused-argument
 @require_GET
 @login_required
-@ensure_staff
 def container_handler(request, usage_key_string):
     """
     The restful handler for container xblock requests.
@@ -347,7 +344,6 @@ def get_component_templates(courselike, library=False):
 
 
 @login_required
-@ensure_staff
 def _get_item_in_course(request, usage_key):
     """
     Helper method for getting the old location, containing course,
@@ -372,7 +368,6 @@ def _get_item_in_course(request, usage_key):
 
 
 @login_required
-@ensure_staff
 def component_handler(request, usage_key_string, handler, suffix=''):
     """
     Dispatch an AJAX action to an xblock

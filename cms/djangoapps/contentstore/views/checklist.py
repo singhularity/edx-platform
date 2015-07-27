@@ -5,7 +5,7 @@ from util.json_request import JsonResponse
 from django.http import HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
-from django_future.csrf import ensure_csrf_cookie, ensure_staff
+from django_future.csrf import ensure_csrf_cookie
 from edxmako.shortcuts import render_to_response
 from django.http import HttpResponseNotFound
 from django.core.exceptions import PermissionDenied
@@ -24,7 +24,6 @@ __all__ = ['checklists_handler']
 # pylint: disable=unused-argument
 @require_http_methods(("GET", "POST", "PUT"))
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 def checklists_handler(request, course_key_string, checklist_index=None):
     """

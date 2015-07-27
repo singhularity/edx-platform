@@ -1,6 +1,4 @@
 # Taken from Django 1.4
-from django.http import HttpResponseRedirect, HttpResponse
-from django_cas.decorators import user_passes_test
 
 import warnings
 
@@ -50,27 +48,6 @@ ensure_csrf_cookie.__doc__ = """
 Use this decorator to ensure that a view sets a CSRF cookie, whether or not it
 uses the csrf_token template tag, or the CsrfViewMiddleware is used.
 """
-
-
-def is_staff(user):
-    if user:
-        return user.is_staff
-    return False
-
-
-def ensure_staff(function=None, redirect_field_name='', login_url=None):
-    """
-    Decorator for views that checks that the user is logged in, redirecting
-    to the log-in page if necessary.
-    """
-    actual_decorator = user_passes_test(
-        lambda u: u.is_staff,
-        login_url=login_url,
-        redirect_field_name=redirect_field_name
-    )
-    if function:
-        return actual_decorator(function)
-    return actual_decorator
 
 
 def csrf_response_exempt(view_func):

@@ -7,7 +7,6 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
-from django_future.csrf import ensure_staff
 from edxmako.shortcuts import render_to_string
 
 from xmodule_modifiers import replace_static_urls, wrap_xblock, wrap_fragment, request_token
@@ -46,7 +45,6 @@ log = logging.getLogger(__name__)
 
 
 @login_required
-@ensure_staff
 def preview_handler(request, usage_key_string, handler, suffix=''):
     """
     Dispatch an AJAX action to an xblock

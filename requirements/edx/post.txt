@@ -6,7 +6,3 @@
 
 # This must be installed after distribute has been updated.
 MySQL-python==1.2.4
-
-# Install mentoring xblock
-# -e git+https://github.com/edx-solutions/xblock-utils.git@e775c773b89d4260342618a6b32246cb8c6185f7#egg=xblock-utils
-# -e git+https://github.com/edx-solutions/xblock-mentoring.git@bd0b3f413ae7e8274985555adfd7de7af3eca84c#egg=xblock-mentoring

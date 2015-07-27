@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_POST
-from django_future.csrf import ensure_csrf_cookie, ensure_staff
+from django_future.csrf import ensure_csrf_cookie
 from edxmako.shortcuts import render_to_response
 
 from xmodule.modulestore.django import modulestore
@@ -26,7 +26,6 @@ __all__ = ['request_course_creator', 'course_team_handler']
 
 @require_POST
 @login_required
-@ensure_staff
 def request_course_creator(request):
     """
     User has requested course creation access.
@@ -37,7 +36,6 @@ def request_course_creator(request):
 
 # pylint: disable=unused-argument
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 @require_http_methods(("GET", "POST", "PUT", "DELETE"))
 def course_team_handler(request, course_key_string=None, email=None):

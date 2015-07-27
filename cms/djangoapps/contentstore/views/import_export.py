@@ -19,7 +19,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.utils.translation import ugettext as _
 from django.views.decorators.http import require_http_methods, require_GET
 
-from django_future.csrf import ensure_csrf_cookie, ensure_staff
+from django_future.csrf import ensure_csrf_cookie
 from edxmako.shortcuts import render_to_response
 from xmodule.contentstore.django import contentstore
 from xmodule.exceptions import SerializationError
@@ -49,7 +49,6 @@ CONTENT_RE = re.compile(r"(?P<start>\d{1,11})-(?P<stop>\d{1,11})/(?P<end>\d{1,11
 
 # pylint: disable=unused-argument
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 @require_http_methods(("GET", "POST", "PUT"))
 @ensure_valid_course_key
@@ -300,7 +299,6 @@ def _save_request_status(request, key, status):
 @require_GET
 @ensure_csrf_cookie
 @login_required
-@ensure_staff
 @ensure_valid_course_key
 def import_status_handler(request, course_key_string, filename=None):
     """
@@ -330,7 +328,6 @@ def import_status_handler(request, course_key_string, filename=None):
 # pylint: disable=unused-argument
 @ensure_csrf_cookie
 @login_required
-@ensure_staff
 @require_http_methods(("GET",))
 @ensure_valid_course_key
 def export_handler(request, course_key_string):
