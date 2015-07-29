@@ -7,7 +7,7 @@ import logging
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django_future.csrf import ensure_csrf_cookie, ensure_staff
+from django_future.csrf import ensure_csrf_cookie
 from django.utils.translation import ugettext as _
 
 from student.auth import has_course_author_access
@@ -21,7 +21,6 @@ log = logging.getLogger(__name__)
 
 @ensure_csrf_cookie
 @login_required
-@ensure_staff
 def export_git(request, course_key_string):
     """
     This method serves up the 'Export to Git' page
