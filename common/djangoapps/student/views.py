@@ -1434,7 +1434,6 @@ def _do_create_account(post_vars, extended_profile=None):
     return (user, profile, registration)
 
 
-@csrf_exempt
 def create_account(request, post_override=None):  # pylint: disable-msg=too-many-statements
     """
     JSON call to create new edX account.
