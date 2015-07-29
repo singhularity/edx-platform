@@ -32,7 +32,7 @@ from opaque_keys.edx.locations import Location
 from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.course_groups.partition_scheme import get_cohorted_user_partition
 
-from django_future.csrf import ensure_csrf_cookie, ensure_staff
+from django_future.csrf import ensure_csrf_cookie
 from contentstore.course_info_model import get_course_updates, update_course_updates, delete_course_update
 from contentstore.utils import (
     add_instructor,
@@ -122,7 +122,6 @@ def get_course_and_check_access(course_key, user, depth=0):
 
 
 @login_required
-@ensure_staff
 def course_notifications_handler(request, course_key_string=None, action_state_id=None):
     """
     Handle incoming requests for notifications in a RESTful way.
@@ -208,7 +207,6 @@ def _dismiss_notification(request, course_action_state_id):  # pylint: disable=u
 
 # pylint: disable=unused-argument
 @login_required
-@ensure_staff
 def course_handler(request, course_key_string=None):
     """
     The restful handler for course specific requests.
@@ -261,7 +259,6 @@ def course_handler(request, course_key_string=None):
 
 
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 @require_http_methods(["GET"])
 def course_rerun_handler(request, course_key_string):
@@ -374,7 +371,6 @@ def _accessible_libraries_list(user):
 
 
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 def course_listing(request):
     """
@@ -440,7 +436,6 @@ def _get_rerun_link_for_item(course_key):
 
 
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 def course_index(request, course_key):
     """
@@ -717,7 +712,6 @@ def _rerun_course(request, org, number, run, fields):
 
 # pylint: disable=unused-argument
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 @require_http_methods(["GET"])
 def course_info_handler(request, course_key_string):
@@ -744,7 +738,6 @@ def course_info_handler(request, course_key_string):
 
 # pylint: disable=unused-argument
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 @require_http_methods(("GET", "POST", "PUT", "DELETE"))
 @expect_json
@@ -797,7 +790,6 @@ def course_info_update_handler(request, course_key_string, provided_id=None):
 
 
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 @require_http_methods(("GET", "PUT", "POST"))
 @expect_json
@@ -895,7 +887,6 @@ def settings_handler(request, course_key_string):
 
 
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 @require_http_methods(("GET", "POST", "PUT", "DELETE"))
 @expect_json
@@ -1047,7 +1038,6 @@ def _modify_tabs_to_components(request, course_module):
 
 
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 @require_http_methods(("GET", "POST", "PUT"))
 @expect_json
@@ -1161,7 +1151,6 @@ def assign_textbook_id(textbook, used_ids=()):
 
 @require_http_methods(("GET", "POST", "PUT"))
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 def textbooks_list_handler(request, course_key_string):
     """
@@ -1237,7 +1226,6 @@ def textbooks_list_handler(request, course_key_string):
 
 
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 @require_http_methods(("GET", "POST", "PUT", "DELETE"))
 def textbooks_detail_handler(request, course_key_string, textbook_id):
@@ -1485,7 +1473,6 @@ class GroupConfiguration(object):
 
 @require_http_methods(("GET", "POST"))
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 def group_configurations_list_handler(request, course_key_string):
     """
@@ -1543,7 +1530,6 @@ def group_configurations_list_handler(request, course_key_string):
 
 
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 @require_http_methods(("POST", "PUT", "DELETE"))
 def group_configurations_detail_handler(request, course_key_string, group_configuration_id):

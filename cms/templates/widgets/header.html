@@ -14,11 +14,6 @@
             window.open(location.protocol + "//" + hostname, '_blank');
         }
       </script>
-<style>
-    .lmsLink{
-        cursor:pointer;
-    }
-</style>
 <div class="wrapper-header wrapper" id="view-top">
   <header class="primary" role="banner">
 
@@ -182,7 +177,7 @@
         <h2 class="sr">${_("Help &amp; Account Navigation")}</h2>
         <ol>
           <li class="nav-item">
-            <a class="lmsLink" onclick="goToLms()">Go to LMS</a>
+            <a onclick="goToLms()">Go to LMS</a>
           </li>
           <li class="nav-item nav-account-help">
             <h3 class="title"><span class="label"><a href="${get_online_help_info(online_help_token)['doc_url']}" title="${_("Contextual Online Help")}" target="_blank">${_("Help")}</a></span></h3>
@@ -212,7 +207,7 @@
         <h2 class="sr">${_("You're not currently signed in")}</h2>
         <ol>
           <li class="nav-item">
-            <a class="lmsLink" onclick="goToLms()">Go to LMS</a>
+            <a onclick="goToLms()">Go to LMS</a>
           </li>
           <li class="nav-item nav-not-signedin-help">
             <a href="${get_online_help_info(online_help_token)['doc_url']}" title="${_("Contextual Online Help")}" target="_blank">${_("Help")}</a>

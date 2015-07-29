@@ -17,7 +17,6 @@ from opaque_keys.edx.keys import CourseKey
 
 from contentstore.models import VideoUploadConfig
 from contentstore.utils import reverse_course_url
-from django_future.csrf import ensure_staff
 from edxmako.shortcuts import render_to_response
 from util.json_request import expect_json, JsonResponse
 from xmodule.assetstore import AssetMetadata
@@ -76,7 +75,6 @@ class StatusDisplayStrings(object):
 
 @expect_json
 @login_required
-@ensure_staff
 @require_http_methods(("GET", "POST"))
 def videos_handler(request, course_key_string):
     """
@@ -107,7 +105,6 @@ def videos_handler(request, course_key_string):
 
 
 @login_required
-@ensure_staff
 @require_GET
 def video_encodings_download(request, course_key_string):
     """
