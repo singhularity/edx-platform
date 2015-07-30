@@ -1473,6 +1473,11 @@ def create_account(request, post_override=None):  # pylint: disable-msg=too-many
         post_vars.update(dict(email=email, name=name, password=password))
         log.debug(u'In create_account with external_auth: user = %s, email=%s', name, email)
 
+    # Confirm this is a valid sso user
+    if 'ssouserfromslashregister' not in post_vars:
+        js['value'] = _('User is not valid.')
+        return JsonResponse(js, status=400)
+
     # Confirm we have a properly formed request
     for req_field in ['username', 'email', 'password', 'name']:
         if req_field not in post_vars:
