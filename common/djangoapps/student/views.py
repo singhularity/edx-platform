@@ -386,9 +386,6 @@ def signin_user(request):
         ),
     }
 
-    if settings.FEATURES.get('AMPLIFY_AUTHORIZATION_URL') in request.META.get('HTTP_REFERER'):
-        return redirect("/register")
-
     return render_to_response('login.html', context)
 
 
