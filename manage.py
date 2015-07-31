@@ -111,7 +111,7 @@ if __name__ == "__main__":
 
     #Initializing New Relic Application Monitoring
     #Finds the New Relic Config with License Key
-    if os.path.exists('/edx/app/edxapp/edx-platform/newrelic.ini'):
+    if os.path.isfile('/edx/app/edxapp/edx-platform/newrelic.ini'):
         newrelic.agent.initialize('/edx/app/edxapp/edx-platform/newrelic.ini')
 
     #Setting the Application Name for New Relic by combining the Service with Environment Name
