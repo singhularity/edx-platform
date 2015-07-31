@@ -110,8 +110,8 @@ if __name__ == "__main__":
         django_args.append('--help')
 
     #Initializing New Relic Application Monitoring
-    if os.path.exists('newrelic.ini'):
-        newrelic.agent.initialize('newrelic.ini')
+    if os.path.exists('/edx/app/edxapp/edx-platform/newrelic.ini'):
+        newrelic.agent.initialize('/edx/app/edxapp/edx-platform/newrelic.ini')
 
     if hasattr(edx_args, 'service_variant') and hasattr(edx_args, 'settings'):
         newrelic.agent.global_settings().app_name = edx_args.service_variant + "_" + edx_args.settings
