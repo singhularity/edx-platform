@@ -109,8 +109,12 @@ if __name__ == "__main__":
         # This will trigger django-admin.py to print out its help
         django_args.append('--help')
 
-    newrelic.agent.initialize('newrelic.ini')
-    newrelic.agent.global_settings().app_name = edx_args.service_variant + "_" + edx_args.settings
+    #Initializing New Relic Application Monitoring
+    if os.path.exists('newrelic.ini'):
+        newrelic.agent.initialize('newrelic.ini')
+
+    if hasattr(edx_args, 'service_variant') and hasattr(edx_args, 'settings'):
+        newrelic.agent.global_settings().app_name = edx_args.service_variant + "_" + edx_args.settings
 
     startup = importlib.import_module(edx_args.startup)
     startup.run()
