@@ -25,7 +25,6 @@ from xmodule.modulestore.tests.django_utils import (
 from xmodule.modulestore.tests.factories import CourseFactory
 from student.tests.factories import CourseModeFactory
 
-
 MODULESTORE_CONFIG = mixed_store_config(settings.COMMON_TEST_DATA_ROOT, {}, include_xml=False)
 
 
@@ -39,6 +38,7 @@ class StudentAccountUpdateTest(UrlResetMixin, TestCase):
     NEW_PASSWORD = u"🄱🄸🄶🄱🄻🅄🄴"
     OLD_EMAIL = u"walter@graymattertech.com"
     NEW_EMAIL = u"walt@savewalterwhite.com"
+    VALID_USER = u"true"
 
     INVALID_ATTEMPTS = 100
 
@@ -66,7 +66,7 @@ class StudentAccountUpdateTest(UrlResetMixin, TestCase):
         super(StudentAccountUpdateTest, self).setUp("student_account.urls")
 
         # Create/activate a new account
-        activation_key = account_api.create_account(self.USERNAME, self.OLD_PASSWORD, self.OLD_EMAIL)
+        activation_key = account_api.create_account(self.USERNAME, self.OLD_PASSWORD, self.OLD_EMAIL, self.VALID_USER)
         account_api.activate_account(activation_key)
 
         # Login
@@ -131,7 +131,8 @@ class StudentAccountUpdateTest(UrlResetMixin, TestCase):
 
     def test_email_change_request_email_taken_by_active_account(self):
         # Create/activate a second user with the new email
-        activation_key = account_api.create_account(self.ALTERNATE_USERNAME, self.OLD_PASSWORD, self.NEW_EMAIL)
+        activation_key = account_api.create_account(self.ALTERNATE_USERNAME,
+                                                    self.OLD_PASSWORD, self.NEW_EMAIL, self.VALID_USER)
         account_api.activate_account(activation_key)
 
         # Request to change the original user's email to the email now used by the second user
@@ -140,7 +141,7 @@ class StudentAccountUpdateTest(UrlResetMixin, TestCase):
 
     def test_email_change_request_email_taken_by_inactive_account(self):
         # Create a second user with the new email, but don't active them
-        account_api.create_account(self.ALTERNATE_USERNAME, self.OLD_PASSWORD, self.NEW_EMAIL)
+        account_api.create_account(self.ALTERNATE_USERNAME, self.OLD_PASSWORD, self.NEW_EMAIL, self.VALID_USER)
 
         # Request to change the original user's email to the email used by the inactive user
         response = self._change_email(self.NEW_EMAIL, self.OLD_PASSWORD)
@@ -178,7 +179,8 @@ class StudentAccountUpdateTest(UrlResetMixin, TestCase):
         email_activation_key = account_api.request_email_change(self.USERNAME, self.NEW_EMAIL, self.OLD_PASSWORD)
 
         # Create/activate a second user with the new email
-        account_activation_key = account_api.create_account(self.ALTERNATE_USERNAME, self.OLD_PASSWORD, self.NEW_EMAIL)
+        account_activation_key = account_api.create_account(self.ALTERNATE_USERNAME, self.OLD_PASSWORD,
+                                                            self.NEW_EMAIL, self.VALID_USER)
         account_api.activate_account(account_activation_key)
 
         # Follow the link sent to the original user
@@ -252,7 +254,8 @@ class StudentAccountUpdateTest(UrlResetMixin, TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "The password reset link was invalid, possibly because the link has already been used.")
+        self.assertContains(response,
+                            "The password reset link was invalid, possibly because the link has already been used.")
 
         self.client.logout()
 
@@ -286,7 +289,7 @@ class StudentAccountUpdateTest(UrlResetMixin, TestCase):
         self.client.logout()
 
         # Create a second user, but do not activate it
-        account_api.create_account(self.ALTERNATE_USERNAME, self.OLD_PASSWORD, self.NEW_EMAIL)
+        account_api.create_account(self.ALTERNATE_USERNAME, self.OLD_PASSWORD, self.NEW_EMAIL, self.VALID_USER)
 
         # Send the view the email address tied to the inactive user
         response = self._change_password(email=self.NEW_EMAIL)
@@ -384,6 +387,7 @@ class StudentAccountLoginAndRegistrationTest(ModuleStoreTestCase):
     USERNAME = "bob"
     EMAIL = "bob@example.com"
     PASSWORD = "password"
+    VALID_USER = "true"
 
     @ddt.data(
         ("account_login", "login"),
@@ -398,7 +402,7 @@ class StudentAccountLoginAndRegistrationTest(ModuleStoreTestCase):
     @ddt.data("account_login", "account_register")
     def test_login_and_registration_form_already_authenticated(self, url_name):
         # Create/activate a new account and log in
-        activation_key = account_api.create_account(self.USERNAME, self.PASSWORD, self.EMAIL)
+        activation_key = account_api.create_account(self.USERNAME, self.PASSWORD, self.EMAIL, self.VALID_USER)
         account_api.activate_account(activation_key)
         result = self.client.login(username=self.USERNAME, password=self.PASSWORD)
         self.assertTrue(result)

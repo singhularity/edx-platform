@@ -42,12 +42,13 @@ class ContentStoreTestCase(ModuleStoreTestCase):
         self.assertTrue(data['success'])
         return resp
 
-    def _create_account(self, username, email, password):
+    def _create_account(self, username, email, password, valid_user):
         """Try to create an account.  No error checking"""
         resp = self.client.post('/create_account', {
             'username': username,
             'email': email,
             'password': password,
+            'userfromslashregister': valid_user,
             'location': 'home',
             'language': 'Franglish',
             'name': 'Fred Weasley',
@@ -56,9 +57,9 @@ class ContentStoreTestCase(ModuleStoreTestCase):
         })
         return resp
 
-    def create_account(self, username, email, password):
+    def create_account(self, username, email, password, valid_user):
         """Create the account and check that it worked"""
-        resp = self._create_account(username, email, password)
+        resp = self._create_account(username, email, password, valid_user)
         self.assertEqual(resp.status_code, 200)
         data = parse_json(resp)
         self.assertEqual(data['success'], True)
@@ -91,6 +92,7 @@ class AuthTestCase(ContentStoreTestCase):
         self.email = 'a@b.com'
         self.pw = 'xyz'
         self.username = 'testuser'
+        self.valid_user = 'true'
         self.client = AjaxEnabledTestClient()
         # clear the cache so ratelimiting won't affect these tests
         cache.clear()
@@ -117,25 +119,25 @@ class AuthTestCase(ContentStoreTestCase):
         self.assertEqual(data['success'], False)
 
     def test_create_account(self):
-        self.create_account(self.username, self.email, self.pw)
+        self.create_account(self.username, self.email, self.pw, self.valid_user)
         self.activate_user(self.email)
 
     def test_create_account_username_already_exists(self):
         User.objects.create_user(self.username, self.email, self.pw)
-        resp = self._create_account(self.username, "abc@def.com", "password")
+        resp = self._create_account(self.username, "abc@def.com", "password", self.valid_user)
         # we have a constraint on unique usernames, so this should fail
         self.assertEqual(resp.status_code, 400)
 
     def test_create_account_pw_already_exists(self):
         User.objects.create_user(self.username, self.email, self.pw)
-        resp = self._create_account("abcdef", "abc@def.com", self.pw)
+        resp = self._create_account("abcdef", "abc@def.com", self.pw, self.valid_user)
         # we can have two users with the same password, so this should succeed
         self.assertEqual(resp.status_code, 200)
 
     @unittest.skipUnless(settings.SOUTH_TESTS_MIGRATE, "South migrations required")
     def test_create_account_email_already_exists(self):
         User.objects.create_user(self.username, self.email, self.pw)
-        resp = self._create_account("abcdef", self.email, "password")
+        resp = self._create_account("abcdef", self.email, "password", self.valid_userl)
         # This is tricky. Django's user model doesn't have a constraint on
         # unique email addresses, but we *add* that constraint during the
         # migration process:
@@ -147,7 +149,7 @@ class AuthTestCase(ContentStoreTestCase):
         self.assertEqual(resp.status_code, 400)
 
     def test_login(self):
-        self.create_account(self.username, self.email, self.pw)
+        self.create_account(self.username, self.email, self.pw, self.valid_user)
 
         # Not activated yet.  Login should fail.
         resp = self._login(self.email, self.pw)
@@ -178,7 +180,7 @@ class AuthTestCase(ContentStoreTestCase):
         # note we want to keep the lockout time short, so we don't slow down the tests
 
         with mock.patch.dict('django.conf.settings.FEATURES', {'ENABLE_MAX_FAILED_LOGIN_ATTEMPTS': True}):
-            self.create_account(self.username, self.email, self.pw)
+            self.create_account(self.username, self.email, self.pw, self.valid_user)
             self.activate_user(self.email)
 
             for i in xrange(3):
@@ -219,7 +221,7 @@ class AuthTestCase(ContentStoreTestCase):
             self.login(self.email, self.pw)
 
     def test_login_link_on_activation_age(self):
-        self.create_account(self.username, self.email, self.pw)
+        self.create_account(self.username, self.email, self.pw, self.valid_user)
         # we want to test the rendering of the activation page when the user isn't logged in
         self.client.logout()
         resp = self._activate_user(self.email)
@@ -276,7 +278,7 @@ class AuthTestCase(ContentStoreTestCase):
         Verify that an inactive session times out and redirects to the
         login page
         """
-        self.create_account(self.username, self.email, self.pw)
+        self.create_account(self.username, self.email, self.pw, self.valid_user)
         self.activate_user(self.email)
 
         self.login(self.email, self.pw)

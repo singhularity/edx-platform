@@ -14,6 +14,7 @@ class TestLongUsernameEmail(TestCase):
             'email': 'foo_bar' + '@bar.com',
             'name': 'foo bar',
             'password': '123',
+            'userfromslashregister': 'true',
             'terms_of_service': 'true',
             'honor_code': 'true',
         }

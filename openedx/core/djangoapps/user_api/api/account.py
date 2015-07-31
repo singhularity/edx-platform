@@ -77,7 +77,7 @@ class AccountNotAuthorized(AccountRequestError):
 
 @intercept_errors(AccountInternalError, ignore_errors=[AccountRequestError])
 @transaction.commit_on_success
-def create_account(username, password, email):
+def create_account(username, password, email, valid_user="true"):  # pylint: disable=unused-argument
     """Create a new user account.
 
     This will implicitly create an empty profile for the user.
