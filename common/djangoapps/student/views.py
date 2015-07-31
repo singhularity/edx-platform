@@ -371,6 +371,8 @@ def signin_user(request):
 
     course_id = request.GET.get('course_id')
     email_opt_in = request.GET.get('email_opt_in')
+    first_party_auth_setting = settings.FEATURES.get('ENABLE_FIRST_PARTY_AUTH', False)
+    enable_first_party_auth = first_party_auth_setting if isinstance(first_party_auth_setting, bool) else True if first_party_auth_setting.lower() == 'true' else False
     context = {
         'course_id': course_id,
         'email_opt_in': email_opt_in,
@@ -384,6 +386,7 @@ def signin_user(request):
             'platform_name',
             settings.PLATFORM_NAME
         ),
+        'first_party_auth': enable_first_party_auth,
     }
 
     return render_to_response('login.html', context)
