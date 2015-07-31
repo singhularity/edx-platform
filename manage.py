@@ -110,9 +110,12 @@ if __name__ == "__main__":
         django_args.append('--help')
 
     #Initializing New Relic Application Monitoring
+    #Finds the New Relic Config with License Key
     if os.path.exists('/edx/app/edxapp/edx-platform/newrelic.ini'):
         newrelic.agent.initialize('/edx/app/edxapp/edx-platform/newrelic.ini')
 
+    #Setting the Application Name for New Relic by combining the Service with Environment Name
+    #Example LMS_DEVSTACK, CMS_QA, LMS_PROD
     if hasattr(edx_args, 'service_variant') and hasattr(edx_args, 'settings'):
         newrelic.agent.global_settings().app_name = edx_args.service_variant + "_" + edx_args.settings
 
