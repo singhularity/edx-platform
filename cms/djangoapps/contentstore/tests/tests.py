@@ -137,7 +137,7 @@ class AuthTestCase(ContentStoreTestCase):
     @unittest.skipUnless(settings.SOUTH_TESTS_MIGRATE, "South migrations required")
     def test_create_account_email_already_exists(self):
         User.objects.create_user(self.username, self.email, self.pw)
-        resp = self._create_account("abcdef", self.email, "password", self.valid_userl)
+        resp = self._create_account("abcdef", self.email, "password", self.valid_user)
         # This is tricky. Django's user model doesn't have a constraint on
         # unique email addresses, but we *add* that constraint during the
         # migration process:
