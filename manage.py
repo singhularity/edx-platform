@@ -20,6 +20,7 @@ import sys
 import importlib
 from argparse import ArgumentParser
 import contracts
+import newrelic.agent
 
 
 def parse_args():
@@ -107,6 +108,9 @@ if __name__ == "__main__":
         print "Django:"
         # This will trigger django-admin.py to print out its help
         django_args.append('--help')
+
+    newrelic.agent.initialize('newrelic.ini')
+    newrelic.agent.global_settings().app_name = edx_args.service_variant + "_" + edx_args.settings
 
     startup = importlib.import_module(edx_args.startup)
     startup.run()
