@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 __author__ = 'ssingh'
 
 # import the User object
+from django.conf import settings
 from django.contrib.auth.models import User
 import requests
 from social.backends.oauth import BaseAuth
@@ -30,35 +31,23 @@ class LearningAuth(BaseAuth):
             for cookie in request.COOKIES.keys():
                 cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
             headers = {'Cookie': cookieStr}
-            # r = requests.get("http://local.amplify.com:8002/wg-curriculum/auth/sso/status", headers=headers)
-            # if r.status_code != 200:
-            #     return redirect("/register")
-            r = """{
-                  "authenticated": true,
-                  "user": "diuadmin@wgennc.net",
-                  "businessKey": "9987ccd2-b5e9-4c46-bb33-38f9f2fe0817",
-                  "userId": 3,
-                  "roles":
-                  [
-                    "ROLE_DIU_ADMIN"
-                  ],
-                  "firstName": "Danny",
-                  "lastName": "Admin",
-                  "displayName": "DannyAd",
-                  "unique_id": "827a83dd79481b42e601b915f7a44aeaa802d3ed",
-                  "expiration": 1438145412489,
-                  "current_time": 1438144212497,
-                  "social_user":"diuadmin@wgennc.net"
-                }"""
+            r = requests.get(settings.FEATURES["AMPLIFY_LEARNING_AUTH_STATUS_URL"], headers=headers)
+            if r.status_code != 200:
+                return redirect("/register")
         except:
-            return None
+            if username is '':
+                return redirect("/register")
+            else:
+                return None
         try:
             # Check if the user exists in Django's local database
-            userData = json.loads(r)
+            userData = json.loads(r.text)
             user = User.objects.get(email=userData.get('user'))
         except User.DoesNotExist:
-            # Create a user in Django's local database
-            return redirect("/register")
+            # AUDIT_LOG.warning(
+            # u'Login failed - user with username {username} has no social auth with backend_name {backend_name}'.format(
+            #     username=r.get('user'), backend_name='LearningAuth'))
+            return redirect('/learningauth')
         return user
 
     # Required for your backend to work properly - unchanged in most scenarios

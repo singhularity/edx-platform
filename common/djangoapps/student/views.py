@@ -408,6 +408,27 @@ def dummy_napi_service(request):
 
     return HttpResponse(json.dumps([response_json]), content_type="application/json")
 
+def dummy_learning_service(request):
+    r = """{
+              "authenticated": true,
+              "user": "diuadmin@wgennc.net",
+              "businessKey": "9987ccd2-b5e9-4c46-bb33-38f9f2fe0817",
+              "userId": 3,
+              "roles":
+              [
+                "ROLE_DIU_ADMIN"
+              ],
+              "firstName": "Danny",
+              "lastName": "Admin",
+              "displayName": "DannyAd",
+              "unique_id": "827a83dd79481b42e601b915f7a44aeaa802d3ed",
+              "expiration": 1438145412489,
+              "current_time": 1438144212497,
+              "social_user":"diuadmin@wgennc.net"
+            }"""
+
+    return HttpResponse(r, content_type="application/json")
+
 
 @ensure_csrf_cookie
 def register_user(request, extra_context=None):
@@ -1009,33 +1030,19 @@ def accounts_login(request):
 
 
 def get_learning_auth(request):
+    if request.GET.get('action') == 'login':
+        login_url_return_host = "http://local.amplify.com:8000/learningauth"
+        return redirect('{}?redirect_url={}'.format(settings.FEATURES["AMPLIFY_LEARNING_AUTH_LOGIN_URL"], login_url_return_host))
     import requests
     cookieStr = ""
     for cookie in request.COOKIES.keys():
         cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
     headers = {'Cookie': cookieStr}
-    r = """{
-              "authenticated": true,
-              "user": "diuadmin@wgennc.net",
-              "businessKey": "9987ccd2-b5e9-4c46-bb33-38f9f2fe0817",
-              "userId": 3,
-              "roles":
-              [
-                "ROLE_DIU_ADMIN"
-              ],
-              "firstName": "Danny",
-              "lastName": "Admin",
-              "displayName": "DannyAd",
-              "unique_id": "827a83dd79481b42e601b915f7a44aeaa802d3ed",
-              "expiration": 1438145412489,
-              "current_time": 1438144212497,
-              "social_user":"diuadmin@wgennc.net"
-        }"""
+    r = requests.get(settings.FEATURES["AMPLIFY_LEARNING_AUTH_STATUS_URL"], headers=headers)
     try:
-        r = json.loads(r)
-        user = pipeline.get_authenticated_user(r.get('user'), 'LearningAuth')
+        r = json.loads(r.text)
+        user = User.objects.get(email=r.get('user'))
         login_user(request)
-        third_party_auth_successful = True
     except User.DoesNotExist:
         AUDIT_LOG.warning(
             u'Login failed - user with username {username} has no social auth with backend_name {backend_name}'.format(
@@ -1209,7 +1216,7 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
     if not isinstance(user, User):
         return JsonResponse({
                 "success": False,
-                "redirect": "/learningauth",
+                "redirect": "/learningauth?action=login",
             })
 
     if user is not None and user.is_active:
