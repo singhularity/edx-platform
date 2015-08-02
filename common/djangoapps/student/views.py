@@ -1031,7 +1031,12 @@ def accounts_login(request):
 
 def get_learning_auth(request):
     if request.GET.get('action') == 'login':
-        login_url_return_host = "http://local.amplify.com:8000/learningauth"
+        host = request.get_host()
+        if 'local' in host or '127' in host or '0' in host:
+            protocol = "http://"
+        else:
+            protocol = 'https://'
+        login_url_return_host = protocol + host + "/learningauth"
         return redirect('{}?redirect_url={}'.format(settings.FEATURES["AMPLIFY_LEARNING_AUTH_LOGIN_URL"], login_url_return_host))
     import requests
     cookieStr = ""
