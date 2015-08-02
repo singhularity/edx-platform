@@ -389,6 +389,9 @@ def signin_user(request):
         'first_party_auth': enable_first_party_auth,
     }
 
+    if 'HTTP_REFERER' in request.META and settings.FEATURES.get('AMPLIFY_AUTHORIZATION_URL') in request.META.get('HTTP_REFERER'):
+        return redirect("/register")
+
     return render_to_response('login.html', context)
 
 
@@ -1005,6 +1008,55 @@ def accounts_login(request):
     return render_to_response('login.html', context)
 
 
+def get_learning_auth(request):
+    import requests
+    cookieStr = ""
+    for cookie in request.COOKIES.keys():
+        cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
+    headers = {'Cookie': cookieStr}
+    r = """{
+              "authenticated": true,
+              "user": "diuadmin@wgennc.net",
+              "businessKey": "9987ccd2-b5e9-4c46-bb33-38f9f2fe0817",
+              "userId": 3,
+              "roles":
+              [
+                "ROLE_DIU_ADMIN"
+              ],
+              "firstName": "Danny",
+              "lastName": "Admin",
+              "displayName": "DannyAd",
+              "unique_id": "827a83dd79481b42e601b915f7a44aeaa802d3ed",
+              "expiration": 1438145412489,
+              "current_time": 1438144212497,
+              "social_user":"diuadmin@wgennc.net"
+        }"""
+    try:
+        r = json.loads(r)
+        user = pipeline.get_authenticated_user(r.get('user'), 'LearningAuth')
+        login_user(request)
+        third_party_auth_successful = True
+    except User.DoesNotExist:
+        AUDIT_LOG.warning(
+            u'Login failed - user with username {username} has no social auth with backend_name {backend_name}'.format(
+                username=r.get('user'), backend_name='LearningAuth'))
+        context = {
+            'course_id': None,
+            'email_opt_in': True,
+            'email': r.get('user'),
+            'enrollment_action': None,
+            'name': r.get('firstName'),
+            'running_pipeline': None,
+            'pipeline_urls': auth_pipeline_urls(pipeline.AUTH_ENTRY_REGISTER, course_id=None, email_opt_in=None),
+            'platform_name': microsite.get_value(
+                'platform_name',
+                settings.PLATFORM_NAME
+            ),
+            'selected_provider': 'LearningAuth',
+            'username': r.get('displayName'),
+        }
+        return render_to_response('register.html', context)
+
 # Need different levels of logging
 @ensure_csrf_cookie
 def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,unused-argument
@@ -1153,6 +1205,12 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
                 }
             }
         )
+
+    if not isinstance(user, User):
+        return JsonResponse({
+                "success": False,
+                "redirect": "/learningauth",
+            })
 
     if user is not None and user.is_active:
         try:
@@ -1434,6 +1492,7 @@ def _do_create_account(post_vars, extended_profile=None):
     return (user, profile, registration)
 
 
+@csrf_exempt
 def create_account(request, post_override=None):  # pylint: disable-msg=too-many-statements
     """
     JSON call to create new edX account.

@@ -5,6 +5,7 @@ invoke the Django armature.
 """
 
 from social.backends import google, linkedin, facebook
+from third_party_auth.lib import learning_auth
 from third_party_auth.lib import amplify
 
 _DEFAULT_ICON_CLASS = 'fa-signin'
@@ -183,6 +184,28 @@ class AmplifyOauth2(BaseProvider):
     SETTINGS = {
         'SOCIAL_AUTH_AMPLIFY_KEY': None,
         'SOCIAL_AUTH_AMPLIFY_SECRET': None,
+    }
+
+    @classmethod
+    def get_email(cls, provider_details):
+        return provider_details.get('email')
+
+    @classmethod
+    def get_name(cls, provider_details):
+        return provider_details.get('name')
+
+class LearningAuth(BaseProvider):
+    """Provider for Amplify's Oauth2 auth system."""
+
+    BACKEND_CLASS = learning_auth.LearningAuth
+    ICON_CLASS = 'fa-adn'
+    NAME = 'LearningAuth'
+    #: The variable names in settings should be consistent with
+    # the variable names in the configuration file. The format of
+    # the variable name is SOCIAL_AUTH_<backend_name>_KEY/SECRET
+    SETTINGS = {
+        'SOCIAL_AUTH_LearningAuth_KEY': None,
+        'SOCIAL_AUTH_LearningAuth_SECRET': None,
     }
 
     @classmethod

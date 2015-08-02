@@ -17,8 +17,10 @@ urlpatterns = ('',  # nopep8
     url(r'^$', 'branding.views.index', name="root"),   # Main marketing page, or redirect to courseware
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),
     url(r'^login_ajax$', 'student.views.login_user', name="login"),
+    url(r'^learningauth', 'student.views.get_learning_auth', name="learningauth"),
     url(r'^login_ajax/(?P<error>[^/]*)$', 'student.views.login_user'),
     url(r'^login$', 'student.views.signin_user', name="signin_user"),
+    url(r'^getLearningAuth', 'student.views.get_learning_auth', name="signin_user"),
     url(r'^register$', 'student.views.register_user', name="register_user"),
 
     # pylint: disable=bad-continuation
