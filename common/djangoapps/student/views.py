@@ -21,7 +21,7 @@ from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.core.validators import validate_email, validate_slug, ValidationError
 from django.db import IntegrityError, transaction
-from django.http import (HttpResponse, HttpResponseBadRequest, HttpResponseForbidden,
+from django.http import (HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseRedirect,
                          Http404)
 from django.shortcuts import redirect
 from django.utils.translation import ungettext
@@ -1108,15 +1108,17 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
             })
 
     else:
-
-        if 'email' not in request.POST or 'password' not in request.POST:
+        if 'learning_auth' in request.POST:
+            email = None
+        elif 'email' not in request.POST or 'password' not in request.POST:
             return JsonResponse({
                 "success": False,
                 "value": _('There was an error receiving your login information. Please email us.'),  # TODO: User error message
             })  # TODO: this should be status code 400  # pylint: disable=fixme
+        else:
+            email = request.POST['email']
+            password = request.POST['password']
 
-        email = request.POST['email']
-        password = request.POST['password']
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
@@ -1169,7 +1171,10 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
 
     if not third_party_auth_successful:
         try:
-            user = authenticate(username=username, password=password, request=request)
+            if 'learning_auth' in request.POST:
+                user = authenticate(username=username, request=request, learning_auth=True)
+            else:
+                user = authenticate(username=username, password=password, request=request)
         # this occurs when there are too many attempts from the same IP address
         except RateLimitException:
             return JsonResponse({

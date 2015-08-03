@@ -24,7 +24,7 @@ class LearningAuth(BaseAuth):
         """Use user uid as unique id"""
         return response['user_uid']
 
-    def authenticate(self, username=None, password=None, request=None):
+    def authenticate(self, username=None, request=None, learning_auth=True):
         try:
             # Check if this user is valid on the mail server
             cookieStr = ""
