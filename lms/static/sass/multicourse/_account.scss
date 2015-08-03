@@ -158,7 +158,7 @@
 }
 
 // shared
-.login, .register, .passwordreset, #forgot-password-modal #password-reset {
+.login, .register, .passwordreset, .sudo, #forgot-password-modal #password-reset {
 
   // reset - horrible, but necessary
   p, ol, ul, h1, h2, h3, h4, h5, h6, label, input, textarea {

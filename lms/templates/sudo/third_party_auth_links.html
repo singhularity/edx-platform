@@ -1,0 +1,18 @@
+
+{% load i18n microsite %}
+<script type="text/javascript">
+    function thirdPartySignin(event, url) {
+      event.preventDefault();
+      window.location.href = url;
+    }
+</script>
+<span class="deco-divider">
+<span class="copy">{% trans "or" %}</span>
+</span>
+
+<div class="form-actions form-third-party-auth">
+
+{% for enabled in providers %}
+  <button type="submit" class="button button-primary button-{{enabled.provider_id}} login-{{enabled.provider_id}}" onclick="thirdPartySignin(event, '{{pipeline_url|get_pipeline_url:enabled.provider_id}}');"><span class="icon fa {{enabled.icon_class}}"></span>{% trans 'Sign in with' %} {% trans enabled.name %}</button>
+{% endfor %}
+</div>
