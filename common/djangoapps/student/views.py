@@ -1043,7 +1043,7 @@ def get_learning_auth(request):
     for cookie in request.COOKIES.keys():
         cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
     headers = {'Cookie': cookieStr}
-    r = requests.get(settings.FEATURES["AMPLIFY_LEARNING_AUTH_STATUS_URL"], headers=headers)
+    r = requests.get(settings.FEATURES["AMPLIFY_LEARNING_AUTH_STATUS_URL"], headers=headers, verify=False)
     try:
         r = json.loads(r.text)
         user = User.objects.get(email=r.get('user'))

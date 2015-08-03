@@ -31,7 +31,7 @@ class LearningAuth(BaseAuth):
             for cookie in request.COOKIES.keys():
                 cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
             headers = {'Cookie': cookieStr}
-            r = requests.get(settings.FEATURES["AMPLIFY_LEARNING_AUTH_STATUS_URL"], headers=headers)
+            r = requests.get(settings.FEATURES["AMPLIFY_LEARNING_AUTH_STATUS_URL"], headers=headers, verify=False)
             if r.status_code != 200:
                 return redirect("/register")
         except:
