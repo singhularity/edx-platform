@@ -1150,13 +1150,17 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
             })  # TODO: this should be status code 429  # pylint: disable=fixme
 
     # see if the user must reset his/her password due to any policy settings
-    if PasswordHistory.should_user_reset_password_now(user_found_by_email_lookup):
-        return JsonResponse({
-            "success": False,
-            "value": _('Your password has expired due to password policy on this account. You must '
-                       'reset your password before you can log in again. Please click the '
-                       '"Forgot Password" link on this page to reset your password before logging in again.'),
-        })  # TODO: this should be status code 403  # pylint: disable=fixme
+    first_party_auth_setting = settings.FEATURES.get('ENABLE_FIRST_PARTY_AUTH', False)
+    enable_first_party_auth = first_party_auth_setting if isinstance(first_party_auth_setting, bool) else True if first_party_auth_setting.lower() == 'true' else False
+
+    if not enable_first_party_auth:
+        if PasswordHistory.should_user_reset_password_now(user_found_by_email_lookup):
+            return JsonResponse({
+                "success": False,
+                "value": _('Your password has expired due to password policy on this account. You must '
+                           'reset your password before you can log in again. Please click the '
+                           '"Forgot Password" link on this page to reset your password before logging in again.'),
+            })  # TODO: this should be status code 403  # pylint: disable=fixme
 
     # if the user doesn't exist, we want to set the username to an invalid
     # username so that authentication is guaranteed to fail and we can take
@@ -1192,8 +1196,9 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
         })  # TODO: this should be status code 400  # pylint: disable=fixme
 
     # successful login, clear failed login attempts counters, if applicable
-    if LoginFailures.is_feature_enabled():
-        LoginFailures.clear_lockout_counter(user)
+    if not enable_first_party_auth:
+        if LoginFailures.is_feature_enabled():
+            LoginFailures.clear_lockout_counter(user)
 
     # Track the user's sign in
     if settings.FEATURES.get('SEGMENT_IO_LMS') and hasattr(settings, 'SEGMENT_IO_LMS_KEY'):
