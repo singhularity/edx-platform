@@ -91,6 +91,7 @@ class TestExtraRegistrationVariables(TestCase):
             'password': 'password',
             'terms_of_service': 'true',
             'honor_code': 'true',
+            'userfromslashregister': 'true',
         }
 
     def test_default_missing_honor(self):

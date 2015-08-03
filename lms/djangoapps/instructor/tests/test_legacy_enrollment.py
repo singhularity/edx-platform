@@ -110,11 +110,12 @@ class TestInstructorEnrollsStudent(ModuleStoreTestCase, LoginEnrollmentTestCase)
         # Create and activate student accounts with same email
         self.student1 = 'student1_1@test.com'
         self.password = 'bar'
-        self.create_account('s1_1', self.student1, self.password)
+        self.valid_user = 'true'  # pylint: disable=attribute-defined-outside-init
+        self.create_account('s1_1', self.student1, self.password, self.valid_user)
         self.activate_user(self.student1)
 
         self.student2 = 'student1_2@test.com'
-        self.create_account('s1_2', self.student2, self.password)
+        self.create_account('s1_2', self.student2, self.password, self.valid_user)
         self.activate_user(self.student2)
 
         # Check students are enrolled
@@ -168,11 +169,12 @@ class TestInstructorEnrollsStudent(ModuleStoreTestCase, LoginEnrollmentTestCase)
         # Create and activate student accounts with same email
         self.student = 'student2_1@test.com'
         self.password = 'bar'
-        self.create_account('s2_1', self.student, self.password)
+        self.valid_user = 'true'  # pylint: disable=attribute-defined-outside-init
+        self.create_account('s2_1', self.student, self.password, self.valid_user)
         self.activate_user(self.student)
 
         self.student = 'student2_2@test.com'
-        self.create_account('s2_2', self.student, self.password)
+        self.create_account('s2_2', self.student, self.password, self.valid_user)
         self.activate_user(self.student)
 
         # Check students are not enrolled

@@ -50,7 +50,8 @@ class TestSubmittingProblems(ModuleStoreTestCase, LoginEnrollmentTestCase):
         # create a test student
         self.student = 'view@test.com'
         self.password = 'foo'
-        self.create_account('u1', self.student, self.password)
+        self.valid_user = 'true'
+        self.create_account('u1', self.student, self.password, self.valid_user)
         self.activate_user(self.student)
         self.enroll(self.course)
         self.student_user = User.objects.get(email=self.student)

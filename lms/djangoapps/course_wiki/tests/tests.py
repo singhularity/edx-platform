@@ -24,8 +24,9 @@ class WikiRedirectTestCase(LoginEnrollmentTestCase):
         self.student = 'view@test.com'
         self.instructor = 'view2@test.com'
         self.password = 'foo'
-        self.create_account('u1', self.student, self.password)
-        self.create_account('u2', self.instructor, self.password)
+        self.valid_user = 'true'
+        self.create_account('u1', self.student, self.password, self.valid_user)
+        self.create_account('u2', self.instructor, self.password, self.valid_user)
         self.activate_user(self.student)
         self.activate_user(self.instructor)
 

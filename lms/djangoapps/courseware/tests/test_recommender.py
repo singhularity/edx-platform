@@ -108,7 +108,8 @@ class TestRecommender(ModuleStoreTestCase, LoginEnrollmentTestCase):
 
         for idx, student in enumerate(self.STUDENTS):
             username = "u{}".format(idx)
-            self.create_account(username, student['email'], student['password'])
+            valid_user = 'true'
+            self.create_account(username, student['email'], student['password'], valid_user)
             self.activate_user(student['email'])
 
         self.staff_user = GlobalStaffFactory()

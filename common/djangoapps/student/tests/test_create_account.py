@@ -37,6 +37,7 @@ class TestCreateAccount(TestCase):
             "name": "Test User",
             "honor_code": "true",
             "terms_of_service": "true",
+            "userfromslashregister": "true",
         }
 
     @ddt.data("en", "eo")
@@ -111,6 +112,7 @@ class TestCreateCommentsServiceUser(TransactionTestCase):
             "username": self.username,
             "email": "test@example.org",
             "password": "testpass",
+            "userfromslashregister": "true",
             "name": "Test User",
             "honor_code": "true",
             "terms_of_service": "true",
