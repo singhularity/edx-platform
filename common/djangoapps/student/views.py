@@ -1066,6 +1066,8 @@ def get_learning_auth(request):
             ),
             'selected_provider': 'LearningAuth',
             'username': r.get('displayName'),
+            'learning_user': True,
+            'password': pipeline.make_random_password()
         }
         return render_to_response('register.html', context)
 

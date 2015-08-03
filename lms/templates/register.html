@@ -183,6 +183,10 @@
             <input id="password" type="password" name="password" value="" disabled required aria-required="true" />
           </li>
 
+          % elif learning_user:
+              <li class="is-disabled field optional password" id="field-password" hidden>
+                <input id="password" type="password" name="password" value="${password}" required aria-required="true" />
+              </li>
           % else:
 
           <li class="field required password" id="field-password">
