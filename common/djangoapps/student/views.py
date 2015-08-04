@@ -386,13 +386,14 @@ def signin_user(request):
         ),
     }
 
-    if settings.FEATURES.get('AMPLIFY_AUTHORIZATION_URL') in request.META.get('HTTP_REFERER'):
-        return redirect("/register")
-
     return render_to_response('login.html', context)
 
 
 def dummy_napi_service(request):
+    """
+    :param request:
+    :return: dummy napi response
+    """
     staff_uid = request.GET.get("staff_uids")
     random_default_fname = "fn{}".format(staff_uid)
     random_default_lname = "ln_{}".format(staff_uid)
@@ -1036,8 +1037,9 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
             third_party_auth_successful = True
         except User.DoesNotExist:
             AUDIT_LOG.warning(
-                u'Login failed - user with username {username} has no social auth with backend_name {backend_name}'.format(
-                    username=username, backend_name=backend_name))
+                u'Login failed - user with username {username} has no social auth with '
+                u'backend_name {backend_name}'.format(username=username,
+                                                      backend_name=backend_name))
             return JsonResponse({
                 "success": False,
                 "redirect": "/register",
@@ -1473,8 +1475,8 @@ def create_account(request, post_override=None):  # pylint: disable-msg=too-many
         post_vars.update(dict(email=email, name=name, password=password))
         log.debug(u'In create_account with external_auth: user = %s, email=%s', name, email)
 
-    # Confirm this is a valid sso user
-    if 'ssouserfromslashregister' not in post_vars:
+    # Confirm this is a valid user registration called by /register
+    if 'userfromslashregister' not in post_vars:
         js['value'] = _('User is not valid.')
         return JsonResponse(js, status=400)
 

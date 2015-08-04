@@ -2,7 +2,6 @@
 Amplify OAuth2 Sign-in backends
 Refer to this documentation: http://psa.matiasaguirre.net/docs/backends/implementation.html#oauth
 """
-import random
 
 from social.backends.oauth import BaseOAuth2, BaseAuth, OAuthAuth
 from social.utils import url_add_parameters

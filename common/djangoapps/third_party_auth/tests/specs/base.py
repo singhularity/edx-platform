@@ -356,6 +356,7 @@ class IntegrationTest(testutil.TestCase, test.TestCase):
             'honor_code': 'true',
             'terms_of_service': 'true',
             'password': 'password',
+            'userfromslashregister': 'true',
             'mailing_address': '',
             'email': 'user@email.com',
         }

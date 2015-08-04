@@ -36,10 +36,12 @@ class LoginEnrollmentTestCase(TestCase):
         self.email = 'foo@test.com'
         self.password = 'bar'
         self.username = 'test'
+        self.valid_user = 'true'  # pylint: disable=attribute-defined-outside-init
         self.user = self.create_account(
             self.username,
             self.email,
             self.password,
+            self.valid_user,
         )
         self.activate_user(self.email)
         self.login(self.email, self.password)
@@ -77,7 +79,7 @@ class LoginEnrollmentTestCase(TestCase):
         # should redirect
         self.assert_request_status_code(302, reverse('logout'))
 
-    def create_account(self, username, email, password):
+    def create_account(self, username, email, password, valid_user):
         """
         Create the account and check that it worked.
         """
@@ -89,6 +91,7 @@ class LoginEnrollmentTestCase(TestCase):
             'name': 'username',
             'terms_of_service': 'true',
             'honor_code': 'true',
+            'userfromslashregister': valid_user,
         }
         resp = self.assert_request_status_code(200, url, method="POST", data=request_data)
         data = json.loads(resp.content)

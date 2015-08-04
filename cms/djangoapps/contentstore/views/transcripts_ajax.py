@@ -25,7 +25,6 @@ from xmodule.modulestore.django import modulestore
 from opaque_keys.edx.keys import UsageKey
 from xmodule.contentstore.django import contentstore
 from xmodule.modulestore.exceptions import ItemNotFoundError
-from django_future.csrf import ensure_staff
 
 from util.json_request import JsonResponse
 
@@ -66,7 +65,6 @@ def error_response(response, message, status_code=400):
 
 
 @login_required
-@ensure_staff
 def upload_transcripts(request):
     """
     Upload transcripts for current module.
@@ -140,7 +138,6 @@ def upload_transcripts(request):
 
 
 @login_required
-@ensure_staff
 def download_transcripts(request):
     """
     Passes to user requested transcripts file.
@@ -185,7 +182,6 @@ def download_transcripts(request):
 
 
 @login_required
-@ensure_staff
 def check_transcripts(request):
     """
     Check state of transcripts availability.
@@ -352,7 +348,6 @@ def _transcripts_logic(transcripts_presence, videos):
 
 
 @login_required
-@ensure_staff
 def choose_transcripts(request):
     """
     Replaces html5 subtitles, presented for both html5 sources, with chosen one.
@@ -391,7 +386,6 @@ def choose_transcripts(request):
 
 
 @login_required
-@ensure_staff
 def replace_transcripts(request):
     """
     Replaces all transcripts with youtube ones.
@@ -463,7 +457,6 @@ def _validate_transcripts_data(request):
 
 
 @login_required
-@ensure_staff
 def rename_transcripts(request):
     """
     Create copies of existing subtitles with new names of HTML5 sources.
@@ -496,7 +489,6 @@ def rename_transcripts(request):
 
 
 @login_required
-@ensure_staff
 def save_transcripts(request):
     """
     Saves video module with updated values of fields.

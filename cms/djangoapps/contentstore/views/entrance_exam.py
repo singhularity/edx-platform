@@ -6,7 +6,7 @@ import json
 import logging
 
 from django.contrib.auth.decorators import login_required
-from django_future.csrf import ensure_csrf_cookie, ensure_staff
+from django_future.csrf import ensure_csrf_cookie
 from django.http import HttpResponse
 from django.test import RequestFactory
 
@@ -27,7 +27,6 @@ log = logging.getLogger(__name__)
 
 
 @login_required
-@ensure_staff
 @ensure_csrf_cookie
 def entrance_exam(request, course_key_string):
     """

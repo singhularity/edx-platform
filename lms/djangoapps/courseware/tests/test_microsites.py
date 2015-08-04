@@ -61,10 +61,11 @@ class TestMicrosites(ModuleStoreTestCase, LoginEnrollmentTestCase):
 
     def setup_users(self):
         # Create student accounts and activate them.
+        valid_user = 'true'
         for i in range(len(self.STUDENT_INFO)):
             email, password = self.STUDENT_INFO[i]
             username = 'u{0}'.format(i)
-            self.create_account(username, email, password)
+            self.create_account(username, email, password, valid_user)
             self.activate_user(email)
 
     @override_settings(SITE_NAME=settings.MICROSITE_TEST_HOSTNAME)
