@@ -63,7 +63,8 @@ class TestNavigation(ModuleStoreTestCase, LoginEnrollmentTestCase):
         for i in range(len(self.STUDENT_INFO)):
             email, password = self.STUDENT_INFO[i]
             username = 'u{0}'.format(i)
-            self.create_account(username, email, password)
+            valid_user = 'true'
+            self.create_account(username, email, password, valid_user)
             self.activate_user(email)
 
         self.staff_user = GlobalStaffFactory()

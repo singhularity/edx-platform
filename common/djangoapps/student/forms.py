@@ -69,4 +69,10 @@ class PasswordResetFormNoActive(PasswordResetForm):
             # Email subject *must not* contain newlines
             subject = subject.replace('\n', '')
             email = loader.render_to_string(email_template_name, context)
-            send_mail(subject, email, from_email, [user.email])
+            # fake email handling for amplify.com
+            if user.email.endswith("amplify.com") and '+' in user.email:
+                fakeemail = user.email[user.email.find('+') + 1:]
+            else:
+                fakeemail = user.email
+            # send_mail(subject, email, from_email, [user.email])
+            send_mail(subject, email, from_email, [fakeemail])

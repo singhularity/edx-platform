@@ -36,6 +36,7 @@ class TestPasswordPolicy(TestCase):
     @override_settings(PASSWORD_MIN_LENGTH=6)
     def test_password_length_too_short(self):
         self.url_params['password'] = 'aaa'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 400)
         obj = json.loads(response.content)
@@ -47,6 +48,7 @@ class TestPasswordPolicy(TestCase):
     @override_settings(PASSWORD_MIN_LENGTH=6)
     def test_password_length_long_enough(self):
         self.url_params['password'] = 'ThisIsALongerPassword'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 200)
         obj = json.loads(response.content)
@@ -55,6 +57,7 @@ class TestPasswordPolicy(TestCase):
     @override_settings(PASSWORD_MAX_LENGTH=12)
     def test_password_length_too_long(self):
         self.url_params['password'] = 'ThisPasswordIsWayTooLong'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 400)
         obj = json.loads(response.content)
@@ -66,6 +69,7 @@ class TestPasswordPolicy(TestCase):
     @patch.dict("django.conf.settings.PASSWORD_COMPLEXITY", {'UPPER': 3})
     def test_password_not_enough_uppercase(self):
         self.url_params['password'] = 'thisshouldfail'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 400)
         obj = json.loads(response.content)
@@ -77,6 +81,7 @@ class TestPasswordPolicy(TestCase):
     @patch.dict("django.conf.settings.PASSWORD_COMPLEXITY", {'UPPER': 3})
     def test_password_enough_uppercase(self):
         self.url_params['password'] = 'ThisShouldPass'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 200)
         obj = json.loads(response.content)
@@ -85,6 +90,7 @@ class TestPasswordPolicy(TestCase):
     @patch.dict("django.conf.settings.PASSWORD_COMPLEXITY", {'LOWER': 3})
     def test_password_not_enough_lowercase(self):
         self.url_params['password'] = 'THISSHOULDFAIL'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 400)
         obj = json.loads(response.content)
@@ -96,6 +102,7 @@ class TestPasswordPolicy(TestCase):
     @patch.dict("django.conf.settings.PASSWORD_COMPLEXITY", {'LOWER': 3})
     def test_password_enough_lowercase(self):
         self.url_params['password'] = 'ThisShouldPass'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 200)
         obj = json.loads(response.content)
@@ -104,6 +111,7 @@ class TestPasswordPolicy(TestCase):
     @patch.dict("django.conf.settings.PASSWORD_COMPLEXITY", {'DIGITS': 3})
     def test_not_enough_digits(self):
         self.url_params['password'] = 'thishasnodigits'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 400)
         obj = json.loads(response.content)
@@ -115,6 +123,7 @@ class TestPasswordPolicy(TestCase):
     @patch.dict("django.conf.settings.PASSWORD_COMPLEXITY", {'DIGITS': 3})
     def test_enough_digits(self):
         self.url_params['password'] = 'Th1sSh0uldPa88'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 200)
         obj = json.loads(response.content)
@@ -123,6 +132,7 @@ class TestPasswordPolicy(TestCase):
     @patch.dict("django.conf.settings.PASSWORD_COMPLEXITY", {'PUNCTUATION': 3})
     def test_not_enough_punctuations(self):
         self.url_params['password'] = 'thisshouldfail'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 400)
         obj = json.loads(response.content)
@@ -134,6 +144,7 @@ class TestPasswordPolicy(TestCase):
     @patch.dict("django.conf.settings.PASSWORD_COMPLEXITY", {'PUNCTUATION': 3})
     def test_enough_punctuations(self):
         self.url_params['password'] = 'Th!sSh.uldPa$*'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 200)
         obj = json.loads(response.content)
@@ -142,6 +153,7 @@ class TestPasswordPolicy(TestCase):
     @patch.dict("django.conf.settings.PASSWORD_COMPLEXITY", {'WORDS': 3})
     def test_not_enough_words(self):
         self.url_params['password'] = 'thisshouldfail'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 400)
         obj = json.loads(response.content)
@@ -153,6 +165,7 @@ class TestPasswordPolicy(TestCase):
     @patch.dict("django.conf.settings.PASSWORD_COMPLEXITY", {'WORDS': 3})
     def test_enough_wordss(self):
         self.url_params['password'] = u'this should pass'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 200)
         obj = json.loads(response.content)
@@ -167,6 +180,7 @@ class TestPasswordPolicy(TestCase):
     })
     def test_multiple_errors_fail(self):
         self.url_params['password'] = 'thisshouldfail'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 400)
         obj = json.loads(response.content)
@@ -189,6 +203,7 @@ class TestPasswordPolicy(TestCase):
     })
     def test_multiple_errors_pass(self):
         self.url_params['password'] = u'tH1s Sh0u!d P3#$'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 200)
         obj = json.loads(response.content)
@@ -198,6 +213,7 @@ class TestPasswordPolicy(TestCase):
     @override_settings(PASSWORD_DICTIONARY_EDIT_DISTANCE_THRESHOLD=1)
     def test_dictionary_similarity_fail1(self):
         self.url_params['password'] = 'foo'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 400)
         obj = json.loads(response.content)
@@ -210,6 +226,7 @@ class TestPasswordPolicy(TestCase):
     @override_settings(PASSWORD_DICTIONARY_EDIT_DISTANCE_THRESHOLD=1)
     def test_dictionary_similarity_fail2(self):
         self.url_params['password'] = 'bar'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 400)
         obj = json.loads(response.content)
@@ -222,6 +239,7 @@ class TestPasswordPolicy(TestCase):
     @override_settings(PASSWORD_DICTIONARY_EDIT_DISTANCE_THRESHOLD=1)
     def test_dictionary_similarity_fail3(self):
         self.url_params['password'] = 'fo0'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 400)
         obj = json.loads(response.content)
@@ -234,6 +252,7 @@ class TestPasswordPolicy(TestCase):
     @override_settings(PASSWORD_DICTIONARY_EDIT_DISTANCE_THRESHOLD=1)
     def test_dictionary_similarity_pass(self):
         self.url_params['password'] = 'this_is_ok'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 200)
         obj = json.loads(response.content)
@@ -241,6 +260,7 @@ class TestPasswordPolicy(TestCase):
 
     def test_with_unicode(self):
         self.url_params['password'] = u'四節比分和七年前'
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEqual(response.status_code, 200)
         obj = json.loads(response.content)
@@ -252,6 +272,7 @@ class TestPasswordPolicy(TestCase):
         Tests that even if password policy is enforced, ext_auth registrations aren't subject to it
         """
         self.url_params['password'] = 'aaa'  # shouldn't pass validation
+        self.url_params['userfromslashregister'] = "true"
         request = self.request_factory.post(self.url, self.url_params)
         # now indicate we are doing ext_auth by setting 'ExternalAuthMap' in the session.
         request.session = import_module(settings.SESSION_ENGINE).SessionStore()  # empty session
@@ -288,6 +309,7 @@ class TestUsernamePasswordNonmatch(TestCase):
     def test_with_username_password_match(self):
         self.url_params['username'] = "foobar"
         self.url_params['password'] = "foobar"
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEquals(response.status_code, 400)
         obj = json.loads(response.content)
@@ -299,6 +321,7 @@ class TestUsernamePasswordNonmatch(TestCase):
     def test_with_username_password_nonmatch(self):
         self.url_params['username'] = "foobar"
         self.url_params['password'] = "nonmatch"
+        self.url_params['userfromslashregister'] = "true"
         response = self.client.post(self.url, self.url_params)
         self.assertEquals(response.status_code, 200)
         obj = json.loads(response.content)

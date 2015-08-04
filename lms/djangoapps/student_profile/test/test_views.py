@@ -24,6 +24,7 @@ class StudentProfileViewTest(UrlResetMixin, TestCase):
     PASSWORD = u'ḅḷüëṡḳÿ'
     EMAIL = u'walt@savewalterwhite.com'
     FULL_NAME = u'𝖂𝖆𝖑𝖙𝖊𝖗 𝖂𝖍𝖎𝖙𝖊'
+    VALID_USER = u'true'
 
     TEST_LANGUAGE = language_api.Language('eo', u'Dummy language')
 
@@ -38,7 +39,7 @@ class StudentProfileViewTest(UrlResetMixin, TestCase):
         super(StudentProfileViewTest, self).setUp("student_profile.urls")
 
         # Create/activate a new account
-        activation_key = account_api.create_account(self.USERNAME, self.PASSWORD, self.EMAIL)
+        activation_key = account_api.create_account(self.USERNAME, self.PASSWORD, self.EMAIL, self.VALID_USER)
         account_api.activate_account(activation_key)
 
         # Login

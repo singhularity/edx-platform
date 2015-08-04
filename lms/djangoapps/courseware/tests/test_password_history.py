@@ -48,7 +48,8 @@ class TestPasswordHistory(LoginEnrollmentTestCase):
         email = 'foo_{0}@test.com'.format(uuid4().hex[:8])
         password = password if password else 'foo'
         username = 'test_{0}'.format(uuid4().hex[:8])
-        self.create_account(username, email, password)
+        valid_user = 'true'
+        self.create_account(username, email, password, valid_user)
         self.activate_user(email)
 
         # manually twiddle the is_staff bit, if needed

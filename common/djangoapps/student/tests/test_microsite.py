@@ -52,6 +52,7 @@ class TestMicrosite(TestCase):
             "username": self.username,
             "email": "test@example.org",
             "password": "testpass",
+            "userfromslashregister": "true",
             "name": "Test User",
             "honor_code": "true",
             "terms_of_service": "true",
