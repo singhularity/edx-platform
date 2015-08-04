@@ -434,7 +434,6 @@ def dummy_learning_service(request):
 
     return HttpResponse(json.dumps(user_dummy), content_type="application/json")
 
-
 @ensure_csrf_cookie
 def register_user(request, extra_context=None):
     """
