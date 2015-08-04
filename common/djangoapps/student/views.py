@@ -412,6 +412,7 @@ def dummy_napi_service(request):
 
     return HttpResponse(json.dumps([response_json]), content_type="application/json")
 
+
 def dummy_learning_service(request):
     import random
     random_user = random.randint(0, 1000)
@@ -430,7 +431,6 @@ def dummy_learning_service(request):
     user_dummy['expiration'] = 1438145412489
     user_dummy['current_time'] = 1438144212497
     user_dummy['social_user'] = '{}@@wgennc.net'.format(random_user_name)
-
 
     return HttpResponse(json.dumps(user_dummy), content_type="application/json")
 
@@ -1246,9 +1246,9 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
 
     if not isinstance(user, User):
         return JsonResponse({
-                "success": False,
-                "redirect": "/learningauth?action=login",
-            })
+            "success": False,
+            "redirect": "/learningauth?action=login",
+        })
 
     if user is not None and user.is_active:
         try:

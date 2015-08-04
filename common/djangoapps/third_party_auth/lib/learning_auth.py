@@ -8,6 +8,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 import requests
 
+
 class LearningAuth():
 
     # Create an authentication method
@@ -45,6 +46,3 @@ class LearningAuth():
             #     username=r.get('user'), backend_name='LearningAuth'))
             return redirect('/learningauth')
         return user
-
-
-
