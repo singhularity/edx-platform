@@ -31,7 +31,14 @@ class LearningAuth(BaseAuth):
             for cookie in request.COOKIES.keys():
                 cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
             headers = {'Cookie': cookieStr}
-            r = requests.get(settings.FEATURES["AMPLIFY_LEARNING_AUTH_STATUS_URL"], headers=headers, verify=False)
+
+            host = request.get_host()
+            if 'local' in host or '127' in host or '0' in host:
+                learning_url = "http://localhost:8000/dummyLearningService"
+            else:
+                learning_url = settings.FEATURES["AMPLIFY_LEARNING_URL"] + "status"
+
+            r = requests.get(learning_url, headers=headers, verify=False)
             if r.status_code != 200:
                 return redirect("/register")
         except:

@@ -413,25 +413,26 @@ def dummy_napi_service(request):
     return HttpResponse(json.dumps([response_json]), content_type="application/json")
 
 def dummy_learning_service(request):
-    r = """{
-              "authenticated": true,
-              "user": "diuadmin@wgennc.net",
-              "businessKey": "9987ccd2-b5e9-4c46-bb33-38f9f2fe0817",
-              "userId": 3,
-              "roles":
-              [
-                "ROLE_DIU_ADMIN"
-              ],
-              "firstName": "Danny",
-              "lastName": "Admin",
-              "displayName": "DannyAd",
-              "unique_id": "827a83dd79481b42e601b915f7a44aeaa802d3ed",
-              "expiration": 1438145412489,
-              "current_time": 1438144212497,
-              "social_user":"diuadmin@wgennc.net"
-            }"""
+    import random
+    random_user = random.randint(0, 1000)
+    random_user_name = "Name_{}".format(random_user)
+    random_user_lastname = "Lastname_{}".format(random_user)
+    user_dummy = {}
+    user_dummy['authenticated'] = True
+    user_dummy['user'] = "{}@wgennc.net".format(random_user_name)
+    user_dummy['businesskey'] = "{}7ccd2-b5e9-4c46-bb33-38f9f2fe0817".format(random_user)
+    user_dummy['userid'] = random_user
+    user_dummy['roles'] = ["ROLE_DIU_ADMIN"]
+    user_dummy['firstName'] = random_user_name
+    user_dummy['lastName'] = random_user_lastname
+    user_dummy['displayName'] = random_user_name + random_user_lastname
+    user_dummy['unique_id'] = '{}a83dd79481b42e601b915f7a44aeaa802d3ed'.format(random_user)
+    user_dummy['expiration'] = 1438145412489
+    user_dummy['current_time'] = 1438144212497
+    user_dummy['social_user'] = '{}@@wgennc.net'.format(random_user_name)
 
-    return HttpResponse(r, content_type="application/json")
+
+    return HttpResponse(json.dumps(user_dummy), content_type="application/json")
 
 
 @ensure_csrf_cookie
@@ -1041,13 +1042,21 @@ def get_learning_auth(request):
         else:
             protocol = 'https://'
         login_url_return_host = protocol + host + "/learningauth"
-        return redirect('{}?redirect_url={}'.format(settings.FEATURES["AMPLIFY_LEARNING_AUTH_LOGIN_URL"], login_url_return_host))
+        return redirect('{}?redirect_url={}'.format(settings.FEATURES["AMPLIFY_LEARNING_URL"] + "login", login_url_return_host))
+
     import requests
     cookieStr = ""
     for cookie in request.COOKIES.keys():
         cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
     headers = {'Cookie': cookieStr}
-    r = requests.get(settings.FEATURES["AMPLIFY_LEARNING_AUTH_STATUS_URL"], headers=headers, verify=False)
+
+    host = request.get_host()
+    if 'local' in host or '127' in host or '0' in host:
+        learning_url = "http://localhost:8000/dummyLearningService"
+    else:
+        learning_url = settings.FEATURES["AMPLIFY_LEARNING_URL"] + "status"
+
+    r = requests.get(learning_url, headers=headers, verify=False)
     try:
         r = json.loads(r.text)
         user = User.objects.get(email=r.get('user'))
@@ -1336,7 +1345,7 @@ def logout_user(request):
         cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
     headers = {'Cookie': cookieStr}
     import requests
-    requests.get(settings.FEATURES.get('AMPLIFY_LEARNING_AUTH_LOGOUT_URL'), headers=headers, verify=False)
+    requests.get(settings.FEATURES["AMPLIFY_LEARNING_URL"] + "logout", headers=headers, verify=False)
 
     response.delete_cookie(
         settings.EDXMKTG_COOKIE_NAME,
