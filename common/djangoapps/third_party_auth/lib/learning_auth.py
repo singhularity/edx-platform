@@ -7,22 +7,11 @@ __author__ = 'ssingh'
 from django.conf import settings
 from django.contrib.auth.models import User
 import requests
-from social.backends.oauth import BaseAuth
 
-class LearningAuth(BaseAuth):
+class LearningAuth():
 
     # Create an authentication method
     # This is called by the standard Django login procedure
-
-    name = 'LearningAuth'
-
-    EXTRA_DATA = [
-        ('expires_in', 'expires')
-    ]
-
-    def get_user_id(self, details, response):
-        """Use user uid as unique id"""
-        return response['user_uid']
 
     def authenticate(self, username=None, request=None, learning_auth=True):
         try:
@@ -56,36 +45,6 @@ class LearningAuth(BaseAuth):
             #     username=r.get('user'), backend_name='LearningAuth'))
             return redirect('/learningauth')
         return user
-
-    # Required for your backend to work properly - unchanged in most scenarios
-    def get_user(self, user_id):
-        try:
-            return User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            return None
-
-    def get_user_details(self, response):
-        """Return user details from Amplify account"""
-        username = response.get('username')
-        name = response.get('name')
-        email = response.get('email')
-        return {'username': username,
-                'email': email,
-                'name': name,
-                'honor_code': u'true',
-                'terms_of_service': u'true'}
-
-    def auth_html(self):
-        """Return login HTML content returned by provider
-            It is not being used, just override the abstract class to pass the quality tests
-        """
-        pass
-
-    def auth_complete(self, *args, **kwargs):
-        pass
-
-    def auth_url(self):
-        return "http://local.amplify.com:8002/wg-curriculum/auth/sso/login?redirect_url=http://local.amplify.com:8000/auth/complete/LearningAuth"
 
 
 
