@@ -1034,29 +1034,33 @@ def accounts_login(request):
 
 
 def get_learning_auth(request):
+    # Hack around because we cannot read cookies on the amplify domain locally
+    host = request.get_host()
+    isLocal = 'local' in host or '127' in host or '0' in host
+    # If this is a login request then redirect to learning API
     if request.GET.get('action') == 'login':
-        host = request.get_host()
-        if 'local' in host or '127' in host or '0' in host:
+        if isLocal:
             protocol = "http://"
         else:
             protocol = 'https://'
         login_url_return_host = protocol + host + "/learningauth"
         return redirect('{}?redirect_url={}'.format(settings.FEATURES["AMPLIFY_LEARNING_URL"] + "login", login_url_return_host))
 
+    # If this is not a login request then get the currently logged user from learning
     import requests
     cookieStr = ""
     for cookie in request.COOKIES.keys():
         cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
     headers = {'Cookie': cookieStr}
 
-    host = request.get_host()
-    if 'local' in host or '127' in host or '0' in host:
+    if isLocal:
         learning_url = "http://localhost:8000/dummyLearningService"
     else:
         learning_url = settings.FEATURES["AMPLIFY_LEARNING_URL"] + "status"
 
     r = requests.get(learning_url, headers=headers, verify=False)
     try:
+        # Load user details
         r = json.loads(r.text)
         user = User.objects.get(email=r.get('user'))
         login_user(request)
@@ -1064,6 +1068,7 @@ def get_learning_auth(request):
         AUDIT_LOG.warning(
             u'Login failed - user with username {username} has no social auth with backend_name {backend_name}'.format(
                 username=r.get('user'), backend_name='LearningAuth'))
+        # The user is logging in for the first time, register him automatically
         context = {
             'course_id': None,
             'email_opt_in': True,

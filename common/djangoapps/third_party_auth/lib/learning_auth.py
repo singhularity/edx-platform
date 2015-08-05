@@ -16,18 +16,20 @@ class LearningAuth():
 
     def authenticate(self, username=None, request=None, learning_auth=True):
         try:
-            # Check if this user is valid on the mail server
+            # Check if this user is a valid learning user
             cookieStr = ""
             for cookie in request.COOKIES.keys():
                 cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
             headers = {'Cookie': cookieStr}
 
+            # Hack around because we cannot read cookies on the amplify domain locally
             host = request.get_host()
             if 'local' in host or '127' in host or '0' in host:
                 learning_url = "http://localhost:8000/dummyLearningService"
             else:
                 learning_url = settings.FEATURES["AMPLIFY_LEARNING_URL"] + "status"
-
+            # If the user is not logged in then send a redirect
+            # This can probably be done in a better way, all we need is a non user return value
             r = requests.get(learning_url, headers=headers, verify=False)
             if r.status_code != 200:
                 return redirect("/register")
@@ -37,12 +39,10 @@ class LearningAuth():
             else:
                 return None
         try:
-            # Check if the user exists in Django's local database
+            # We got a proper response from Learning so get the user details
             userData = json.loads(r.text)
             user = User.objects.get(email=userData.get('user'))
         except User.DoesNotExist:
-            # AUDIT_LOG.warning(
-            # u'Login failed - user with username {username} has no social auth with backend_name {backend_name}'.format(
-            #     username=r.get('user'), backend_name='LearningAuth'))
+            # The user is logging in for the first time, again send a non user value as return value
             return redirect('/learningauth')
         return user
