@@ -1339,12 +1339,6 @@ def logout_user(request):
     else:
         target = '/'
     response = redirect(target)
-    cookieStr = ""
-    for cookie in request.COOKIES.keys():
-        cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
-    headers = {'Cookie': cookieStr}
-    import requests
-    requests.get(settings.FEATURES["AMPLIFY_LEARNING_URL"] + "logout", headers=headers, verify=False)
 
     response.delete_cookie(
         settings.EDXMKTG_COOKIE_NAME,
