@@ -1,7 +1,9 @@
 import newrelic.agent
+#Initializes New Relic
+if os.path.isfile('/edx/app/edxapp/edx-platform/newrelic.ini'):
+    newrelic.agent.initialize('/edx/app/edxapp/edx-platform/newrelic.ini')
+    newrelic.agent.global_settings().app_name += "_LMS_EDX"
 
-newrelic.agent.initialize('/edx/app/edxapp/edx-platform/newrelic.ini')
-newrelic.agent.global_settings().app_name = "LMS_TEST_POC"
 # Patch the xml libs
 from safe_lxml import defuse_xml_libs
 defuse_xml_libs()

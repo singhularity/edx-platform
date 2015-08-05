@@ -1,7 +1,9 @@
 import newrelic.agent
+#Initializes New Relic
+if os.path.isfile('/edx/app/edxapp/edx-platform/newrelic.ini'):
+    newrelic.agent.initialize('/edx/app/edxapp/edx-platform/newrelic.ini')
+    newrelic.agent.global_settings().app_name += "_CMS_EDX"
 
-newrelic.agent.initialize('/edx/app/edxapp/edx-platform/newrelic.ini')
-newrelic.agent.global_settings().app_name = "CMS_TEST_POC"
 # Patch the xml libs before anything else.
 from safe_lxml import defuse_xml_libs
 defuse_xml_libs()
