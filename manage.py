@@ -95,7 +95,7 @@ if __name__ == "__main__":
     if edx_args.settings:
         os.environ["DJANGO_SETTINGS_MODULE"] = edx_args.settings_base.replace('/', '.') + "." + edx_args.settings
     else:
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE ", edx_args.default_settings)
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", edx_args.default_settings)
 
     os.environ.setdefault("SERVICE_VARIANT", edx_args.service_variant)
 
