@@ -1,4 +1,5 @@
 import newrelic.agent
+import os
 
 #Initializes New Relic
 if os.path.isfile('/edx/app/edxapp/edx-platform/newrelic.ini'):
@@ -8,8 +9,6 @@ if os.path.isfile('/edx/app/edxapp/edx-platform/newrelic.ini'):
 # Patch the xml libs before anything else.
 from safe_lxml import defuse_xml_libs
 defuse_xml_libs()
-
-import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lms.envs.aws")
 os.environ.setdefault("SERVICE_VARIANT", "lms")
