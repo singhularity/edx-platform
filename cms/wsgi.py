@@ -1,5 +1,11 @@
-import newrelic.agent
+"""
+WSGI Entry Point
+"""
+
 #Initializes New Relic
+import newrelic.agent
+import os
+
 if os.path.isfile('/edx/app/edxapp/edx-platform/newrelic.ini'):
     newrelic.agent.initialize('/edx/app/edxapp/edx-platform/newrelic.ini')
     newrelic.agent.global_settings().app_name += "_CMS_EDX"
@@ -11,8 +17,6 @@ defuse_xml_libs()
 # Disable PyContract contract checking when running as a webserver
 import contracts
 contracts.disable_all()
-
-import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cms.envs.aws")
 
