@@ -1,7 +1,11 @@
+"""
+WSGI Entry Point
+"""
+
+#Initializes New Relic
 import newrelic.agent
 import os
 
-#Initializes New Relic
 if os.path.isfile('/edx/app/edxapp/edx-platform/newrelic.ini'):
     newrelic.agent.initialize('/edx/app/edxapp/edx-platform/newrelic.ini')
     newrelic.agent.global_settings().app_name += "_CMS_EDX"
