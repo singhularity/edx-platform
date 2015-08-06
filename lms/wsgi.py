@@ -1,4 +1,6 @@
 import newrelic.agent
+import os
+
 #Initializes New Relic
 if os.path.isfile('/edx/app/edxapp/edx-platform/newrelic.ini'):
     newrelic.agent.initialize('/edx/app/edxapp/edx-platform/newrelic.ini')
@@ -11,8 +13,6 @@ defuse_xml_libs()
 # Disable PyContract contract checking when running as a webserver
 import contracts
 contracts.disable_all()
-
-import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lms.envs.aws")
 
