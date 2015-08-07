@@ -1067,8 +1067,8 @@ def get_learning_auth(request):
         login_user(request)
     except User.DoesNotExist:
         AUDIT_LOG.warning(
-            u'Login failed - user with username {username} has no social auth with backend_name {backend_name}'.format(
-                username=r.get('user'), backend_name='LearningAuth'))
+            u'Login failed - user with username {username} does not exist, creating now.'.format(
+                username=r.get('user')))
         # The user is logging in for the first time, register him automatically
         context = {
             'course_id': None,
