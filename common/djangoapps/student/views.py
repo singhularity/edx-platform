@@ -1128,6 +1128,7 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
             })
 
     else:
+        # Added a check for the hidden field "learning_auth" to distinguish a POST call from the first party auth
         if 'learning_auth' in request.POST:
             email = None
         elif 'email' not in request.POST or 'password' not in request.POST:
@@ -1191,6 +1192,7 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
 
     if not third_party_auth_successful:
         try:
+            # Added a check for the hidden field "learning_auth" to distinguish a POST call from the first party auth
             if 'learning_auth' in request.POST:
                 user = authenticate(username=username, request=request, learning_auth=True)
             else:
