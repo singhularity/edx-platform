@@ -434,6 +434,7 @@ def dummy_learning_service(request):
 
     return HttpResponse(json.dumps(user_dummy), content_type="application/json")
 
+
 @ensure_csrf_cookie
 def register_user(request, extra_context=None):
     """
@@ -1087,6 +1088,7 @@ def get_learning_auth(request):
             'password': pipeline.make_random_password()
         }
         return render_to_response('register.html', context)
+
 
 # Need different levels of logging
 @ensure_csrf_cookie
