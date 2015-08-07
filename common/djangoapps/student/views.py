@@ -1036,7 +1036,7 @@ def accounts_login(request):
 def get_learning_auth(request):
     # Hack around because we cannot read cookies on the amplify domain locally
     host = request.get_host()
-    isLocal = 'local' in host or '127' in host or '0' in host
+    isLocal = host.startsWith('local') or host.startsWith('127') or host.startsWith('0')
     # If this is a login request then redirect to learning API
     if request.GET.get('action') == 'login':
         if isLocal:
