@@ -22,7 +22,7 @@ urlpatterns = ('',  # nopep8
     url(r'^login_ajax/(?P<error>[^/]*)$', 'student.views.login_user'),
     url(r'^login$', 'student.views.signin_user', name="signin_user"),
     # pylint: disable=bad-continuation
-    url(r'^getLearningAuth', 'student.views.get_learning_auth', name="signin_user"),
+    url(r'^getLearningAuth', 'student.views.get_learning_auth', name="signin_learning_user"),
     url(r'^register$', 'student.views.register_user', name="register_user"),
 
     # pylint: disable=bad-continuation
