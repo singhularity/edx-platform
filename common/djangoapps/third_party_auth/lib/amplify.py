@@ -73,7 +73,8 @@ class AmplifyOAuth2(BaseOAuth2):
     def auth_params(self, state=None):
         client_id, _ = self.get_key_and_secret()
         params = {
-            'client_id': client_id
+            'client_id': client_id,
+            'login_type': 'traditional'
         }
         if self.STATE_PARAMETER and state:
             params['state'] = state
