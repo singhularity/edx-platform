@@ -293,7 +293,9 @@ class CourseTeamPageTest(StudioCourseTest):
         current = self.page.get_user(self.user.get('email'))
         self.assertTrue(current.can_demote)
         self.assertTrue(current.can_delete)
-        current.click_delete()
+        # Don't wait for ajax to complete on deleting logged in user from course
+        # team because response will be 403.
+        current.click_delete(wait_for_ajax=False)
 
         self.log_in(self.user)
         self._assert_current_course(visible=False)

@@ -233,7 +233,7 @@ class UserWrapper(PageObject):
         """ Can this user be deleted? """
         return self.q(css=self._bounded_selector('.action-delete:not(.is-disabled) .remove-user')).present
 
-    def click_delete(self):
+    def click_delete(self, wait_for_ajax=True):
         """ Click the button to delete this user. """
         disable_animations(self)
         self.q(css=self._bounded_selector('.remove-user')).click()
@@ -241,7 +241,8 @@ class UserWrapper(PageObject):
         self.wait_for_element_visibility('.prompt', 'Prompt is visible')
         self.wait_for_element_visibility('.prompt .action-primary', 'Confirmation button is visible')
         self.q(css='.prompt .action-primary').click()
-        self.wait_for_ajax()
+        if wait_for_ajax:
+            self.wait_for_ajax()
 
     @property
     def has_no_change_warning(self):
