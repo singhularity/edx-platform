@@ -645,6 +645,7 @@ class IntegrationTest(testutil.TestCase, test.TestCase):
         self.assert_first_party_auth_trumps_third_party_auth(
             email='user@example.com', password='password', success=True)
 
+    @unittest.skip("Because the register form will no longer have ability to login using third party auth")
     def test_full_pipeline_succeeds_registering_new_account(self):
         # First, create, the request and strategy that store pipeline state.
         # Mock out wire traffic.
