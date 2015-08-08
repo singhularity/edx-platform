@@ -17,8 +17,12 @@ urlpatterns = ('',  # nopep8
     url(r'^$', 'branding.views.index', name="root"),   # Main marketing page, or redirect to courseware
     url(r'^dashboard$', 'student.views.dashboard', name="dashboard"),
     url(r'^login_ajax$', 'student.views.login_user', name="login"),
+    # pylint: disable=bad-continuation
+    url(r'^learningauth$', 'student.views.get_learning_auth', name="learningauth"),
     url(r'^login_ajax/(?P<error>[^/]*)$', 'student.views.login_user'),
     url(r'^login$', 'student.views.signin_user', name="signin_user"),
+    # pylint: disable=bad-continuation
+    url(r'^getLearningAuth', 'student.views.get_learning_auth', name="signin_learning_user"),
     url(r'^register$', 'student.views.register_user', name="register_user"),
 
     # pylint: disable=bad-continuation
@@ -28,6 +32,7 @@ urlpatterns = ('',  # nopep8
     # Needed because we cannot connect to Napi from the POC environment
 
     url(r'^views/staff', 'student.views.dummy_napi_service', name="napi_services"),
+    url(r'^dummyLearningService', 'student.views.dummy_learning_service', name="learning_services"),
 
     url(r'^admin_dashboard$', 'dashboard.views.dashboard'),
 

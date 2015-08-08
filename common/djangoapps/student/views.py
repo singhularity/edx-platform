@@ -21,7 +21,7 @@ from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.core.validators import validate_email, validate_slug, ValidationError
 from django.db import IntegrityError, transaction
-from django.http import (HttpResponse, HttpResponseBadRequest, HttpResponseForbidden,
+from django.http import (HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseRedirect,
                          Http404)
 from django.shortcuts import redirect
 from django.utils.translation import ungettext
@@ -389,6 +389,9 @@ def signin_user(request):
         'first_party_auth': enable_first_party_auth,
     }
 
+    if 'HTTP_REFERER' in request.META and settings.FEATURES.get('AMPLIFY_AUTHORIZATION_URL') in request.META.get('HTTP_REFERER'):
+        return redirect("/register")
+
     return render_to_response('login.html', context)
 
 
@@ -408,6 +411,28 @@ def dummy_napi_service(request):
     response_json['status_code'] = 200
 
     return HttpResponse(json.dumps([response_json]), content_type="application/json")
+
+
+def dummy_learning_service(request):
+    import random
+    random_user = random.randint(0, 1000)
+    random_user_name = "Name_{}".format(random_user)
+    random_user_lastname = "Lastname_{}".format(random_user)
+    user_dummy = {}
+    user_dummy['authenticated'] = True
+    user_dummy['user'] = "{}@wgennc.net".format(random_user_name)
+    user_dummy['businesskey'] = "{}7ccd2-b5e9-4c46-bb33-38f9f2fe0817".format(random_user)
+    user_dummy['userid'] = random_user
+    user_dummy['roles'] = ["ROLE_DIU_ADMIN"]
+    user_dummy['firstName'] = random_user_name
+    user_dummy['lastName'] = random_user_lastname
+    user_dummy['displayName'] = random_user_name + random_user_lastname
+    user_dummy['unique_id'] = '{}a83dd79481b42e601b915f7a44aeaa802d3ed'.format(random_user)
+    user_dummy['expiration'] = 1438145412489
+    user_dummy['current_time'] = 1438144212497
+    user_dummy['social_user'] = '{}@@wgennc.net'.format(random_user_name)
+
+    return HttpResponse(json.dumps(user_dummy), content_type="application/json")
 
 
 @ensure_csrf_cookie
@@ -1009,6 +1034,62 @@ def accounts_login(request):
     return render_to_response('login.html', context)
 
 
+def get_learning_auth(request):
+    # Hack around because we cannot read cookies on the amplify domain locally
+    host = request.get_host()
+    isLocal = host.startswith('local') or host.startswith('127') or host.startswith('0')
+    # If this is a login request then redirect to learning API
+    if request.GET.get('action') == 'login':
+        if isLocal:
+            protocol = "http://"
+        else:
+            protocol = 'https://'
+        login_url_return_host = protocol + host + "/learningauth"
+        return redirect('{}?redirect_url={}'.format(settings.FEATURES["AMPLIFY_LEARNING_URL"] + "login", login_url_return_host))
+
+    # If this is not a login request then get the currently logged user from learning
+    import requests
+    cookieStr = ""
+    for cookie in request.COOKIES.keys():
+        cookieStr += "{}={};".format(cookie, request.COOKIES.get(cookie))
+    headers = {'Cookie': cookieStr}
+
+    if isLocal:
+        learning_url = "http://localhost:8000/dummyLearningService"
+    else:
+        learning_url = settings.FEATURES["AMPLIFY_LEARNING_URL"] + "status"
+
+    r = requests.get(learning_url, headers=headers, verify=False)
+    try:
+        # Load user details
+        r = json.loads(r.text)
+        user = User.objects.get(email=r.get('user'))
+        login_user(request)
+    except User.DoesNotExist:
+        AUDIT_LOG.warning(
+            u'Login failed - user with username {username} does not exist, creating now.'.format(
+                username=r.get('user')))
+        # The user is logging in for the first time, register him automatically
+        context = {
+            'course_id': None,
+            'email_opt_in': True,
+            'email': r.get('user'),
+            'enrollment_action': None,
+            'name': r.get('firstName'),
+            'running_pipeline': None,
+            'pipeline_urls': auth_pipeline_urls(pipeline.AUTH_ENTRY_REGISTER, course_id=None, email_opt_in=None),
+            'platform_name': microsite.get_value(
+                'platform_name',
+                settings.PLATFORM_NAME
+            ),
+            'selected_provider': 'LearningAuth',
+            'username': r.get('displayName'),
+            'learning_user': True,
+            'password': pipeline.make_random_password()
+        }
+        return render_to_response('register.html', context)
+
+
 # Need different levels of logging
 @ensure_csrf_cookie
 def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,unused-argument
@@ -1049,15 +1130,18 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
             })
 
     else:
-
-        if 'email' not in request.POST or 'password' not in request.POST:
+        # Added a check for the hidden field "learning_auth" to distinguish a POST call from the first party auth
+        if 'learning_auth' in request.POST:
+            email = None
+        elif 'email' not in request.POST or 'password' not in request.POST:
             return JsonResponse({
                 "success": False,
                 "value": _('There was an error receiving your login information. Please email us.'),  # TODO: User error message
             })  # TODO: this should be status code 400  # pylint: disable=fixme
+        else:
+            email = request.POST['email']
+            password = request.POST['password']
 
-        email = request.POST['email']
-        password = request.POST['password']
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
@@ -1091,13 +1175,17 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
             })  # TODO: this should be status code 429  # pylint: disable=fixme
 
     # see if the user must reset his/her password due to any policy settings
-    if PasswordHistory.should_user_reset_password_now(user_found_by_email_lookup):
-        return JsonResponse({
-            "success": False,
-            "value": _('Your password has expired due to password policy on this account. You must '
-                       'reset your password before you can log in again. Please click the '
-                       '"Forgot Password" link on this page to reset your password before logging in again.'),
-        })  # TODO: this should be status code 403  # pylint: disable=fixme
+    first_party_auth_setting = settings.FEATURES.get('ENABLE_FIRST_PARTY_AUTH', False)
+    enable_first_party_auth = first_party_auth_setting if isinstance(first_party_auth_setting, bool) else True if first_party_auth_setting.lower() == 'true' else False
+
+    if not enable_first_party_auth:
+        if PasswordHistory.should_user_reset_password_now(user_found_by_email_lookup):
+            return JsonResponse({
+                "success": False,
+                "value": _('Your password has expired due to password policy on this account. You must '
+                           'reset your password before you can log in again. Please click the '
+                           '"Forgot Password" link on this page to reset your password before logging in again.'),
+            })  # TODO: this should be status code 403  # pylint: disable=fixme
 
     # if the user doesn't exist, we want to set the username to an invalid
     # username so that authentication is guaranteed to fail and we can take
@@ -1106,7 +1194,11 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
 
     if not third_party_auth_successful:
         try:
-            user = authenticate(username=username, password=password, request=request)
+            # Added a check for the hidden field "learning_auth" to distinguish a POST call from the first party auth
+            if 'learning_auth' in request.POST:
+                user = authenticate(username=username, request=request, learning_auth=True)
+            else:
+                user = authenticate(username=username, password=password, request=request)
         # this occurs when there are too many attempts from the same IP address
         except RateLimitException:
             return JsonResponse({
@@ -1133,8 +1225,9 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
         })  # TODO: this should be status code 400  # pylint: disable=fixme
 
     # successful login, clear failed login attempts counters, if applicable
-    if LoginFailures.is_feature_enabled():
-        LoginFailures.clear_lockout_counter(user)
+    if not enable_first_party_auth:
+        if LoginFailures.is_feature_enabled():
+            LoginFailures.clear_lockout_counter(user)
 
     # Track the user's sign in
     if settings.FEATURES.get('SEGMENT_IO_LMS') and hasattr(settings, 'SEGMENT_IO_LMS_KEY'):
@@ -1158,6 +1251,12 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
                 }
             }
         )
+
+    if not isinstance(user, User):
+        return JsonResponse({
+            "success": False,
+            "redirect": "/learningauth?action=login",
+        })
 
     if user is not None and user.is_active:
         try:
@@ -1249,6 +1348,7 @@ def logout_user(request):
     else:
         target = '/'
     response = redirect(target)
+
     response.delete_cookie(
         settings.EDXMKTG_COOKIE_NAME,
         path='/', domain=settings.SESSION_COOKIE_DOMAIN,
@@ -1439,6 +1539,7 @@ def _do_create_account(post_vars, extended_profile=None):
     return (user, profile, registration)
 
 
+@csrf_exempt
 def create_account(request, post_override=None):  # pylint: disable-msg=too-many-statements
     """
     JSON call to create new edX account.

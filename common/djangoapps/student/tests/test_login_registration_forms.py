@@ -126,6 +126,7 @@ class LoginFormTest(ModuleStoreTestCase):
         )
         self.assertContains(response, expected_url)
 
+    @unittest.skip("Because the register form will no longer have ability to login using third party auth")
     @ddt.data(None, "true", "false")
     def test_email_opt_in(self, opt_in_value):
         params = {
@@ -168,12 +169,14 @@ class RegisterFormTest(ModuleStoreTestCase):
         response = self.client.get(self.url)
         self.assertNotContains(response, provider_name)
 
+    @unittest.skip("Because the register form will no longer have ability to login using third party auth")
     @ddt.data(*THIRD_PARTY_AUTH_BACKENDS)
     def test_register_third_party_auth_no_course_id(self, backend_name):
         response = self.client.get(self.url)
         expected_url = _third_party_login_url(backend_name, "register")
         self.assertContains(response, expected_url)
 
+    @unittest.skip("Because the register form will no longer have ability to login using third party auth")
     @ddt.data(*THIRD_PARTY_AUTH_BACKENDS)
     def test_register_third_party_auth_with_course_id(self, backend_name):
         response = self.client.get(self.url, {"course_id": self.course_id})
@@ -185,6 +188,7 @@ class RegisterFormTest(ModuleStoreTestCase):
         )
         self.assertContains(response, expected_url)
 
+    @unittest.skip("Because the register form will no longer have ability to login using third party auth")
     @ddt.data(*THIRD_PARTY_AUTH_BACKENDS)
     def test_third_party_auth_with_white_label_course(self, backend_name):
         # Set the course mode to honor with a min price,
