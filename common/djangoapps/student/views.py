@@ -1064,7 +1064,11 @@ def get_learning_auth(request):
         # Load user details
         r = json.loads(r.text)
         user = User.objects.get(email=r.get('user'))
+        # Add a session variable to indicate that we logged into learning already
+        request.session['learning_auth'] = "Learning"
         login_user(request)
+        # We are now logged in, we can redirect to sigin where we'll be properly redirected to dashboard
+        return signin_user(request)
     except User.DoesNotExist:
         AUDIT_LOG.warning(
             u'Login failed - user with username {username} does not exist, creating now.'.format(
@@ -1131,7 +1135,8 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
 
     else:
         # Added a check for the hidden field "learning_auth" to distinguish a POST call from the first party auth
-        if 'learning_auth' in request.POST:
+        # The session variable check is used after we log into google to complete the login process
+        if 'learning_auth' in request.POST or request.session.get('learning_auth') == "Learning":
             email = None
         elif 'email' not in request.POST or 'password' not in request.POST:
             return JsonResponse({
@@ -1195,7 +1200,8 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
     if not third_party_auth_successful:
         try:
             # Added a check for the hidden field "learning_auth" to distinguish a POST call from the first party auth
-            if 'learning_auth' in request.POST:
+            # The session variable check is used after we log into google to complete the login process
+            if 'learning_auth' in request.POST or request.session.get('learning_auth') == "Learning":
                 user = authenticate(username=username, request=request, learning_auth=True)
             else:
                 user = authenticate(username=username, password=password, request=request)
