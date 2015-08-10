@@ -74,6 +74,7 @@ class AmplifyOAuth2(BaseOAuth2):
         client_id, _ = self.get_key_and_secret()
         params = {
             'client_id': client_id,
+            'user_role': 'staff',
             'login_type': 'traditional'
         }
         if self.STATE_PARAMETER and state:
