@@ -1079,7 +1079,7 @@ def get_learning_auth(request):
             'email_opt_in': True,
             'email': r.get('user'),
             'enrollment_action': None,
-            'name': r.get('firstName'),
+            'name': "{} {}".format(r.get('firstName'), r.get('lastName')),
             'running_pipeline': None,
             'pipeline_urls': auth_pipeline_urls(pipeline.AUTH_ENTRY_REGISTER, course_id=None, email_opt_in=None),
             'platform_name': microsite.get_value(
