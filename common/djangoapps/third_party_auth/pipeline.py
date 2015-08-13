@@ -57,6 +57,7 @@ rather than spreading them across two functions in the pipeline.
 See http://psa.matiasaguirre.net/docs/pipeline.html for more docs.
 """
 
+import re
 import random
 import string  # pylint: disable=deprecated-module
 from collections import OrderedDict
@@ -64,6 +65,7 @@ import urllib
 import analytics
 from eventtracking import tracker
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseBadRequest
@@ -661,9 +663,18 @@ def create_sudo_session(strategy, auth_entry, *args, **kwargs):
     """
     request = strategy.request if strategy else None
     if auth_entry == AUTH_ENTRY_SUDO and request.user.is_authenticated():
-        course_specific_region = None
+        _region = None
         redirect_to = strategy.session_get('next', '')
         match = COURSE_REGEX.match(redirect_to)
+        if not match:
+            # COURSE_REGEX will not work for studio
+            course_regex = re.compile(r'^.*?/course_team/{}'.format(settings.COURSE_ID_PATTERN))
+            match = course_regex.match(redirect_to)
+
         if match:
-            course_specific_region = match.group('course_id')
-        grant_sudo_privileges(request, region=course_specific_region)
+            _region = match.group('course_id')
+
+        if not _region and '/admin' in redirect_to:
+            _region = 'django_admin'
+
+        grant_sudo_privileges(request, region=_region)

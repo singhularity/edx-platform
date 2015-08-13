@@ -755,3 +755,13 @@
     background: tint($red,95%);
   }
 }
+
+.sudo {
+  input[type="password"] {
+    background: rgb(255,255,255);
+    display: block;
+    height: 45px;
+    margin-bottom: $baseline;
+    width: 100%;
+  }
+}

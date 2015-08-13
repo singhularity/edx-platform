@@ -781,6 +781,8 @@ INSTALLED_APPS = (
 
     # Allows sudo-mode
     'sudo',
+
+    'microsite_configuration'
 )
 
 

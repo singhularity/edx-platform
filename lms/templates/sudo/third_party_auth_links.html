@@ -6,13 +6,13 @@
       window.location.href = url;
     }
 </script>
-<span class="deco-divider">
-<span class="copy">{% trans "or" %}</span>
+<span class="deco-divider" style="background: transparent;">
+    <span class="copy">{% trans "or" %}</span>
 </span>
 
 <div class="form-actions form-third-party-auth">
 
 {% for enabled in providers %}
-  <button type="submit" class="button button-primary button-{{enabled.provider_id}} login-{{enabled.provider_id}}" onclick="thirdPartySignin(event, '{{pipeline_url|get_pipeline_url:enabled.provider_id}}');"><span class="icon fa {{enabled.icon_class}}"></span>{% trans 'Sign in with' %} {% trans enabled.name %}</button>
+    <button type="submit" class="button button-primary button-{{enabled.provider_id}} login-{{enabled.provider_id}}" {% if enabled.has_account %} onclick="thirdPartySignin(event, '{{pipeline_url|get_pipeline_url:enabled.provider_id}}');" {% else %} disabled="disabled" style="color: #ffffff;" {% endif %} ><span class="icon fa {{enabled.icon_class}}"></span>{% trans 'Sign in with' %} {% trans enabled.name %}</button>
 {% endfor %}
 </div>
