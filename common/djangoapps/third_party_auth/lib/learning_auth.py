@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import redirect
 
 __author__ = 'ssingh'
 
