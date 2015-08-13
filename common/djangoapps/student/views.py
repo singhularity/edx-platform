@@ -395,6 +395,14 @@ def signin_user(request):
     return render_to_response('login.html', context)
 
 
+@ensure_csrf_cookie
+def learning_student_error():
+    """
+    This view will display the error page for learning "student" users
+    """
+    return render_to_response('login_error.html', None)
+
+
 def dummy_napi_service(request):
     """
     :param request:
@@ -1063,6 +1071,8 @@ def get_learning_auth(request):
     try:
         # Load user details
         r = json.loads(r.text)
+        if "ROLE_STUDENT" in r.get("roles"):
+            return redirect('/login_error')
         user = User.objects.get(email=r.get('user'))
         # Add a session variable to indicate that we logged into learning already
         request.session['learning_auth'] = "Learning"
