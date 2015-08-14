@@ -41,6 +41,9 @@ class LearningAuth():
         try:
             # We got a proper response from Learning so get the user details
             userData = json.loads(r.text)
+            # If the user is a student redirect to the error page
+            if "ROLE_STUDENT" in userData.get("roles"):
+                return redirect('/login_error')
             user = User.objects.get(email=userData.get('user'))
         except User.DoesNotExist:
             # The user is logging in for the first time, again send a non user value as return value
