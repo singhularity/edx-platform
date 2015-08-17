@@ -396,7 +396,7 @@ def signin_user(request):
 
 
 @ensure_csrf_cookie
-def learning_student_error():
+def learning_student_error(request):
     """
     This view will display the error page for learning "student" users
     """
