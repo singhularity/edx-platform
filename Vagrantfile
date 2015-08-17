@@ -58,6 +58,7 @@ themes_mount_dir = "edxamplifytheme"
 forum_mount_dir = "cs_comments_service"
 ora_mount_dir = "ora"
 config_mount_dir = "configuration"
+notifier_mount_dir = "notifier"
 
 if ENV['VAGRANT_MOUNT_BASE']
 
@@ -142,6 +143,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       create: true, owner: "ora", group: "www-data"
     config.vm.synced_folder "#{config_mount_dir}", "/edx/app/edx_ansible/edx_ansible",
       owner: "edx-ansible", group: "edx-ansible"
+    config.vm.synced_folder "#{notifier_mount_dir}", "/edx/app/edxapp/notifier",
+      owner: "notifier", group: "notifier"
   else
     config.vm.synced_folder "#{edx_platform_mount_dir}", "/edx/app/edxapp/edx-platform",
       nfs: true
@@ -153,6 +156,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       create: true, nfs: true
     config.vm.synced_folder "#{config_mount_dir}", "/edx/app/edx_ansible/edx_ansible",
       nfs:true
+    config.vm.synced_folder "#{notifier_mount_dir}", "/edx/app/edxapp/notifier",
+      owner: "notifier", group: "notifier"
   end
 
   config.vm.provider :virtualbox do |vb|
