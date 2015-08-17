@@ -341,6 +341,14 @@ class UtilFnTest(TestCase):
         )
         self.assertIsNone(_parse_course_id_from_string(NON_COURSE_URL))
 
+    def test_parse_first_party_enable_option(self):
+        """
+        Tests the _parse_first_party_enable_option util function
+        """
+        self.assertTrue(_parse_first_party_enable_option(True))
+        self.assertTrue(_parse_first_party_enable_option('TRUE'))
+        self.assertFalse(_parse_first_party_enable_option('false'))
+
 
 @override_settings(MODULESTORE=TEST_DATA_MOCK_MODULESTORE)
 class ExternalAuthShibTest(ModuleStoreTestCase):
