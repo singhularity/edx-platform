@@ -6,7 +6,7 @@ from django.template.response import TemplateResponse
 import third_party_auth
 
 
-register = template.Library()
+register = template.Library()   # pylint: disable=invalid-name
 
 
 @register.simple_tag(name="third_party_auth_links", takes_context=True)

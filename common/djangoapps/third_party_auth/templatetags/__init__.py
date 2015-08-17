@@ -1,1 +1,1 @@
-__author__ = 'waheed'
+"""Third party auth custom tags and filters"""

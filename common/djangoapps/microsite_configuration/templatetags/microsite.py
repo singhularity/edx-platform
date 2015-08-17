@@ -6,8 +6,6 @@ from django import template
 from django.conf import settings
 from microsite_configuration import microsite
 from django.templatetags.static import static
-from django.template.response import TemplateResponse
-import third_party_auth
 
 register = template.Library()
 
