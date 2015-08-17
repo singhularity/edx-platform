@@ -240,8 +240,9 @@ class AboutWithCappedEnrollmentsTestCase(LoginEnrollmentTestCase, ModuleStoreTes
         self.email = 'foo_second@test.com'
         self.password = 'bar'
         self.username = 'test_second'
+        self.valid_user = 'true'   # pylint: disable=attribute-defined-outside-init
         self.create_account(self.username,
-                            self.email, self.password)
+                            self.email, self.password, self.valid_user)
         self.activate_user(self.email)
         self.login(self.email, self.password)
 
@@ -532,8 +533,8 @@ class AboutPurchaseCourseTestCase(LoginEnrollmentTestCase, ModuleStoreTestCase):
         email = 'foo_second@test.com'
         password = 'bar'
         username = 'test_second'
-        self.create_account(username,
-                            email, password)
+        valid_user = 'true'
+        self.create_account(username, email, password, valid_user)
         self.activate_user(email)
         self.login(email, password)
 

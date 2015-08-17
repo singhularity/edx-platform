@@ -20,6 +20,7 @@ import sys
 import importlib
 from argparse import ArgumentParser
 import contracts
+import newrelic.agent
 
 
 def parse_args():
@@ -114,3 +115,7 @@ if __name__ == "__main__":
     from django.core.management import execute_from_command_line
 
     execute_from_command_line([sys.argv[0]] + django_args)
+
+
+
+

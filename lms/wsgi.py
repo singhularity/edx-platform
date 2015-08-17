@@ -1,3 +1,15 @@
+"""
+WSGI Entry Point
+"""
+
+#Initializes New Relic
+import newrelic.agent
+import os
+
+if os.path.isfile('/edx/app/edxapp/edx-platform/newrelic.ini'):
+    newrelic.agent.initialize('/edx/app/edxapp/edx-platform/newrelic.ini')
+    newrelic.agent.global_settings().app_name += "_LMS_EDX"
+
 # Patch the xml libs
 from safe_lxml import defuse_xml_libs
 defuse_xml_libs()
@@ -5,8 +17,6 @@ defuse_xml_libs()
 # Disable PyContract contract checking when running as a webserver
 import contracts
 contracts.disable_all()
-
-import os
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lms.envs.aws")
 
@@ -19,7 +29,6 @@ from xmodule.modulestore.django import modulestore
 # Trigger a forced initialization of our modulestores since this can take a
 # while to complete and we want this done before HTTP requests are accepted.
 modulestore()
-
 
 # This application object is used by the development server
 # as well as any WSGI server configured to use this file.

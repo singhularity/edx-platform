@@ -2,7 +2,6 @@
 Amplify OAuth2 Sign-in backends
 Refer to this documentation: http://psa.matiasaguirre.net/docs/backends/implementation.html#oauth
 """
-import random
 
 from social.backends.oauth import BaseOAuth2, BaseAuth, OAuthAuth
 from social.utils import url_add_parameters
@@ -74,7 +73,9 @@ class AmplifyOAuth2(BaseOAuth2):
     def auth_params(self, state=None):
         client_id, _ = self.get_key_and_secret()
         params = {
-            'client_id': client_id
+            'client_id': client_id,
+            'user_role': 'staff',
+            'login_type': 'traditional'
         }
         if self.STATE_PARAMETER and state:
             params['state'] = state

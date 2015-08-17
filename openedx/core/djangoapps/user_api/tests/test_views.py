@@ -783,6 +783,7 @@ class RegistrationViewTest(ApiTestCase):
     EMAIL = "bob@example.com"
     PASSWORD = "password"
     NAME = "Bob Smith"
+    VALID_USER = "true"
     EDUCATION = "m"
     YEAR_OF_BIRTH = "1998"
     ADDRESS = "123 Fake Street"
@@ -1229,6 +1230,7 @@ class RegistrationViewTest(ApiTestCase):
             "name": self.NAME,
             "username": self.USERNAME,
             "password": self.PASSWORD,
+            "userfromslashregister": self.VALID_USER,
             "honor_code": "true",
         })
         self.assertHttpOK(response)
@@ -1268,6 +1270,7 @@ class RegistrationViewTest(ApiTestCase):
             "name": self.NAME,
             "username": self.USERNAME,
             "password": self.PASSWORD,
+            "userfromslashregister": self.VALID_USER,
             "level_of_education": self.EDUCATION,
             "mailing_address": self.ADDRESS,
             "year_of_birth": self.YEAR_OF_BIRTH,
@@ -1294,6 +1297,7 @@ class RegistrationViewTest(ApiTestCase):
             "name": self.NAME,
             "username": self.USERNAME,
             "password": self.PASSWORD,
+            "userfromslashregister": self.VALID_USER,
             "honor_code": "true",
         })
         self.assertHttpOK(response)
@@ -1353,6 +1357,7 @@ class RegistrationViewTest(ApiTestCase):
             "name": self.NAME,
             "username": self.USERNAME,
             "password": self.PASSWORD,
+            "userfromslashregister": self.VALID_USER,
             "honor_code": "true",
         })
         self.assertHttpOK(response)
@@ -1380,6 +1385,7 @@ class RegistrationViewTest(ApiTestCase):
             "name": self.NAME,
             "username": self.USERNAME,
             "password": self.PASSWORD,
+            "userfromslashregister": self.VALID_USER,
             "honor_code": "true",
         })
         self.assertHttpOK(response)
@@ -1407,6 +1413,7 @@ class RegistrationViewTest(ApiTestCase):
             "name": self.NAME,
             "username": self.USERNAME,
             "password": self.PASSWORD,
+            "userfromslashregister": self.VALID_USER,
             "honor_code": "true",
         })
         self.assertHttpOK(response)
@@ -1417,6 +1424,7 @@ class RegistrationViewTest(ApiTestCase):
             "name": "Someone Else",
             "username": self.USERNAME,
             "password": self.PASSWORD,
+            "userfromslashregister": self.VALID_USER,
             "honor_code": "true",
         })
         self.assertEqual(response.status_code, 409)

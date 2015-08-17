@@ -1,4 +1,5 @@
 """Unit tests for settings.py."""
+from unittest import skip
 
 from third_party_auth import provider, settings
 from third_party_auth.tests import testutil
@@ -59,6 +60,7 @@ class SettingsUnitTest(testutil.TestCase):
         self.assertEqual('google_oauth2_key', self.settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY)
         self.assertIsNone(self.settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET)
 
+    @skip("Because the register form will no longer have ability to login using third party auth")
     def test_apply_settings_prepends_auth_backends(self):
         self.assertEqual(_ORIGINAL_AUTHENTICATION_BACKENDS, self.settings.AUTHENTICATION_BACKENDS)
         settings.apply_settings({provider.GoogleOauth2.NAME: {}, provider.LinkedInOauth2.NAME: {}}, self.settings)

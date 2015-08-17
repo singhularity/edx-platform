@@ -316,7 +316,8 @@ class ShibSPTest(ModuleStoreTestCase):
                     'password': u'post_pássword',
                     'name': u'post_náme',
                     'terms_of_service': u'true',
-                    'honor_code': u'true'}
+                    'honor_code': u'true',
+                    'userfromslashregister': u'true'}
         # use RequestFactory instead of TestClient here because we want access to request.user
         request2 = self.request_factory.post('/create_account', data=postvars)
         request2.session = client.session
