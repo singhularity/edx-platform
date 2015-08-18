@@ -3,6 +3,7 @@
 Tests for extra registration variables
 """
 import json
+from unittest import skip
 from django.conf import settings
 from django.test import TestCase
 from django.core.urlresolvers import reverse
@@ -24,6 +25,7 @@ class TestSortedCountryList(TestCase):
             if option.attrs['value'] == code:
                 return (index, option)
 
+    @skip("We don't use any extra fields")
     @patch.dict(settings.REGISTRATION_EXTRA_FIELDS, {'country': 'required'})
     def test_country_sorting_english(self):
         """
@@ -48,6 +50,7 @@ class TestSortedCountryList(TestCase):
         # testing two option elements to be in alphabetical order
         self.assertLess(options[1].text, options[10].text)
 
+    @skip("We don't use any extra fields")
     @patch.dict(settings.REGISTRATION_EXTRA_FIELDS, {'country': 'required'})
     def test_country_sorting_french(self):
         """

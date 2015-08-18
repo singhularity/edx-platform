@@ -211,6 +211,7 @@ class RegisterFormTest(ModuleStoreTestCase):
         )
         self.assertContains(response, expected_url)
 
+    @unittest.skip("Because the register form will no longer have ability to login using third party auth")
     @ddt.data(None, "true", "false")
     def test_email_opt_in(self, opt_in_value):
         params = OrderedDict()
