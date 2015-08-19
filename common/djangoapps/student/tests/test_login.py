@@ -21,6 +21,7 @@ from xmodule.modulestore.tests.django_utils import TEST_DATA_MOCK_MODULESTORE
 from student.tests.factories import UserFactory, RegistrationFactory, UserProfileFactory
 from student.views import (
     _parse_course_id_from_string,
+    _parse_first_party_enable_option,
     _get_course_enrollment_domain,
     login_oauth_token,
 )
