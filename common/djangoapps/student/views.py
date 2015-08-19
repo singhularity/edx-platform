@@ -357,8 +357,6 @@ def signin_user(request):
     """
     This view will display the non-modal login form
     """
-    import nose.tools
-    nose.tools.set_trace()
     if (settings.FEATURES['AUTH_USE_CERTIFICATES'] and
             external_auth.views.ssl_get_cert_from_request(request)):
         # SSL login doesn't require a view, so redirect
