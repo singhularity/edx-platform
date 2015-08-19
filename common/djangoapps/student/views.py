@@ -1022,7 +1022,7 @@ def _parse_first_party_enable_option(first_party_auth_setting):
 
 def _parse_learning_enable_option(learning_auth_setting):
     """
-    Helper function to get the enable_first_party_auth option.
+    Helper function to get the enable_learning_auth option.
     @param settings
     @return:
     """
