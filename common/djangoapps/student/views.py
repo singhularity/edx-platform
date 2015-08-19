@@ -371,8 +371,6 @@ def signin_user(request):
 
     course_id = request.GET.get('course_id')
     email_opt_in = request.GET.get('email_opt_in')
-    first_party_auth_setting = settings.FEATURES.get('ENABLE_FIRST_PARTY_AUTH', False)
-    enable_first_party_auth = first_party_auth_setting if isinstance(first_party_auth_setting, bool) else True if first_party_auth_setting.lower() == 'true' else False
     context = {
         'course_id': course_id,
         'email_opt_in': email_opt_in,
@@ -386,7 +384,7 @@ def signin_user(request):
             'platform_name',
             settings.PLATFORM_NAME
         ),
-        'first_party_auth': enable_first_party_auth,
+        'first_party_auth': _parse_first_party_enable_option(settings.FEATURES.get('ENABLE_FIRST_PARTY_AUTH', False)),
     }
 
     if 'HTTP_REFERER' in request.META and settings.FEATURES.get('AMPLIFY_AUTHORIZATION_URL') in request.META.get('HTTP_REFERER'):
@@ -1013,6 +1011,15 @@ def _get_course_enrollment_domain(course_id):
     return course.enrollment_domain
 
 
+def _parse_first_party_enable_option(first_party_auth_setting):
+    """
+    Helper function to get the enable_first_party_auth option.
+    @param settings
+    @return:
+    """
+    return first_party_auth_setting if isinstance(first_party_auth_setting, bool) else True if first_party_auth_setting.lower() == 'true' else False
+
+
 @never_cache
 @ensure_csrf_cookie
 def accounts_login(request):
@@ -1038,6 +1045,7 @@ def accounts_login(request):
         'pipeline_running': 'false',
         'pipeline_url': auth_pipeline_urls(pipeline.AUTH_ENTRY_LOGIN, redirect_url=redirect_to),
         'platform_name': settings.PLATFORM_NAME,
+        'first_party_auth': _parse_first_party_enable_option(settings.FEATURES.get('ENABLE_FIRST_PARTY_AUTH', False)),
     }
     return render_to_response('login.html', context)
 
@@ -1190,8 +1198,7 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
             })  # TODO: this should be status code 429  # pylint: disable=fixme
 
     # see if the user must reset his/her password due to any policy settings
-    first_party_auth_setting = settings.FEATURES.get('ENABLE_FIRST_PARTY_AUTH', False)
-    enable_first_party_auth = first_party_auth_setting if isinstance(first_party_auth_setting, bool) else True if first_party_auth_setting.lower() == 'true' else False
+    enable_first_party_auth = _parse_first_party_enable_option(settings.FEATURES.get('ENABLE_FIRST_PARTY_AUTH', False))
 
     if not enable_first_party_auth:
         if PasswordHistory.should_user_reset_password_now(user_found_by_email_lookup):
