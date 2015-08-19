@@ -1020,6 +1020,15 @@ def _parse_first_party_enable_option(first_party_auth_setting):
     return first_party_auth_setting if isinstance(first_party_auth_setting, bool) else True if first_party_auth_setting.lower() == 'true' else False
 
 
+def _parse_learning_enable_option(learning_auth_setting):
+    """
+    Helper function to get the enable_first_party_auth option.
+    @param settings
+    @return:
+    """
+    return learning_auth_setting if isinstance(learning_auth_setting, bool) else True if learning_auth_setting.lower() == 'true' else False
+
+
 @never_cache
 @ensure_csrf_cookie
 def accounts_login(request):
@@ -1198,9 +1207,9 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
             })  # TODO: this should be status code 429  # pylint: disable=fixme
 
     # see if the user must reset his/her password due to any policy settings
-    enable_first_party_auth = _parse_first_party_enable_option(settings.FEATURES.get('ENABLE_FIRST_PARTY_AUTH', False))
+    enable_learning_auth = _parse_learning_enable_option(settings.FEATURES.get('ENABLE_LEARNING_AUTH', False))
 
-    if not enable_first_party_auth:
+    if not enable_learning_auth:
         if PasswordHistory.should_user_reset_password_now(user_found_by_email_lookup):
             return JsonResponse({
                 "success": False,
@@ -1248,7 +1257,7 @@ def login_user(request, error=""):  # pylint: disable-msg=too-many-statements,un
         })  # TODO: this should be status code 400  # pylint: disable=fixme
 
     # successful login, clear failed login attempts counters, if applicable
-    if not enable_first_party_auth:
+    if not enable_learning_auth:
         if LoginFailures.is_feature_enabled():
             LoginFailures.clear_lockout_counter(user)
 
