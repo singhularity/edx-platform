@@ -24,7 +24,7 @@ from student.views import (
     _parse_first_party_enable_option,
     _get_course_enrollment_domain,
     login_oauth_token,
-)
+    _parse_learning_enable_option)
 from xmodule.modulestore.tests.factories import CourseFactory
 from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
 
@@ -349,6 +349,14 @@ class UtilFnTest(TestCase):
         self.assertTrue(_parse_first_party_enable_option(True))
         self.assertTrue(_parse_first_party_enable_option('TRUE'))
         self.assertFalse(_parse_first_party_enable_option('false'))
+
+    def test_parse_learning_enable_option(self):
+        """
+        Tests the _parse_learning_enable_option util function
+        """
+        self.assertTrue(_parse_learning_enable_option(True))
+        self.assertTrue(_parse_learning_enable_option('TRUE'))
+        self.assertFalse(_parse_learning_enable_option('false'))
 
 
 @override_settings(MODULESTORE=TEST_DATA_MOCK_MODULESTORE)
