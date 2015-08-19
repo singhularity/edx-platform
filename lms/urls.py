@@ -25,7 +25,7 @@ urlpatterns = ('',  # nopep8
     url(r'^getLearningAuth', 'student.views.get_learning_auth', name="signin_learning_user"),
     url(r'^register$', 'student.views.register_user', name="register_user"),
     # pylint: disable=bad-continuation
-    url(r'^login_error', 'student.views.learning_student_error', name="register_user"),
+    url(r'^learning_student_error', 'student.views.learning_student_error', name="register_user"),
 
     # pylint: disable=bad-continuation
     # This is a dummy napi link!

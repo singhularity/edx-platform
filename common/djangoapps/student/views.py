@@ -1072,7 +1072,7 @@ def get_learning_auth(request):
         # Load user details
         r = json.loads(r.text)
         if "ROLE_STUDENT" in r.get("roles"):
-            return redirect('/login_error')
+            return redirect('/learning_student_error')
         user = User.objects.get(email=r.get('user'))
         # Add a session variable to indicate that we logged into learning already
         request.session['learning_auth'] = "Learning"
