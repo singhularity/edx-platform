@@ -198,8 +198,9 @@ class DraftVersioningModuleStore(SplitMongoModuleStore, ModuleStoreDraftAndPubli
                 branches_to_delete = [ModuleStoreEnum.BranchName.published, ModuleStoreEnum.BranchName.draft]
             elif revision is None:
                 branches_to_delete = [ModuleStoreEnum.BranchName.draft]
-                item = self.get_item(location)
-                if item.category not in DIRECT_ONLY_CATEGORIES:
+                categories = DIRECT_ONLY_CATEGORIES.remove("sequential")
+                if location.category not in categories:
+                    item = self.get_item(location)
                     if self.has_published_version(item):
                         branches_to_delete.append(ModuleStoreEnum.BranchName.published)
 
