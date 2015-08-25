@@ -781,6 +781,7 @@ INSTALLED_APPS = (
 
     # Allows sudo-mode
     'sudo',
+    'django_sudo_helpers'
 )
 
 

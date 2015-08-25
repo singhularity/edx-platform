@@ -1918,6 +1918,7 @@ INSTALLED_APPS = (
 
     # Allows sudo-mode
     'sudo',
+    'django_sudo_helpers',
 
     'lms.djangoapps.lms_xblock',
 

@@ -57,7 +57,6 @@ rather than spreading them across two functions in the pipeline.
 See http://psa.matiasaguirre.net/docs/pipeline.html for more docs.
 """
 
-import re
 import random
 import string  # pylint: disable=deprecated-module
 from collections import OrderedDict
@@ -65,7 +64,6 @@ import urllib
 import analytics
 from eventtracking import tracker
 
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseBadRequest
@@ -75,9 +73,8 @@ from social.apps.django_app.default import models
 from social.exceptions import AuthException
 from social.pipeline import partial
 from social.pipeline.social_auth import associate_by_email
-from sudo.utils import grant_sudo_privileges
-from util.request import COURSE_REGEX
 
+from django_sudo_helpers.pipeline import AUTH_ENTRY_SUDO
 import student
 
 from logging import getLogger
@@ -102,7 +99,6 @@ AUTH_REDIRECT_KEY = 'next'
 AUTH_ENTRY_LOGIN = 'login'
 AUTH_ENTRY_REGISTER = 'register'
 AUTH_ENTRY_ACCOUNT_SETTINGS = 'account_settings'
-AUTH_ENTRY_SUDO = 'grant_sudo'
 
 # This is left-over from an A/B test
 # of the new combined login/registration page (ECOM-369)
@@ -653,28 +649,3 @@ def associate_by_email_if_login_api(auth_entry, backend, details, user, *args, *
             # email address and the legitimate user would now login to the illegitimate
             # account.
             return association_response
-
-
-@partial.partial
-def create_sudo_session(strategy, auth_entry, *args, **kwargs):
-    """
-    Grant sudo privileges if user is authenticated and auth_entry
-    is equal to AUTH_ENTRY_SUDO.
-    """
-    request = strategy.request if strategy else None
-    if auth_entry == AUTH_ENTRY_SUDO and request.user.is_authenticated():
-        _region = None
-        redirect_to = strategy.session_get('next', '')
-        match = COURSE_REGEX.match(redirect_to)
-        if not match:
-            # COURSE_REGEX will not work for studio
-            course_regex = re.compile(r'^.*?/course_team/{}'.format(settings.COURSE_ID_PATTERN))
-            match = course_regex.match(redirect_to)
-
-        if match:
-            _region = match.group('course_id')
-
-        if not _region and '/admin' in redirect_to:
-            _region = 'django_admin'
-
-        grant_sudo_privileges(request, region=_region)

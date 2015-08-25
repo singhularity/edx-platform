@@ -59,7 +59,6 @@ def apply_settings(django_settings):
         'social.pipeline.user.user_details',
         'third_party_auth.pipeline.set_logged_in_cookies',
         'third_party_auth.pipeline.login_analytics',
-        'third_party_auth.pipeline.create_sudo_session',
     )
 
     # Required so that we can use unmodified PSA OAuth2 backends:
