@@ -1,7 +1,21 @@
+<style> .error_message {
+            text-align: center;
+            font-size: 15px;
+            font-family: 'Open Sans';
+            color: #3c3c3c;
+            padding: 5px 12px;
+        }
+
+        .nav-courseware{
+            display: none;
+        }
+</style>
 <%inherit file="main.html" />
 <%! from microsite_configuration import microsite %>
 <%namespace name='static' file='static_content.html'/>
 
 <%! from django.core.urlresolvers import reverse %>
 <%! from django.utils.translation import ugettext as _ %>
-<h4 style="text-align: center; padding: 20px">You do not have permissions to log in.</h4>
+<div class="error_message">
+    This page is for teachers. Close this tab to return to the previous page.
+</div>
