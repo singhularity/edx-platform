@@ -9,7 +9,10 @@ from bok_choy.promise import EmptyPromise
 from ..helpers import UniqueCourseTest, get_modal_alert, EventsTestMixin, get_sudo_access
 from ...pages.common.logout import LogoutPage
 from ...pages.lms.auto_auth import AutoAuthPage
+from ...pages.lms.account_settings import AccountSettingsPage
 from ...pages.lms.instructor_dashboard import InstructorDashboardPage
+from ...pages.lms.login_and_register import CombinedLoginAndRegisterPage
+from ...pages.common.sudo_page import SudoPage
 from ...fixtures.course import CourseFixture
 
 
@@ -444,3 +447,50 @@ class CertificatesTest(BaseInstructorDashboardTest):
             Then I see 'Pending Instructor Tasks' section
         """
         self.assertTrue(self.certificates_section.pending_tasks_section.visible)
+
+
+class DjangoSudoThirdPartyAuthTest(BaseInstructorDashboardTest):
+    """
+    Tests for third party auth on django sudo page.
+    """
+
+    def setUp(self):
+        """
+        Install a course with no content using a fixture.
+        """
+        super(DjangoSudoThirdPartyAuthTest, self).setUp()
+        self.course_fixture = CourseFixture(**self.course_info).install()
+        self.login_page = CombinedLoginAndRegisterPage(
+            self.browser,
+            start_page="login",
+            course_id=self.course_id
+        )
+        self.log_in_as_instructor()
+        self.instructor_dashboard_page = InstructorDashboardPage(self.browser, self.course_id)
+
+    def test_third_party_auth_on_sudo_page_with_unlinked(self):
+        """
+        Test that dummy auth button is disabled on sudo page when no account is linked.
+        """
+        sudo_password_page = SudoPage(self.browser, self.instructor_dashboard_page)
+        sudo_password_page.visit()
+        self.assertTrue(sudo_password_page.is_dummy_auth_button_disabled)
+
+    def test_third_party_auth_on_sudo_page_with_linked(self):
+        """
+        Test that user can authenticate on sudo page with dummy third party auth.
+        """
+        self._link_dummy_account()
+        sudo_password_page = SudoPage(self.browser, self.instructor_dashboard_page)
+        sudo_password_page.visit()
+        sudo_password_page.click_third_party_dummy_provider_button()
+        self.instructor_dashboard_page.visit()
+
+    def _link_dummy_account(self):
+        """ Go to Account Settings page and link the user's account to the Dummy provider """
+        account_settings = AccountSettingsPage(self.browser).visit()
+        field_id = "auth-oa2-dummy"
+        account_settings.wait_for_field(field_id)
+        self.assertEqual("Link", account_settings.link_title_for_link_field(field_id))
+        account_settings.click_on_link_in_link_field(field_id)
+        account_settings.wait_for_link_title_for_link_field(field_id, "Unlink")
