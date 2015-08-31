@@ -8,7 +8,6 @@ from .base_studio_test import StudioCourseTest
 from ..helpers import get_sudo_access
 from ...pages.studio.auto_auth import AutoAuthPage
 from ...pages.common.logout import LogoutPage
-from ...pages.lms.account_settings import AccountSettingsPage
 from ...pages.lms.login_and_register import CombinedLoginAndRegisterPage
 from ...pages.studio.users import CourseTeamPage
 from ...pages.studio.index import DashboardPage
