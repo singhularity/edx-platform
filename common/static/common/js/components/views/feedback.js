@@ -16,7 +16,8 @@
                     icon: true,  // should we render an icon related to the message intent?
                     closeIcon: true,  // should we render a close button in the top right corner?
                     minShown: 0,  // length of time after this view has been shown before it can be hidden (milliseconds)
-                    maxShown: Infinity  // length of time after this view has been shown before it will be automatically hidden (milliseconds)
+                    maxShown: Infinity,  // length of time after this view has been shown before it will be automatically hidden (milliseconds)
+                    outFocusElm: null,
 
                 /* Could also have an "actions" hash: here is an example demonstrating
                    the expected structure. For each action, by default the framework
@@ -65,6 +66,38 @@
                     return this;
                 },
 
+                inFocus: function(){
+                    this.options.outFocusElm = this.options.outFocusElm || $(":focus");
+
+                    // Set focus to first tab focusable element in the prompt.
+                    var tabbables = $(this.el).find(":tabbable");
+                    tabbables.first().focus();
+
+                    /**
+                     * Make tabs within the prompt loop rather than setting focus
+                     * back to the main content of the page.
+                     */
+                    tabbables.on("keydown", function (event) {
+                        // On tab backward from the first tabbable item in the prompt
+                        if (event.which == 9 && event.shiftKey && event.target === tabbables.first()[0]) {
+                            event.preventDefault();
+                            tabbables.last().focus();
+                        }
+                        // On tab forward from the last tabbable item in the prompt
+                        if (event.which == 9 && !event.shiftKey && event.target === tabbables.last()[0]) {
+                            event.preventDefault();
+                            tabbables.first().focus();
+                        }
+                    })
+                },
+
+                outFocus: function() {
+                    var tabbables = $(this.el).find(":tabbable");
+                    tabbables.off("keydown");
+                    // Set focus back to previous state
+                    this.options.outFocusElm.focus();
+                },
+
                 // public API: show() and hide()
                 show: function() {
                     clearTimeout(this.hideTimeout);
@@ -75,6 +108,7 @@
                         this.hideTimeout = setTimeout(_.bind(this.hide, this),
                             this.options.maxShown);
                     }
+                    this.inFocus();
                     return this;
                 },
 
@@ -89,6 +123,7 @@
                         delete this.shownAt;
                         this.render();
                     }
+                    this.outFocus();
                     return this;
                 },
 
