@@ -8,7 +8,7 @@ from .base_studio_test import StudioCourseTest
 from ..helpers import get_sudo_access
 from ...pages.studio.auto_auth import AutoAuthPage
 from ...pages.common.logout import LogoutPage
-from ...pages.lms.login_and_register import CombinedLoginAndRegisterPage
+from ...pages.lms.account_settings import AccountSettingsPage
 from ...pages.studio.users import CourseTeamPage
 from ...pages.studio.index import DashboardPage
 from ...pages.common.sudo_page import SudoPage
@@ -357,25 +357,15 @@ class CourseTeamPageTest(StudioCourseTest):
         self.log_in(self.user)
         self._assert_current_course(visible=False)
 
-
-# pylint:disable=attribute-defined-outside-init
-class DjangoSudoPageTest(StudioCourseTest):
-    """ Tests for third party auth on django sudo page. """
-
-    def setUp(self, is_staff=True):
-        """
-        Create a course team page object.
-        """
-        super(DjangoSudoPageTest, self).setUp()
-        self.course_team_page = CourseTeamPage(
-            self.browser, self.course_info['org'], self.course_info['number'], self.course_info['run']
-        )
-
     def test_third_party_auth_on_sudo_page_with_unlinked_account(self):
         """
         Test that dummy auth button is disabled on sudo page when no account is linked.
         """
-        sudo_password_page = SudoPage(self.browser, self.course_team_page)
+        # Logout and log back in to remove sudo access.
+        LogoutPage(self.browser).visit()
+        self.log_in(user=self.user)
+
+        sudo_password_page = SudoPage(self.browser, self.page)
         sudo_password_page.visit()
         self.assertTrue(sudo_password_page.is_dummy_auth_button_disabled)
 
@@ -383,25 +373,29 @@ class DjangoSudoPageTest(StudioCourseTest):
         """
         Test that user can authenticate on sudo page with dummy third party auth.
         """
+        dummy_user = self._make_user(username='dummy_user')
+
+        # Add user to course team.
+        self.page.visit()
+        self.page.add_user_to_course(dummy_user['email'])
+        self.assertIn(dummy_user.get('username'), self.page.usernames)
+
+        # Logout and log back in with new user.
         LogoutPage(self.browser).visit()
-        self.login_page = CombinedLoginAndRegisterPage(
-            self.browser,
-            start_page="login",
-            course_id=self.course_id
-        )
-        self.login_page.visit()
-        self.login_page.click_third_party_dummy_provider()
+        self.log_in(user=dummy_user)
 
-        # The user will be redirected somewhere and then back to the login page:
-        msg_text = self.login_page.wait_for_auth_status_message()
-        self.assertIn("You have successfully signed into Dummy", msg_text)
-        self.assertIn("To link your accounts, sign in now using your edX password", msg_text)
+        self._link_dummy_account()
 
-        # Login again to link dummy account with edx account.
-        self.login_page.login(email=self.user['email'], password=self.user['password'])
-
-        sudo_password_page = SudoPage(self.browser, self.course_team_page)
+        # Visit sudo page and click on dummy auth button to get sudo access.
+        sudo_password_page = SudoPage(self.browser, self.page)
         sudo_password_page.visit()
         sudo_password_page.click_third_party_dummy_provider_button()
 
-        self.course_team_page.visit()
+    def _link_dummy_account(self):
+        """ Go to Account Settings page and link the user's account to the Dummy provider """
+        account_settings = AccountSettingsPage(self.browser).visit()
+        field_id = "auth-oa2-dummy"
+        account_settings.wait_for_field(field_id)
+        self.assertEqual("Link", account_settings.link_title_for_link_field(field_id))
+        account_settings.click_on_link_in_link_field(field_id)
+        account_settings.wait_for_link_title_for_link_field(field_id, "Unlink")
