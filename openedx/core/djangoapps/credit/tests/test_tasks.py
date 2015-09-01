@@ -106,6 +106,7 @@ class TestTaskExecution(ModuleStoreTestCase):
         """
 
         self.add_credit_course(self.course.id)
+        # ItemFactory.create(parent=self.section, category='sequential', display_name='Test Subsection 2')
         create_exam(
             course_id=unicode(self.course.id),
             content_id='i4x://org.21/course_21/sequential/Test_Subsection_2',
@@ -293,9 +294,10 @@ class TestTaskExecution(ModuleStoreTestCase):
         """
 
         self.add_credit_course(self.course.id)
+        ItemFactory.create(parent=self.section, category='sequential', display_name='Dummy Subsection')
         create_exam(
             course_id=unicode(self.course.id),
-            content_id='i4x://org.0/course_0/sequential/Test_Subsection',
+            content_id='i4x://org.0/course_0/sequential/Dummy_Subsection',
             exam_name='A Proctored Exam',
             time_limit_mins=10,
             is_proctored=True,
@@ -309,7 +311,7 @@ class TestTaskExecution(ModuleStoreTestCase):
         requirements = get_credit_requirements(self.course.id)
         self.assertEqual(len(requirements), 2)
         self.assertEqual(requirements[1]['namespace'], 'proctored_exam')
-        self.assertEqual(requirements[1]['name'], 'i4x://org.0/course_0/sequential/Test_Subsection')
+        self.assertEqual(requirements[1]['name'], 'i4x://org.0/course_0/sequential/Dummy_Subsection')
         self.assertEqual(requirements[1]['display_name'], 'A Proctored Exam')
         self.assertEqual(requirements[1]['criteria'], {})
 
