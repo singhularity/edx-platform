@@ -33,7 +33,7 @@ class PersistentCourseFactory(SplitFactory):
     * user_id: (optional) defaults to 'test_user'
     * display_name (xblock field): will default to 'Robot Super Course' unless provided
     """
-    class Meta:
+    class Meta(object):
         model = CourseDescriptor
 
     # pylint: disable=unused-argument
@@ -57,7 +57,7 @@ class PersistentCourseFactory(SplitFactory):
 
 
 class ItemFactory(SplitFactory):
-    class Meta:
+    class Meta(object):
         model = XModuleDescriptor
 
     display_name = factory.LazyAttributeSequence(lambda o, n: "{} {}".format(o.category, n))

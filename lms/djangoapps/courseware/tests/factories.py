@@ -123,7 +123,7 @@ class GlobalStaffFactory(UserFactory):
 
 
 class StudentModuleFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = StudentModule
 
     module_type = "problem"
@@ -136,7 +136,7 @@ class StudentModuleFactory(DjangoModelFactory):
 
 
 class UserStateSummaryFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = XModuleUserStateSummaryField
 
     field_name = 'existing_field'
@@ -145,7 +145,7 @@ class UserStateSummaryFactory(DjangoModelFactory):
 
 
 class StudentPrefsFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = XModuleStudentPrefsField
 
     field_name = 'existing_field'
@@ -155,7 +155,7 @@ class StudentPrefsFactory(DjangoModelFactory):
 
 
 class StudentInfoFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = XModuleStudentInfoField
 
     field_name = 'existing_field'

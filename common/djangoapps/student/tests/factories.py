@@ -17,7 +17,7 @@ from opaque_keys.edx.locations import SlashSeparatedCourseKey
 
 
 class GroupFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = Group
         django_get_or_create = ('name', )
 
@@ -25,7 +25,7 @@ class GroupFactory(DjangoModelFactory):
 
 
 class UserStandingFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = UserStanding
 
     user = None
@@ -34,7 +34,7 @@ class UserStandingFactory(DjangoModelFactory):
 
 
 class UserProfileFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = UserProfile
         django_get_or_create = ('user', )
 
@@ -48,7 +48,7 @@ class UserProfileFactory(DjangoModelFactory):
 
 
 class CourseModeFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = CourseMode
 
     course_id = None
@@ -61,7 +61,7 @@ class CourseModeFactory(DjangoModelFactory):
 
 
 class RegistrationFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = Registration
 
     user = None
@@ -69,7 +69,7 @@ class RegistrationFactory(DjangoModelFactory):
 
 
 class UserFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = User
         django_get_or_create = ('email', 'username')
 
@@ -107,7 +107,7 @@ class UserFactory(DjangoModelFactory):
 
 
 class AnonymousUserFactory(factory.Factory):
-    class Meta:
+    class Meta(object):
         model = AnonymousUser
 
 
@@ -116,7 +116,7 @@ class AdminFactory(UserFactory):
 
 
 class CourseEnrollmentFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = CourseEnrollment
 
     user = factory.SubFactory(UserFactory)
@@ -124,7 +124,7 @@ class CourseEnrollmentFactory(DjangoModelFactory):
 
 
 class CourseAccessRoleFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = CourseAccessRole
 
     user = factory.SubFactory(UserFactory)
@@ -133,7 +133,7 @@ class CourseAccessRoleFactory(DjangoModelFactory):
 
 
 class CourseEnrollmentAllowedFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = CourseEnrollmentAllowed
 
     email = 'test@edx.org'
@@ -147,7 +147,7 @@ class PendingEmailChangeFactory(DjangoModelFactory):
     new_email: sequence of new+email+{}@edx.org
     activation_key: sequence of integers, padded to 30 characters
     """
-    class Meta:
+    class Meta(object):
         model = PendingEmailChange
 
     user = factory.SubFactory(UserFactory)

@@ -8,8 +8,10 @@ from celery.states import PENDING
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
 
 
+# Factories are self documenting
+# pylint: disable=missing-docstring
 class InstructorTaskFactory(DjangoModelFactory):
-    class Meta:
+    class Meta(object):
         model = InstructorTask
 
     task_type = 'rescore_problem'

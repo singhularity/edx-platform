@@ -11,8 +11,10 @@ import requests
 from . import COMMENTS_STUB_URL
 
 
+# Factories are self documenting
+# pylint: disable=missing-docstring
 class ContentFactory(factory.Factory):
-    class Meta:
+    class Meta(object):
         model = dict
     id = None
     user_id = "1234"
@@ -64,7 +66,7 @@ class Response(Comment):
 
 
 class SearchResult(factory.Factory):
-    class Meta:
+    class Meta(object):
         model = dict
     discussion_data = []
     annotated_content_info = {}
