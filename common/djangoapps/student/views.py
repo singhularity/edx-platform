@@ -544,6 +544,7 @@ def dashboard(request):
     for g in user.groups.all():
         if g.name == 'cms':
             is_cms = True
+            break
 
     # for microsites, we want to filter and only show enrollments for courses within
     # the microsites 'ORG'
