@@ -4,7 +4,8 @@
             "underscore",
             "underscore.string",
             "backbone",
-            "text!common/templates/components/system-feedback.underscore"],
+            "text!common/templates/components/system-feedback.underscore",
+            "jquery.ui"],
         function($, _, str, Backbone, systemFeedbackTemplate) {
             var SystemFeedback = Backbone.View.extend({
                 options: {
@@ -70,7 +71,7 @@
                     this.options.outFocusElm = this.options.outFocusElm || document.activeElement;
 
                     // Set focus to first tab focusable element in the prompt.
-                    var tabbables = $(this.el).find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[contenteditable]');
+                    var tabbables = $(this.el).find(":tabbable");
                     tabbables.first().focus();
 
                     /**
@@ -92,8 +93,7 @@
                 },
 
                 outFocus: function() {
-                    var tabbables = $(this.el).find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[contenteditable]');
-                    tabbables.off("keydown");
+                    var tabbables = $(this.el).find(":tabbable").off("keydown");
                     if (this.options.outFocusElm) { this.options.outFocusElm.focus(); }
                 },
 
