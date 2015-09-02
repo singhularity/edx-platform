@@ -41,12 +41,12 @@ class SudoPage(PageObject):
         return self.q(css='{} input[type=submit]'.format(self.SUDO_FORM))
 
     @property
-    def is_dummy_auth_button_disabled(self):
+    def is_dummy_auth_button_enabled(self):
         """
         Returns the status for dummy auth button, enabled or disabled.
         """
         disabled = self.q(css="button.button-oa2-dummy").attrs('disabled')
-        return disabled[0] == 'true'
+        return disabled[0] != 'true'
 
     @wait_for_js
     def submit_sudo_password_and_get_access(self, password):

@@ -6,7 +6,7 @@ End-to-end tests for the LMS Instructor Dashboard.
 from nose.plugins.attrib import attr
 from bok_choy.promise import EmptyPromise
 
-from ..helpers import UniqueCourseTest, get_modal_alert, EventsTestMixin, get_sudo_access
+from ..helpers import UniqueCourseTest, get_modal_alert, EventsTestMixin, get_sudo_access, _link_dummy_account
 from ...pages.common.logout import LogoutPage
 from ...pages.lms.auto_auth import AutoAuthPage
 from ...pages.lms.account_settings import AccountSettingsPage
@@ -474,23 +474,14 @@ class DjangoSudoThirdPartyAuthTest(BaseInstructorDashboardTest):
         """
         sudo_password_page = SudoPage(self.browser, self.instructor_dashboard_page)
         sudo_password_page.visit()
-        self.assertTrue(sudo_password_page.is_dummy_auth_button_disabled)
+        self.assertFalse(sudo_password_page.is_dummy_auth_button_enabled)
 
     def test_third_party_auth_on_sudo_page_with_linked(self):
         """
         Test that user can authenticate on sudo page with dummy third party auth.
         """
-        self._link_dummy_account()
+        account_settings = AccountSettingsPage(self.browser).visit()
+        _link_dummy_account(account_settings)
         sudo_password_page = SudoPage(self.browser, self.instructor_dashboard_page)
         sudo_password_page.visit()
         sudo_password_page.click_third_party_dummy_provider_button()
-        self.instructor_dashboard_page.visit()
-
-    def _link_dummy_account(self):
-        """ Go to Account Settings page and link the user's account to the Dummy provider """
-        account_settings = AccountSettingsPage(self.browser).visit()
-        field_id = "auth-oa2-dummy"
-        account_settings.wait_for_field(field_id)
-        self.assertEqual("Link", account_settings.link_title_for_link_field(field_id))
-        account_settings.click_on_link_in_link_field(field_id)
-        account_settings.wait_for_link_title_for_link_field(field_id, "Unlink")

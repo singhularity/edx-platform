@@ -5,10 +5,10 @@ from flaky import flaky
 from nose.plugins.attrib import attr
 
 from .base_studio_test import StudioCourseTest
-from ..helpers import get_sudo_access
+from ..helpers import get_sudo_access, _link_dummy_account
+from ...pages.lms.account_settings import AccountSettingsPage
 from ...pages.studio.auto_auth import AutoAuthPage
 from ...pages.common.logout import LogoutPage
-from ...pages.lms.account_settings import AccountSettingsPage
 from ...pages.studio.users import CourseTeamPage
 from ...pages.studio.index import DashboardPage
 from ...pages.common.sudo_page import SudoPage
@@ -367,7 +367,7 @@ class CourseTeamPageTest(StudioCourseTest):
 
         sudo_password_page = SudoPage(self.browser, self.page)
         sudo_password_page.visit()
-        self.assertTrue(sudo_password_page.is_dummy_auth_button_disabled)
+        self.assertFalse(sudo_password_page.is_dummy_auth_button_enabled)
 
     def test_third_party_auth_on_sudo_page_with_linked_account(self):
         """
@@ -384,18 +384,10 @@ class CourseTeamPageTest(StudioCourseTest):
         LogoutPage(self.browser).visit()
         self.log_in(user=dummy_user)
 
-        self._link_dummy_account()
+        account_settings = AccountSettingsPage(self.browser).visit()
+        _link_dummy_account(account_settings)
 
         # Visit sudo page and click on dummy auth button to get sudo access.
         sudo_password_page = SudoPage(self.browser, self.page)
         sudo_password_page.visit()
         sudo_password_page.click_third_party_dummy_provider_button()
-
-    def _link_dummy_account(self):
-        """ Go to Account Settings page and link the user's account to the Dummy provider """
-        account_settings = AccountSettingsPage(self.browser).visit()
-        field_id = "auth-oa2-dummy"
-        account_settings.wait_for_field(field_id)
-        self.assertEqual("Link", account_settings.link_title_for_link_field(field_id))
-        account_settings.click_on_link_in_link_field(field_id)
-        account_settings.wait_for_link_title_for_link_field(field_id, "Unlink")
