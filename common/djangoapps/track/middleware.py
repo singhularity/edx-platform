@@ -147,7 +147,7 @@ class TrackMiddleware(object):
         if google_analytics_cookie is None:
             google_analytics_cookie = request.META.get('HTTP_X_EDX_GA_CLIENT_ID')
             if google_analytics_cookie:
-                context['client_id'] = '.'.join(google_analytics_cookie.split('.'))
+                context['client_id'] = google_analytics_cookie
             else:
                 context['client_id'] = None
         else:
