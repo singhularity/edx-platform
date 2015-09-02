@@ -698,6 +698,7 @@ def _link_dummy_account(account_page):
     """
     Go to Account Settings page and link the user's account to the Dummy provider.
     """
+    account_page.visit()
     field_id = "auth-oa2-dummy"
     account_page.wait_for_field(field_id)
     assert "Link" == account_page.link_title_for_link_field(field_id)
@@ -709,6 +710,7 @@ def _unlink_dummy_account(account_page):
     """
     Verify that the 'Dummy' third party auth provider is linked, then unlink it.
     """
+    account_page.visit()
     field_id = "auth-oa2-dummy"
     account_page.wait_for_field(field_id)
     assert "Unlink" == account_page.link_title_for_link_field(field_id)

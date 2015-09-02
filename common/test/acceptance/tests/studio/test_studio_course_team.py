@@ -384,7 +384,7 @@ class CourseTeamPageTest(StudioCourseTest):
         LogoutPage(self.browser).visit()
         self.log_in(user=dummy_user)
 
-        account_settings = AccountSettingsPage(self.browser).visit()
+        account_settings = AccountSettingsPage(self.browser)
         _link_dummy_account(account_settings)
 
         # Visit sudo page and click on dummy auth button to get sudo access.

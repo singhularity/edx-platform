@@ -480,7 +480,7 @@ class DjangoSudoThirdPartyAuthTest(BaseInstructorDashboardTest):
         """
         Test that user can authenticate on sudo page with dummy third party auth.
         """
-        account_settings = AccountSettingsPage(self.browser).visit()
+        account_settings = AccountSettingsPage(self.browser)
         _link_dummy_account(account_settings)
         sudo_password_page = SudoPage(self.browser, self.instructor_dashboard_page)
         sudo_password_page.visit()
