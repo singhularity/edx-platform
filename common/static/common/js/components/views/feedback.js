@@ -17,7 +17,7 @@
                     closeIcon: true,  // should we render a close button in the top right corner?
                     minShown: 0,  // length of time after this view has been shown before it can be hidden (milliseconds)
                     maxShown: Infinity,  // length of time after this view has been shown before it will be automatically hidden (milliseconds)
-                    outFocusElm: null,
+                    outFocusElm: null,  // element to send focus to on hide
 
                 /* Could also have an "actions" hash: here is an example demonstrating
                    the expected structure. For each action, by default the framework
@@ -66,11 +66,11 @@
                     return this;
                 },
 
-                inFocus: function(){
-                    this.options.outFocusElm = this.options.outFocusElm || $(":focus");
+                inFocus: function() {
+                    this.options.outFocusElm = this.options.outFocusElm || document.activeElement;
 
                     // Set focus to first tab focusable element in the prompt.
-                    var tabbables = $(this.el).find(":tabbable");
+                    var tabbables = $(this.el).find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[contenteditable]');
                     tabbables.first().focus();
 
                     /**
@@ -88,14 +88,13 @@
                             event.preventDefault();
                             tabbables.first().focus();
                         }
-                    })
+                    });
                 },
 
                 outFocus: function() {
-                    var tabbables = $(this.el).find(":tabbable");
+                    var tabbables = $(this.el).find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[contenteditable]');
                     tabbables.off("keydown");
-                    // Set focus back to previous state
-                    this.options.outFocusElm.focus();
+                    if (this.options.outFocusElm) { this.options.outFocusElm.focus(); }
                 },
 
                 // public API: show() and hide()
@@ -113,6 +112,7 @@
                 },
 
                 hide: function() {
+                    this.outFocus();
                     if (this.shownAt && $.isNumeric(this.options.minShown) &&
                             this.options.minShown > new Date() - this.shownAt) {
                         clearTimeout(this.hideTimeout);
@@ -123,7 +123,6 @@
                         delete this.shownAt;
                         this.render();
                     }
-                    this.outFocus();
                     return this;
                 },
 
