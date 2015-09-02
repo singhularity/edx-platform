@@ -3,6 +3,7 @@ Segregation of pymongo functions from the data modeling mechanisms for split mod
 """
 import datetime
 import cPickle as pickle
+import logging
 import math
 import zlib
 import pymongo
@@ -13,6 +14,7 @@ from time import time
 
 # Import this just to export it
 from pymongo.errors import DuplicateKeyError  # pylint: disable=unused-import
+from bson import json_util
 from django.core.cache import get_cache, InvalidCacheBackendError
 import dogstats_wrapper as dog_stats_api
 
@@ -22,6 +24,8 @@ from xmodule.exceptions import HeartbeatFailure
 from xmodule.modulestore import BlockData
 from xmodule.modulestore.split_mongo import BlockKey
 
+
+LOG = logging.getLogger(__file__)
 
 new_contract('BlockData', BlockData)
 
@@ -404,7 +408,13 @@ class MongoConnection(object):
         """
         with TIMER.timer("insert_structure", course_context) as tagger:
             tagger.measure("blocks", len(structure["blocks"]))
-            self.structures.insert(structure_to_mongo(structure, course_context))
+            try:
+                mongo_structure = structure_to_mongo(structure, course_context)
+                self.structures.insert(mongo_structure)
+            except OverflowError:
+                LOG.exception(json_util.dumps(mongo_structure, indent=4))
+                raise
+
 
     def get_course_index(self, key, ignore_case=False):
         """
