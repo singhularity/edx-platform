@@ -9,8 +9,6 @@ from xmodule.modulestore.tests.django_utils import ModuleStoreTestCase
 from common.test.utils import nostderr
 from xmodule.modulestore.tests.factories import CourseFactory, LibraryFactory
 
-from opaque_keys import InvalidKeyError
-
 from contentstore.management.commands.reindex_course import Command as ReindexCommand
 from contentstore.courseware_index import SearchIndexingError
 
@@ -30,10 +28,10 @@ class TestReindexCourse(ModuleStoreTestCase):
         )
 
         self.first_course = CourseFactory.create(
-            org="test", course="course1", display_name="run1", default_store=ModuleStoreEnum.Type.split
+            org="test", course="course1", display_name="run1"
         )
         self.second_course = CourseFactory.create(
-            org="test", course="course2", display_name="run1", default_store=ModuleStoreEnum.Type.split
+            org="test", course="course2", display_name="run1"
         )
 
     REINDEX_PATH_LOCATION = 'contentstore.management.commands.reindex_course.CoursewareSearchIndexer.do_course_reindex'
@@ -57,21 +55,24 @@ class TestReindexCourse(ModuleStoreTestCase):
     @ddt.data('qwerty', 'invalid_key', 'xblock-v1:qwe+rty')
     def test_given_invalid_course_key_raises_not_found(self, invalid_key):
         """ Test that raises InvalidKeyError for invalid keys """
-        with self.assertRaises(InvalidKeyError):
-            call_command('reindex_course', invalid_key)
+        errstring = "Invalid course_key: '%s'." % invalid_key
+        with self.assertRaises(SystemExit) as ex:
+            with self.assertRaisesRegexp(CommandError, errstring):
+                call_command('reindex_course', invalid_key)
+        self.assertEqual(ex.exception.code, 1)
 
     def test_given_library_key_raises_command_error(self):
         """ Test that raises CommandError if library key is passed """
         with self.assertRaises(SystemExit), nostderr():
-            with self.assertRaisesRegexp(CommandError, ".* is not a course key"):
+            with self.assertRaisesRegexp(SearchIndexingError, ".* is not a course key"):
                 call_command('reindex_course', unicode(self._get_lib_key(self.first_lib)))
 
         with self.assertRaises(SystemExit), nostderr():
-            with self.assertRaisesRegexp(CommandError, ".* is not a course key"):
+            with self.assertRaisesRegexp(SearchIndexingError, ".* is not a course key"):
                 call_command('reindex_course', unicode(self._get_lib_key(self.second_lib)))
 
         with self.assertRaises(SystemExit), nostderr():
-            with self.assertRaisesRegexp(CommandError, ".* is not a course key"):
+            with self.assertRaisesRegexp(SearchIndexingError, ".* is not a course key"):
                 call_command(
                     'reindex_course',
                     unicode(self.second_course.id),

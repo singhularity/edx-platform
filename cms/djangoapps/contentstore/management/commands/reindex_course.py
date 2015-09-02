@@ -10,7 +10,6 @@ from elasticsearch import exceptions
 
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys import InvalidKeyError
-from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from opaque_keys.edx.locator import CourseLocator
 
 from .prompt import query_yes_no
@@ -55,7 +54,7 @@ class Command(BaseCommand):
         try:
             result = CourseKey.from_string(raw_value)
         except InvalidKeyError:
-            result = SlashSeparatedCourseKey.from_deprecated_string(raw_value)
+            raise CommandError("Invalid course_key: '%s'." % raw_value)
 
         if not isinstance(result, CourseLocator):
             raise CommandError(u"Argument {0} is not a course key".format(raw_value))
