@@ -540,6 +540,11 @@ def is_course_blocked(request, redeemed_registration_codes, course_key):
 def dashboard(request):
     user = request.user
 
+    is_cms = False
+    for g in user.groups.all():
+        if g.name == 'cms':
+            is_cms = True
+
     # for microsites, we want to filter and only show enrollments for courses within
     # the microsites 'ORG'
     course_org_filter = microsite.get_value('course_org_filter')
@@ -745,7 +750,7 @@ def dashboard(request):
         'provider_states': [],
         'order_history_list': order_history_list,
         'courses_requirements_not_met': courses_requirements_not_met,
-        'is_cms_user': user.is_staff,
+        'is_cms_user': is_cms,
     }
 
     if third_party_auth.is_enabled():
