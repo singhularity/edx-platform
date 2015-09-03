@@ -231,7 +231,8 @@ def save_ccx(request, course, ccx=None):
         return earliest
 
     graded = {}
-    earliest = override_fields(course, json.loads(request.body), graded)
+    data = json.loads(request.body)
+    earliest = override_fields(course, data['collection'], graded)
     if earliest:
         override_field_for_ccx(ccx, course, 'start', earliest)
 
