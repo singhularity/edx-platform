@@ -52,6 +52,7 @@ setup(
             "user_partitions = lms.djangoapps.course_blocks.transformers.user_partitions:UserPartitionTransformer",
             "split_test = lms.djangoapps.course_blocks.transformers.split_test:SplitTestTransformer",
             "library_content = lms.djangoapps.course_blocks.transformers.library_content:ContentLibraryTransformer",
+            "randomize = lms.djangoapps.course_blocks.transformers.randomize:RandomizeTransformer",
         ],
     }
 )
