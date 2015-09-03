@@ -38,7 +38,7 @@ class SudoPage(PageObject):
         """
         Returns submit button.
         """
-        return self.q(css='{} input[type=submit]'.format(self.SUDO_FORM))
+        return self.q(css='{} button[type=submit]'.format(self.SUDO_FORM))
 
     @property
     def is_dummy_auth_button_enabled(self):

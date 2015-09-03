@@ -10,7 +10,7 @@ from django.test.client import RequestFactory
 
 from student.helpers import auth_pipeline_urls, get_next_url_for_login_page
 from third_party_auth.tests import testutil
-from django_sudo_helpers.pipeline import AUTH_ENTRY_SUDO
+from third_party_auth.pipeline import AUTH_ENTRY_SUDO
 from django_sudo_helpers.templatetags import third_party_auth_links
 
 

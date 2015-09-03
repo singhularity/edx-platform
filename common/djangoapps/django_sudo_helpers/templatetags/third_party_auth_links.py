@@ -4,7 +4,7 @@ Template tags and filters to display third party auth links on sudo page.
 from django import template
 from django.template.response import TemplateResponse
 
-from django_sudo_helpers.pipeline import AUTH_ENTRY_SUDO
+from third_party_auth.pipeline import AUTH_ENTRY_SUDO
 from third_party_auth import pipeline, is_enabled as is_third_party_auth_enabled
 
 

@@ -6,9 +6,9 @@ from django.conf import settings
 from social.pipeline import partial
 
 from sudo.utils import grant_sudo_privileges
+from third_party_auth.pipeline import AUTH_ENTRY_SUDO
 from util.request import COURSE_REGEX
 
-AUTH_ENTRY_SUDO = 'grant_sudo'
 
 # pylint: disable=unused-argument
 

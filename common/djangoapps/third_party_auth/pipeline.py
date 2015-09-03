@@ -74,7 +74,6 @@ from social.exceptions import AuthException
 from social.pipeline import partial
 from social.pipeline.social_auth import associate_by_email
 
-from django_sudo_helpers.pipeline import AUTH_ENTRY_SUDO
 import student
 
 from logging import getLogger
@@ -99,6 +98,7 @@ AUTH_REDIRECT_KEY = 'next'
 AUTH_ENTRY_LOGIN = 'login'
 AUTH_ENTRY_REGISTER = 'register'
 AUTH_ENTRY_ACCOUNT_SETTINGS = 'account_settings'
+AUTH_ENTRY_SUDO = 'grant_sudo'
 
 # This is left-over from an A/B test
 # of the new combined login/registration page (ECOM-369)
