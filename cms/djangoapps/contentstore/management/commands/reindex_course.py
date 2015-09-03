@@ -76,23 +76,28 @@ class Command(BaseCommand):
         store = modulestore()
 
         if index_all_courses_option:
+            index_name = CoursewareSearchIndexer.INDEX_NAME
+            doc_type = CoursewareSearchIndexer.DOCUMENT_TYPE
             if setup_option:
                 try:
                     # try getting the ElasticSearch engine
-                    searcher = SearchEngine.get_search_engine(CoursewareSearchIndexer.INDEX_NAME)
+                    searcher = SearchEngine.get_search_engine(index_name)
                 except exceptions.ElasticsearchException as exc:
                     logging.exception('Search Engine error - %s', unicode(exc))
                     return
 
-                # get the mapping which contains all the courseware content that's been indexed
-                index_mapping = searcher.get_mappings(
-                    CoursewareSearchIndexer.INDEX_NAME,
-                    CoursewareSearchIndexer.DOCUMENT_TYPE
+                index_exists = searcher._es.indices.exists(index=index_name)  # pylint: disable=protected-access
+                doc_type_exists = searcher._es.indices.exists_type(  # pylint: disable=protected-access
+                    index=index_name,
+                    doc_type=doc_type
                 )
 
-                # if the mapping is not empty, it means that courses are already indexed
-                # no indexing is required
-                if index_mapping:
+                index_mapping = searcher._es.indices.get_mapping(  # pylint: disable=protected-access
+                    index=index_name,
+                    doc_type=doc_type
+                ) if index_exists and doc_type_exists else {}
+
+                if index_exists and index_mapping:
                     return
 
             # if reindexing is done during devstack setup step, don't prompt the user
