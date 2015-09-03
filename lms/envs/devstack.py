@@ -168,6 +168,8 @@ COURSE_DISCOVERY_MEANINGS = {
 }
 
 FEATURES['ENABLE_COURSE_DISCOVERY'] = True
+# Setting for overriding default filtering facets
+# COURSE_DISCOVERY_FILTERS = ["org", "language", "modes"]
 FEATURES['COURSES_ARE_BROWSEABLE'] = True
 HOMEPAGE_COURSE_MAX = 9
 
