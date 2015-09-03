@@ -1121,8 +1121,8 @@ simplefilter('ignore')
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
-    'staticfiles.finders.FileSystemFinder',
-    'staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'pipeline.finders.PipelineFinder',
 )
 
@@ -1828,7 +1828,7 @@ INSTALLED_APPS = (
     # For asset pipelining
     'edxmako',
     'pipeline',
-    'staticfiles',
+    'django.contrib.staticfiles',
     'static_replace',
 
     # Our courseware
