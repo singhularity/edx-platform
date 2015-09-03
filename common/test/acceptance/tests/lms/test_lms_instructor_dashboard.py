@@ -485,3 +485,4 @@ class DjangoSudoThirdPartyAuthTest(BaseInstructorDashboardTest):
         sudo_password_page = SudoPage(self.browser, self.instructor_dashboard_page)
         sudo_password_page.visit()
         sudo_password_page.click_third_party_dummy_provider_button()
+        self.assertTrue(self.instructor_dashboard_page.is_browser_on_page())

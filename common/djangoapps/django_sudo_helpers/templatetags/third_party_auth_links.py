@@ -28,7 +28,8 @@ def third_party_auth_links(context):
             'providers': [{
                 'provider_id': state.provider.provider_id,
                 'has_account': state.has_account,
-                'name': state.provider.name
+                'name': state.provider.name,
+                'icon_class': state.provider.icon_class
             } for state in auth_states],
         }
         response = TemplateResponse(request, 'sudo/third_party_auth_links.html', third_party_auth_context).render()

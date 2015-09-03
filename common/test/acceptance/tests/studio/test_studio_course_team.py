@@ -391,3 +391,4 @@ class CourseTeamPageTest(StudioCourseTest):
         sudo_password_page = SudoPage(self.browser, self.page)
         sudo_password_page.visit()
         sudo_password_page.click_third_party_dummy_provider_button()
+        self.assertTrue(self.page.is_browser_on_page())
